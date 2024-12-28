@@ -47,7 +47,7 @@ shadow_enabled = true
 [node name="Floor" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(10, 0, 0, 0, -4.37114e-07, 10, 0, -10, -4.37114e-07, 0, -0.234, 0)
+transform = Transform3D(10, 0, 0, 0, -4.37114e-07, 10, 0, -10, -4.37114e-07, 0, -0.229521, 0)
 shape = SubResource("BoxShape3D_cfplf")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="Floor"]
@@ -78,5 +78,6 @@ transform = Transform3D(0.79653, 0.604599, 0, -0.604599, 0.79653, 0, 0, 0, 1, -2
 shape = SubResource("BoxShape3D_yd083")
 
 [node name="Player" parent="." instance=ExtResource("3_y3bym")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0885151, 0)
 sens_horizontal = 0.4
 sens_vertical = 0.4
