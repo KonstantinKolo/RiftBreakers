@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://cy8gxwu6brfxu"]
+
+[ext_resource type="Script" path="res://scripts/punching_bag.gd" id="1_i20fw"]
+[ext_resource type="Material" uid="uid://cntsmcyc3mkop" path="res://assets/materials/ground.tres" id="2_76osm"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jmkr3"]
+radius = 0.3
+height = 1.7
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1p5ja"]
+radius = 0.7
+height = 2.3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tf5nv"]
+radius = 0.3
+height = 1.7
+
+[sub_resource type="PrismMesh" id="PrismMesh_ifuip"]
+size = Vector3(0.6, 0.4, 0.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_02ag1"]
+bg_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j3sru"]
+bg_color = Color(0.3182, 0.635874, 0.836192, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_hcuxh"]
+viewport_path = NodePath("SubViewport")
+
+[node name="PunchingBag" type="StaticBody3D" groups=["enemies"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.852, 0)
+script = ExtResource("1_i20fw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.161197, 0)
+shape = SubResource("CapsuleShape3D_jmkr3")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="DetectionCollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("CapsuleShape3D_1p5ja")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.161197, 0)
+mesh = SubResource("CapsuleMesh_tf5nv")
+material = ExtResource("2_76osm")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646867, 0)
+mesh = SubResource("PrismMesh_ifuip")
+material = ExtResource("2_76osm")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_02ag1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_j3sru")
+value = 50.0
+show_percentage = false
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.16468, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_hcuxh")

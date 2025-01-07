@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqf8b2uomtunu"]
+
+[ext_resource type="Script" path="res://scripts/heal_pad.gd" id="1_0lt2e"]
+[ext_resource type="Material" uid="uid://cdsgcvecbtqol" path="res://assets/materials/player.tres" id="1_ocxyo"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7nus7"]
+height = 0.05
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_q654y"]
+height = 0.05
+
+[node name="HealPad" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+script = ExtResource("1_0lt2e")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+mesh = SubResource("CylinderMesh_7nus7")
+material = ExtResource("1_ocxyo")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+text = "+10 health"
+
+[node name="HitPlayerArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitPlayerArea"]
+shape = SubResource("CylinderShape3D_q654y")
+
+[connection signal="body_entered" from="HitPlayerArea" to="." method="_on_hit_player_area_body_entered"]
