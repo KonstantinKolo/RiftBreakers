@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ciiewao678c3e"]
+
+[ext_resource type="Shader" path="res://assets/shaders/enemy_static.gdshader" id="1_bggj2"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_bggj2")
+shader_parameter/time = null
+shader_parameter/noise_strength = 0.1
+shader_parameter/transparency = 0.5
+shader_parameter/noise_color = Color(1, 0.992, 0.749, 1)

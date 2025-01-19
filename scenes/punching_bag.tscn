@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cy8gxwu6brfxu"]
+[gd_scene load_steps=13 format=3 uid="uid://cy8gxwu6brfxu"]
 
 [ext_resource type="Script" path="res://scripts/punching_bag.gd" id="1_i20fw"]
 [ext_resource type="Material" uid="uid://cntsmcyc3mkop" path="res://assets/materials/ground.tres" id="2_76osm"]
+[ext_resource type="Texture2D" uid="uid://del301d7w52f" path="res://assets/models/Icons/rhombus-svgrepo-com.svg" id="3_0ncdq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jmkr3"]
 radius = 0.3
@@ -15,6 +16,9 @@ height = 2.3
 radius = 0.3
 height = 1.7
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3culs"]
+albedo_color = Color(1, 0, 0, 1)
+
 [sub_resource type="PrismMesh" id="PrismMesh_ifuip"]
 size = Vector3(0.6, 0.4, 0.4)
 
@@ -26,6 +30,9 @@ bg_color = Color(0.3182, 0.635874, 0.836192, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_hcuxh"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qeh3e"]
+viewport_path = NodePath("SubViewport2")
 
 [node name="PunchingBag" type="StaticBody3D" groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.852, 0)
@@ -44,7 +51,7 @@ shape = SubResource("CapsuleShape3D_1p5ja")
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.161197, 0)
 mesh = SubResource("CapsuleMesh_tf5nv")
-material = ExtResource("2_76osm")
+material = SubResource("StandardMaterial3D_3culs")
 
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646867, 0)
@@ -74,7 +81,22 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_j3sru")
 value = 50.0
 show_percentage = false
 
+[node name="SubViewport2" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(100, 100)
+
+[node name="TextureRect" type="TextureRect" parent="SubViewport2"]
+offset_right = 100.0
+offset_bottom = 100.0
+texture = ExtResource("3_0ncdq")
+expand_mode = 1
+
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.16468, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_hcuxh")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.4)
+billboard = 2
+texture = SubResource("ViewportTexture_qeh3e")
