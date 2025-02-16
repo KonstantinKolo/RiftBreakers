@@ -4,12 +4,15 @@ signal healthChanged
 signal staminaChanged
 signal blinkStaminaBar
 
+@onready var raycast3D : RayCast3D = get_node("camera_mount/RayCast3D")
 @onready var camera_mount: Node3D = $camera_mount
-@onready var animation_player: AnimationPlayer = $visuals/FinishedMC/AnimationPlayer
+@onready var animation_player: AnimationPlayer = $visuals/SmoothMC/AnimationPlayer
 @onready var cross_hair: TextureRect = $camera_mount/Camera3D/CrossHair
 @onready var stamina_bar: TextureProgressBar = $camera_mount/Camera3D/StaminaBar
 const EMPTY_CIRCLE = preload("res://assets/models/Icons/empty-circle.png")
 const CROSSHAIR = preload("res://assets/models/Icons/crosshair.svg")
+
+var targeted_enemy : Node = null
 
 var speed = 2
 const JUMP_VELOCITY = 4.5
@@ -186,8 +189,15 @@ func _physics_process(delta: float) -> void:
 		var is_walking_backwards = current_forward.dot(direction) < 0
 		
 		# If player is pressing just left or right use turning anims
-		if Input.is_action_pressed("left"): pass
-		if Input.is_action_pressed("right"): pass
+		if !Input.is_action_pressed("forward") and \
+		!Input.is_action_pressed("backward") and \
+		_check_turnable():
+			animation_player.speed_scale = 1.5
+			speed = 0.5
+			if Input.is_action_pressed("left"):
+				animation_player.play("a-left-turn")
+			elif Input.is_action_pressed("right"):
+				animation_player.play("a-right-turn")
 		
 		if _check_walkable() and !is_walking_backwards and \
 		   (!Input.is_action_pressed("sprint") or critical_stamina):
@@ -233,7 +243,10 @@ func _physics_process(delta: float) -> void:
 		velocity.z = direction.z * speed
 	else:
 		can_regenerate_stamina = true
-		if animation_player.current_animation != "a-idle" and !punch_mode:
+		if animation_player.current_animation == "a-left-turn" \
+		or animation_player.current_animation == "a-right-turn":
+			_turn_to_idle()
+		elif animation_player.current_animation != "a-idle" and !punch_mode:
 			_reverse_animation_to_idle()
 		elif punch_mode:
 			_reverse_animation_to_fight_idle()
@@ -245,8 +258,8 @@ func _physics_process(delta: float) -> void:
 
 # Combat system functions
 func _punch_attack() -> void:
-	var enemy : Node = get_node("camera_mount/RayCast3D").return_enemy()
-	if enemy == null:
+	targeted_enemy = raycast3D.return_enemy()
+	if targeted_enemy == null:
 		speed = 1
 		animation_player.speed_scale = 1
 		spend_stamina(10)
@@ -254,11 +267,11 @@ func _punch_attack() -> void:
 		animation_player.play("a-left-punch") #some default animation
 		print("While punching an enemy wasnt detected!")
 	else:
-		var direction = _get_direction_to_Node(enemy)
+		var direction = _get_direction_to_Node(targeted_enemy)
 		
 		# Offset target position
 		if direction.length() > 0.8:
-			_launch_forward(direction, enemy)
+			_launch_forward(direction, targeted_enemy)
 		elif direction.length() < 0.73:
 			_launch_backwards(direction)
 		
@@ -278,6 +291,11 @@ func _punch_attack() -> void:
 			animation_player.play("a-c6-0")
 		elif combo_type == 7:
 			animation_player.play("a-c7-0")
+func _damage_enemy(damage: int) -> void:
+	if targeted_enemy != null:
+		targeted_enemy.hurt(damage)
+		if targeted_enemy._return_health() == 0:
+			targeted_enemy.queue_free()
 
 func _randomizer(numElements) -> int:
 	return randi() % numElements + 1
@@ -297,12 +315,26 @@ func _launch_backwards(direction) -> void:
 		var tween = create_tween()
 		tween.tween_property(self, "global_position", backward_position, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT) #0.7 is the move time
 func _launch_forward(direction, target) -> void:
-	var target_position = target.global_position - (direction * 1.0) # the 1.0 is the distance that is left in front of the enemy
-	target_position.y = global_position.y  # Keep current Y
+	# Calculate direction vector toward the target
+	var look_at_direction = (target.global_position - global_position).normalized()
 	
-	# Smooth movement with Tween
+	# Calculate the correct Y-axis rotation
+	var target_rotation_y = atan2(-look_at_direction.x, -look_at_direction.z)  # Flip signs if needed
+	
+	# Get current rotation and update only Y-axis
+	var target_rotation = rotation
+	target_rotation.y = target_rotation_y  # Rotate only on Y-axis
+	
+	# Calculate target position in front of the enemy
+	var target_position = target.global_position - (direction * 1.0)  # Offset in front of the enemy
+	target_position.y = global_position.y  # Keep Y level
+	
+	# Tween for smooth rotation
 	var tween = create_tween()
-	tween.tween_property(self, "global_position", target_position, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT) #0.7 is the move time
+	tween.tween_property(self, "rotation", target_rotation, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)  # 0.3s for rotation
+	
+	# Tween for movement
+	tween.tween_property(self, "global_position", target_position, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)  # 0.7s for movement
 
 # Stamina system functions
 func spend_stamina(amount):
@@ -343,6 +375,9 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			speed = 2
 			animation_player.play("a-idle")
 			reverse_anim_bool = false
+	elif anim_name == "a-left-turn" or anim_name == "a-right-turn":
+		animation_player.speed_scale = 1
+		animation_player.play("a-idle")
 	elif anim_name == "a-idle-to-walk-backwards":
 		if !reverse_anim_bool:
 			animation_player.play("a-walk-backwards")
@@ -416,22 +451,23 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		speed = 2
 	elif punch_mode:
 		if anim_name == "a-left-punch" and punch_to_idle:
-			#TODO add a-left-punch-to-idle
-			animation_player.play("a-idle-to-fight")
-			punch_to_idle = false
+			animation_player.play("a-left-punch-to-idle-fight")
 			is_punching = false
 			reverse_anim_bool = false
 			spend_stamina(10)
 		elif anim_name == "a-c1_c4-0":
 			spend_stamina(10)
+			_damage_enemy(20)
 			combat_animation_number = 1
 			animation_player.play("a-left-punch")
 		elif anim_name == "a-c2-0":
 			spend_stamina(10)
+			_damage_enemy(20)
 			combat_animation_number = 2
 			animation_player.play("a-right-punch")
 		elif anim_name == "a-c3-0":
 			spend_stamina(10)
+			_damage_enemy(20)
 			combat_animation_number = 3
 			animation_player.play("a-right-high-kick")
 			
@@ -441,51 +477,66 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			_launch_backwards(direction)
 		elif anim_name == "a-c5-0":
 			spend_stamina(10)
+			_damage_enemy(20)
 			combat_animation_number = 5
 			animation_player.play("a-left-jab-into-elbow")
 		elif anim_name == "a-c6-0":
 			spend_stamina(10)
+			_damage_enemy(20)
 			combat_animation_number = 6
 			animation_player.play("a-left-mma-kick")
 		elif anim_name == "a-c7-0":
 			spend_stamina(10)
+			_damage_enemy(20)
 			combat_animation_number = 7
 			animation_player.play("a-right-deep-uppercut")
 		elif anim_name == "a-c1-1":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-right-elbow")
 		elif anim_name == "a-c2-1":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-left-jab-into-elbow")
 		elif anim_name == "a-c3-1":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-left-punch")
 		elif anim_name == "a-c4-1":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-right-punch")
 		elif anim_name == "a-c5-1":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-right-knee")
 		elif anim_name == "a-c6-1":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-right-elbow")
 		elif anim_name == "a-c7-1":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-left-kick")
 		elif anim_name == "a-c1-2":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-left-jab")
 		elif anim_name == "a-c3-2":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-right-punch")
 		elif anim_name == "a-c4-2":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-left-kick")
 		elif anim_name == "a-c6-2":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-left-punch")
 		elif anim_name == "a-c7-2":
 			spend_stamina(10)
+			_damage_enemy(20)
 			animation_player.play("a-right-punch")
 		elif Input.is_action_pressed("attack") and stamina >= 10 and \
 		!_a_c_animation_checker(anim_name):
@@ -500,9 +551,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 				#only is in a-c3
 				animation_player.play("a-c3-1")
 				
-				var enemy : Node = get_node("camera_mount/RayCast3D").return_enemy()
-				var direction = _get_direction_to_Node(enemy)
-				_launch_forward(direction,enemy)
+				var direction = _get_direction_to_Node(targeted_enemy)
+				_launch_forward(direction,targeted_enemy)
 			elif anim_name == "a-right-knee":
 				animation_player.play("a-c5-2")
 			elif anim_name == "a-left-jab-into-elbow":
@@ -556,27 +606,12 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			is_punching = false
 			animation_player.speed_scale = 1
 			
-			_launch_backwards(global_position)
+			if !punch_to_idle:
+				_launch_backwards(global_position)
+			
+			punch_to_idle = false
 			animation_player.play("a-idle-fight_")
 			speed = 1
-			
-			if anim_name == "a-c1-3":
-				pass
-			elif anim_name == "a-c2-3":
-				pass
-			elif anim_name == "a-c3-2":
-				pass
-			elif anim_name == "a-c4-3":
-				pass
-			elif anim_name == "a-c5-2":
-				pass
-			elif anim_name == "a-c6-3":
-				pass
-			elif anim_name == "a-c7-3":
-				pass
-			else:
-				#TODO other animations return to idle
-				pass
 	else:
 		print("finished animation:", anim_name)
 func _a_c_animation_checker(text: String) -> bool:
@@ -606,6 +641,11 @@ func _reverse_animation_to_fight_idle() -> void:
 	elif animation_player.current_animation == "a-fight-walk":
 		animation_player.play_backwards("a-idle-fight-to-fight-walk")
 		reverse_anim_bool = true
+func _turn_to_idle() -> void:
+	speed = 1
+	if animation_player.current_animation_position < animation_player.current_animation_length / 2:
+		animation_player.speed_scale = -1.5 # when animation is past the half way
+	
 func _reverse_landing() -> void:
 	animation_player.speed_scale = 1.8
 	animation_player.play_backwards("a-idle-to-fall")
@@ -663,6 +703,18 @@ func _check_mode_changable() -> bool:
 	animation_player.current_animation != "":
 		return true
 	else: return false
+func _check_turnable() -> bool:
+	if animation_player.current_animation != "a-idle-to-walk" and \
+	animation_player.current_animation != "a-idle-to-walk-backwards" and \
+	animation_player.current_animation != "a-jump" and \
+	animation_player.current_animation != "a-fall" and \
+	animation_player.current_animation != "a-landing" and \
+	animation_player.current_animation != "a-idle-to-fall" and \
+	animation_player.current_animation != "a-right-turn" and \
+	animation_player.current_animation != "a-left-turn" and \
+	is_on_floor() and !punch_mode:
+		return true
+	else: return false
 func _check_walkable() -> bool:
 	if animation_player.current_animation != "a-walk" and \
 	   animation_player.current_animation != "a-idle-to-walk" and \
@@ -688,9 +740,9 @@ func _check_backwards_walkable() -> bool:
 	   animation_player.current_animation != "a-jump" and \
 	   animation_player.current_animation != "a-fall" and \
 	   animation_player.current_animation != "a-landing" and \
-	   animation_player.current_animation != "a-idle-to-fall" and \
 	   animation_player.current_animation != "a-left-turn" and \
 	   animation_player.current_animation != "a-right-turn" and \
+	   animation_player.current_animation != "a-idle-to-fall" and \
 	   !punch_mode:
 		return true
 	else:

@@ -9,7 +9,7 @@ extends StaticBody3D
 @export var offset: Vector3 = Vector3(0, 1, 0)  # Optional offset from the StaticBody3D's position
 
 var target_visible = false
-var health = 100
+var health = 100 
 var time = 0.0
 
 func _process(delta):
@@ -35,29 +35,39 @@ func _ready() -> void:
 	progress_bar.visible = false
 	progress_bar.value = health
 
-func show_target():
+func show_target() -> void:
 	if target_sprite:
 		target_visible = true
 		target_sprite.visible = true
-func hide_target():
+func hide_target() -> void:
 	if target_sprite:
 		target_visible = false
 		target_sprite.visible = false
 
+# Methods to change the material overlay
+func change_mat_overlay(ENEMY_OUTLINE, ENEMY_STATIC_MATERIAL) -> void:
+	csg_mesh_3d.material_overlay = ENEMY_OUTLINE
+	csg_mesh_3d.material_overlay.next_pass = ENEMY_STATIC_MATERIAL
+func remove_mat_overlay() -> void:
+	csg_mesh_3d.material_overlay = null
+
+
 # Method to show the health bar
-func show_health_bar():
+func show_health_bar() -> void:
 	if progress_bar:
 		progress_bar.visible = true
 
 # Method to hide the health bar
-func hide_health_bar():
+func hide_health_bar() -> void:
 	if progress_bar:
 		progress_bar.visible = false
 
-func hurt(hit_points):
+func hurt(hit_points: int) -> void:
 	if hit_points < health:
 		health -= hit_points
+		progress_bar.value = health
 	else:
 		health = 0
-	if health == 0:
-		health = 100
+		progress_bar.value = health
+func _return_health() -> int:
+	return health
