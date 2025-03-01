@@ -1,6 +1,6 @@
 extends TextureProgressBar
 
-@onready var player: CharacterBody3D = $"../../.."
+@onready var player: CharacterBody3D = $"../../../.."
 @onready var rich_text_label: RichTextLabel = $RichTextLabel
 @onready var damage: TextureRect = $Damage
 @onready var timer: Timer = $Timer

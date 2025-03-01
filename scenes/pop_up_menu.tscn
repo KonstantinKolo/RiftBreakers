@@ -1,0 +1,149 @@
+[gd_scene load_steps=6 format=3 uid="uid://bh6nbt7epumbm"]
+
+[ext_resource type="Texture2D" uid="uid://db7lusm53mccy" path="res://assets/backgrounds/pop-up-menu/TopToggleButtonLong.png" id="1_hv8xa"]
+[ext_resource type="Script" path="res://scripts/pop_up_menu.gd" id="1_l7jxw"]
+[ext_resource type="Texture2D" uid="uid://bbcn82hdsn3nq" path="res://assets/backgrounds/pop-up-menu/MenuPullup.png" id="2_gbnmr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ajl8r"]
+font_size = 40
+font_color = Color(0.68, 0.68, 0.68, 1)
+shadow_color = Color(0, 0, 0, 0.670588)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1bis6"]
+font_size = 27
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="PopUpMenu" type="Control"]
+layout_mode = 3
+anchor_top = 0.45
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l7jxw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+modulate = Color(1.4, 1.4, 1.4, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -0.18
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Settings" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(280, 52.9)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+texture_normal = ExtResource("1_hv8xa")
+ignore_texture_size = true
+stretch_mode = 4
+flip_h = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Settings"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.106
+anchor_top = 0.05
+anchor_right = 0.957
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+text = "SETTINGS"
+label_settings = SubResource("LabelSettings_ajl8r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Exit" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(280, 52.9)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+texture_normal = ExtResource("1_hv8xa")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Exit"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.106
+anchor_top = 0.05
+anchor_right = 0.957
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+text = "EXIT"
+label_settings = SubResource("LabelSettings_ajl8r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsBody" type="NinePatchRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_gbnmr")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/SettingsBody"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.05
+anchor_right = 0.98
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volume"
+label_settings = SubResource("LabelSettings_1bis6")
+
+[node name="Volume" type="HSlider" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Line2D" type="Line2D" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+position = Vector2(-6.04, 131.152)
+points = PackedVector2Array(0, 0, 1122, 0)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Mute" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Mute"
+
+[node name="Fullscreen" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Fullscreen"
+
+[node name="FPS" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Show FPS"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="value_changed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Mute" to="." method="_on_check_box_toggled"]
+[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/FPS" to="." method="_on_fps_toggled"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://sowmkku34d2l"]
+
+[ext_resource type="Shader" path="res://assets/shaders/crt.gdshader" id="2_10t8m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_12kav"]
+shader = ExtResource("2_10t8m")
+shader_parameter/crt_brightness = 0.806
+shader_parameter/crt_ghost = 5.023
+shader_parameter/crt_grid = 0.0
+shader_parameter/crt_white_noise = 0.066
+shader_parameter/crt_curve = 0.05
+
+[node name="CRTShader" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_12kav")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

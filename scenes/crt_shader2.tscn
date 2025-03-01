@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4j7o2fg8k01x"]
+
+[ext_resource type="Shader" path="res://assets/shaders/crt.gdshader" id="1_52inr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ck8mk"]
+shader = ExtResource("1_52inr")
+shader_parameter/crt_brightness = 1.0
+shader_parameter/crt_ghost = 1.831
+shader_parameter/crt_grid = 0.0
+shader_parameter/crt_white_noise = 0.066
+shader_parameter/crt_curve = 0.036
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ck8mk")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

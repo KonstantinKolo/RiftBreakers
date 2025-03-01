@@ -1,0 +1,93 @@
+[gd_scene load_steps=5 format=3 uid="uid://jiu2dbhjh24a"]
+
+[ext_resource type="Script" path="res://scripts/confirmation_modal.gd" id="1_kv4jy"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_od5c6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xh8s4"]
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_38ii2"]
+font_size = 25
+
+[node name="ConfirmationModal" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kv4jy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.15, 0.15, 0.15, 0.85)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_od5c6")
+
+[node name="Modal" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(300, 120)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Are you sure?"
+label_settings = SubResource("LabelSettings_xh8s4")
+uppercase = true
+
+[node name="MessageLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Message body here"
+label_settings = SubResource("LabelSettings_38ii2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="ConfirmButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 25
+text = "Confirm"
+
+[node name="Control" type="Control" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 25
+text = "Cancel"

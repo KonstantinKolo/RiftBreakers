@@ -1,7 +1,7 @@
 extends TextureProgressBar
 
 @onready var rich_text_label: RichTextLabel = $RichTextLabel
-@onready var player: CharacterBody3D = $"../../.."
+@onready var player: CharacterBody3D = $"../../../.."
 
 func _ready():
 	player.staminaChanged.connect(update)

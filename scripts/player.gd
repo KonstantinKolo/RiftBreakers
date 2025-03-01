@@ -7,8 +7,8 @@ signal blinkStaminaBar
 @onready var raycast3D : RayCast3D = get_node("camera_mount/RayCast3D")
 @onready var camera_mount: Node3D = $camera_mount
 @onready var animation_player: AnimationPlayer = $visuals/SmoothMC/AnimationPlayer
-@onready var cross_hair: TextureRect = $camera_mount/Camera3D/CrossHair
-@onready var stamina_bar: TextureProgressBar = $camera_mount/Camera3D/StaminaBar
+@onready var cross_hair: TextureRect = $camera_mount/Camera3D/CanvasLayer/CrossHair
+@onready var stamina_bar: TextureProgressBar = $camera_mount/Camera3D/CanvasLayer/StaminaBar
 const EMPTY_CIRCLE = preload("res://assets/models/Icons/empty-circle.png")
 const CROSSHAIR = preload("res://assets/models/Icons/crosshair.svg")
 

@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://5ab443vvypir"]
+
+[ext_resource type="Script" path="res://scripts/button_click_particle.gd" id="1_hjtw3"]
+
+[sub_resource type="Gradient" id="Gradient_kpr6n"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rmkwh"]
+gradient = SubResource("Gradient_kpr6n")
+
+[sub_resource type="Curve" id="Curve_c5sem"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6wsf0"]
+width = 2048
+curve = SubResource("Curve_c5sem")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tvvvc"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 350.0
+initial_velocity_max = 550.0
+gravity = Vector3(0, 0, 0)
+scale_min = 10.0
+scale_max = 20.0
+scale_curve = SubResource("CurveTexture_6wsf0")
+color_ramp = SubResource("GradientTexture1D_rmkwh")
+
+[node name="ButtonClickParticle" type="GPUParticles2D"]
+modulate = Color(1.36, 0, 1, 1)
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_tvvvc")
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("1_hjtw3")
