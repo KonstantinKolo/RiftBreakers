@@ -1,0 +1,920 @@
+[gd_scene load_steps=154 format=3 uid="uid://cp7wbwuweykv5"]
+
+[sub_resource type="Resource" id="Resource_84tdx"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_12.tscn"
+
+[sub_resource type="Resource" id="Resource_34w4b"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_4.tscn"
+
+[sub_resource type="Resource" id="Resource_p1pvx"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_8.tscn"
+
+[sub_resource type="Resource" id="Resource_m0ds5"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_14.tscn"
+
+[sub_resource type="Resource" id="Resource_ftkcd"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_9.tscn"
+
+[sub_resource type="Resource" id="Resource_aptv6"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_6.tscn"
+
+[sub_resource type="Resource" id="Resource_qujwx"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_19.tscn"
+
+[sub_resource type="Resource" id="Resource_ssxps"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_1.tscn"
+
+[sub_resource type="Resource" id="Resource_l2qfv"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_10.tscn"
+
+[sub_resource type="Resource" id="Resource_3am2x"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_7.tscn"
+
+[sub_resource type="Resource" id="Resource_6jrfa"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_13.tscn"
+
+[sub_resource type="Resource" id="Resource_xi3im"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_17.tscn"
+
+[sub_resource type="Resource" id="Resource_2fuco"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_2.tscn"
+
+[sub_resource type="Resource" id="Resource_e0tcu"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_3.tscn"
+
+[sub_resource type="Resource" id="Resource_ykasc"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_18.tscn"
+
+[sub_resource type="Resource" id="Resource_e8b36"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_15.tscn"
+
+[sub_resource type="Resource" id="Resource_v0v7n"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_20.tscn"
+
+[sub_resource type="Resource" id="Resource_r5nrc"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_21.tscn"
+
+[sub_resource type="Resource" id="Resource_x81il"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_22.tscn"
+
+[sub_resource type="Resource" id="Resource_tymsq"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_5.tscn"
+
+[sub_resource type="Resource" id="Resource_kb5v3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_23.tscn"
+
+[sub_resource type="Resource" id="Resource_0o7ru"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_24.tscn"
+
+[sub_resource type="Resource" id="Resource_hjrej"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_11.tscn"
+
+[sub_resource type="Resource" id="Resource_052x3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetA/LeafSetA_16.tscn"
+
+[sub_resource type="Resource" id="Resource_wne5k"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_1.tscn"
+
+[sub_resource type="Resource" id="Resource_0y171"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_15.tscn"
+
+[sub_resource type="Resource" id="Resource_cwyxe"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_7.tscn"
+
+[sub_resource type="Resource" id="Resource_v6rx5"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_8.tscn"
+
+[sub_resource type="Resource" id="Resource_bpip0"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_6.tscn"
+
+[sub_resource type="Resource" id="Resource_2mv2s"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_3.tscn"
+
+[sub_resource type="Resource" id="Resource_7m8o3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_4.tscn"
+
+[sub_resource type="Resource" id="Resource_tsr2n"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_13.tscn"
+
+[sub_resource type="Resource" id="Resource_nsyhl"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_10.tscn"
+
+[sub_resource type="Resource" id="Resource_gmd4m"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_11.tscn"
+
+[sub_resource type="Resource" id="Resource_rwu0h"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_5.tscn"
+
+[sub_resource type="Resource" id="Resource_6aiho"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_2.tscn"
+
+[sub_resource type="Resource" id="Resource_vvhtg"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_18.tscn"
+
+[sub_resource type="Resource" id="Resource_8irba"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_19.tscn"
+
+[sub_resource type="Resource" id="Resource_t8lur"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_16.tscn"
+
+[sub_resource type="Resource" id="Resource_x3j2g"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_9.tscn"
+
+[sub_resource type="Resource" id="Resource_et407"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_17.tscn"
+
+[sub_resource type="Resource" id="Resource_7br5s"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_20.tscn"
+
+[sub_resource type="Resource" id="Resource_kbica"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_21.tscn"
+
+[sub_resource type="Resource" id="Resource_gthuh"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_14.tscn"
+
+[sub_resource type="Resource" id="Resource_doirg"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetB/LeafSetB_12.tscn"
+
+[sub_resource type="Resource" id="Resource_q0nor"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_1.tscn"
+
+[sub_resource type="Resource" id="Resource_eusm5"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_2.tscn"
+
+[sub_resource type="Resource" id="Resource_ddqo6"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_8.tscn"
+
+[sub_resource type="Resource" id="Resource_c38yc"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_9.tscn"
+
+[sub_resource type="Resource" id="Resource_i67yk"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_5.tscn"
+
+[sub_resource type="Resource" id="Resource_j2loe"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_14.tscn"
+
+[sub_resource type="Resource" id="Resource_24ytm"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_7.tscn"
+
+[sub_resource type="Resource" id="Resource_6y7pu"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_3.tscn"
+
+[sub_resource type="Resource" id="Resource_futoa"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_12.tscn"
+
+[sub_resource type="Resource" id="Resource_bfdtr"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_11.tscn"
+
+[sub_resource type="Resource" id="Resource_wfuo2"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_13.tscn"
+
+[sub_resource type="Resource" id="Resource_v8s0o"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_15.tscn"
+
+[sub_resource type="Resource" id="Resource_rkrbe"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_6.tscn"
+
+[sub_resource type="Resource" id="Resource_cjftn"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_4.tscn"
+
+[sub_resource type="Resource" id="Resource_vlawd"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_16.tscn"
+
+[sub_resource type="Resource" id="Resource_vmlci"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_17.tscn"
+
+[sub_resource type="Resource" id="Resource_q43jy"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetC/LeafSetC_10.tscn"
+
+[sub_resource type="Resource" id="Resource_n7dig"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_4.tscn"
+
+[sub_resource type="Resource" id="Resource_olqej"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_17.tscn"
+
+[sub_resource type="Resource" id="Resource_6aapq"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_14.tscn"
+
+[sub_resource type="Resource" id="Resource_gtuac"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_16.tscn"
+
+[sub_resource type="Resource" id="Resource_gmvpv"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_1.tscn"
+
+[sub_resource type="Resource" id="Resource_te1gn"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_2.tscn"
+
+[sub_resource type="Resource" id="Resource_lxotd"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_3.tscn"
+
+[sub_resource type="Resource" id="Resource_jprtc"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_18.tscn"
+
+[sub_resource type="Resource" id="Resource_537v3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_8.tscn"
+
+[sub_resource type="Resource" id="Resource_wbjbv"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_9.tscn"
+
+[sub_resource type="Resource" id="Resource_pa6cd"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_10.tscn"
+
+[sub_resource type="Resource" id="Resource_m6xtw"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_5.tscn"
+
+[sub_resource type="Resource" id="Resource_bc5fl"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_6.tscn"
+
+[sub_resource type="Resource" id="Resource_wnfp0"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_7.tscn"
+
+[sub_resource type="Resource" id="Resource_6vnpr"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_12.tscn"
+
+[sub_resource type="Resource" id="Resource_4i0ij"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_13.tscn"
+
+[sub_resource type="Resource" id="Resource_grjss"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_19.tscn"
+
+[sub_resource type="Resource" id="Resource_n5xnd"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_20.tscn"
+
+[sub_resource type="Resource" id="Resource_qxs5i"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_21.tscn"
+
+[sub_resource type="Resource" id="Resource_yr06h"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_11.tscn"
+
+[sub_resource type="Resource" id="Resource_0ctb4"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetD/LeafSetD_15.tscn"
+
+[sub_resource type="Resource" id="Resource_b2t1b"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_10.tscn"
+
+[sub_resource type="Resource" id="Resource_cyx0y"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_1.tscn"
+
+[sub_resource type="Resource" id="Resource_x8u7y"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_2.tscn"
+
+[sub_resource type="Resource" id="Resource_16nfx"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_5.tscn"
+
+[sub_resource type="Resource" id="Resource_vircj"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_3.tscn"
+
+[sub_resource type="Resource" id="Resource_m7med"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_4.tscn"
+
+[sub_resource type="Resource" id="Resource_vimxp"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_7.tscn"
+
+[sub_resource type="Resource" id="Resource_w8b08"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_8.tscn"
+
+[sub_resource type="Resource" id="Resource_ctwm0"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_6.tscn"
+
+[sub_resource type="Resource" id="Resource_4wb7i"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_11.tscn"
+
+[sub_resource type="Resource" id="Resource_mrfea"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_12.tscn"
+
+[sub_resource type="Resource" id="Resource_m3e06"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_13.tscn"
+
+[sub_resource type="Resource" id="Resource_ycfa0"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_14.tscn"
+
+[sub_resource type="Resource" id="Resource_evpca"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetE/LeafSetE_9.tscn"
+
+[sub_resource type="Resource" id="Resource_077d5"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_14.tscn"
+
+[sub_resource type="Resource" id="Resource_csqma"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_1.tscn"
+
+[sub_resource type="Resource" id="Resource_o4dsg"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_2.tscn"
+
+[sub_resource type="Resource" id="Resource_8upa4"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_6.tscn"
+
+[sub_resource type="Resource" id="Resource_m4i4o"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_4.tscn"
+
+[sub_resource type="Resource" id="Resource_ta8k1"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_17.tscn"
+
+[sub_resource type="Resource" id="Resource_6bd56"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_13.tscn"
+
+[sub_resource type="Resource" id="Resource_4733w"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_11.tscn"
+
+[sub_resource type="Resource" id="Resource_qqrw8"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_7.tscn"
+
+[sub_resource type="Resource" id="Resource_g1fc2"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_10.tscn"
+
+[sub_resource type="Resource" id="Resource_d1xy1"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_8.tscn"
+
+[sub_resource type="Resource" id="Resource_vh0j0"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_16.tscn"
+
+[sub_resource type="Resource" id="Resource_pr1fn"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_15.tscn"
+
+[sub_resource type="Resource" id="Resource_jqgws"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_12.tscn"
+
+[sub_resource type="Resource" id="Resource_2mdtx"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_18.tscn"
+
+[sub_resource type="Resource" id="Resource_vka8e"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_5.tscn"
+
+[sub_resource type="Resource" id="Resource_s04ks"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_3.tscn"
+
+[sub_resource type="Resource" id="Resource_18fx3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_19.tscn"
+
+[sub_resource type="Resource" id="Resource_0wqum"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_20.tscn"
+
+[sub_resource type="Resource" id="Resource_510to"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetF/LeafSetF_9.tscn"
+
+[sub_resource type="Resource" id="Resource_67d3d"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_1.tscn"
+
+[sub_resource type="Resource" id="Resource_l2yk3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_8.tscn"
+
+[sub_resource type="Resource" id="Resource_q1q62"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_15.tscn"
+
+[sub_resource type="Resource" id="Resource_x0ery"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_17.tscn"
+
+[sub_resource type="Resource" id="Resource_xu8mt"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_10.tscn"
+
+[sub_resource type="Resource" id="Resource_84tof"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_9.tscn"
+
+[sub_resource type="Resource" id="Resource_x46yi"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_4.tscn"
+
+[sub_resource type="Resource" id="Resource_a7ipi"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_3.tscn"
+
+[sub_resource type="Resource" id="Resource_r0pon"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_2.tscn"
+
+[sub_resource type="Resource" id="Resource_3iewf"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_12.tscn"
+
+[sub_resource type="Resource" id="Resource_2rcum"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_7.tscn"
+
+[sub_resource type="Resource" id="Resource_a5gux"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_6.tscn"
+
+[sub_resource type="Resource" id="Resource_woaje"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_5.tscn"
+
+[sub_resource type="Resource" id="Resource_iifyc"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_16.tscn"
+
+[sub_resource type="Resource" id="Resource_seqju"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_14.tscn"
+
+[sub_resource type="Resource" id="Resource_g7l3k"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_18.tscn"
+
+[sub_resource type="Resource" id="Resource_hr8a2"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_13.tscn"
+
+[sub_resource type="Resource" id="Resource_ou37t"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_11.tscn"
+
+[sub_resource type="Resource" id="Resource_0jqhk"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_19.tscn"
+
+[sub_resource type="Resource" id="Resource_gixh2"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_20.tscn"
+
+[sub_resource type="Resource" id="Resource_qyapv"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetG/LeafSetG_21.tscn"
+
+[sub_resource type="Resource" id="Resource_io200"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_1.tscn"
+
+[sub_resource type="Resource" id="Resource_0kr5k"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_2.tscn"
+
+[sub_resource type="Resource" id="Resource_8sudp"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_8.tscn"
+
+[sub_resource type="Resource" id="Resource_taxw7"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_12.tscn"
+
+[sub_resource type="Resource" id="Resource_mmlxl"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_7.tscn"
+
+[sub_resource type="Resource" id="Resource_66kj3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_3.tscn"
+
+[sub_resource type="Resource" id="Resource_60vrm"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_4.tscn"
+
+[sub_resource type="Resource" id="Resource_bqlab"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_10.tscn"
+
+[sub_resource type="Resource" id="Resource_r8nl0"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_5.tscn"
+
+[sub_resource type="Resource" id="Resource_3o7rp"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_13.tscn"
+
+[sub_resource type="Resource" id="Resource_7acya"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_6.tscn"
+
+[sub_resource type="Resource" id="Resource_nahda"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_9.tscn"
+
+[sub_resource type="Resource" id="Resource_jkqq3"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_11.tscn"
+
+[sub_resource type="Resource" id="Resource_3kgef"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_14.tscn"
+
+[sub_resource type="Resource" id="Resource_fmfae"]
+metadata/__load_path__ = "res://Generic Foliage/AssetScenes/SetH/LeafSetH_15.tscn"
+
+[node name="LeafSet" type="Spatial"]
+
+[node name="LeafSetA_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 4.19979)
+
+[node name="LeafSetA_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0721, 0, 5.08286)
+
+[node name="LeafSetA_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 3.9027)
+
+[node name="LeafSetA_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 2.56179)
+
+[node name="LeafSetA_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.3643, 0, 4.78373)
+
+[node name="LeafSetA_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8351, 0, 4.14348)
+
+[node name="LeafSetA_19" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.781, 0, 4.43243)
+
+[node name="LeafSetA_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 4.78373)
+
+[node name="LeafSetA_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 4.52645)
+
+[node name="LeafSetA_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 3.13835)
+
+[node name="LeafSetA_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 1.87802)
+
+[node name="LeafSetA_17" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 5.77403)
+
+[node name="LeafSetA_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.80758, 0, 4.78373)
+
+[node name="LeafSetA_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 5.24814)
+
+[node name="LeafSetA_18" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 6.48202)
+
+[node name="LeafSetA_15" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 3.57326)
+
+[node name="LeafSetA_20" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.795, 0, 3.40233)
+
+[node name="LeafSetA_21" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 0)
+
+[node name="LeafSetA_22" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 0)
+
+[node name="LeafSetA_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 0)
+
+[node name="LeafSetA_23" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 0)
+
+[node name="LeafSetA_24" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, -3.01475)
+
+[node name="LeafSetA_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 0)
+
+[node name="LeafSetA_16" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.606, 0, 0)
+
+[node name="LeafSetB_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 3.20033)
+
+[node name="LeafSetB_15" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 5.33341)
+
+[node name="LeafSetB_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 4.06956)
+
+[node name="LeafSetB_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 4.41759)
+
+[node name="LeafSetB_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 2.63852)
+
+[node name="LeafSetB_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 4.63885)
+
+[node name="LeafSetB_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 4.16518)
+
+[node name="LeafSetB_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 2.18003)
+
+[node name="LeafSetB_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 4.95125)
+
+[node name="LeafSetB_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 2.43148)
+
+[node name="LeafSetB_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 2.84493)
+
+[node name="LeafSetB_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 3.76732)
+
+[node name="LeafSetB_18" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 0)
+
+[node name="LeafSetB_19" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 0)
+
+[node name="LeafSetB_16" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 0)
+
+[node name="LeafSetB_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 0)
+
+[node name="LeafSetB_17" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 0)
+
+[node name="LeafSetB_20" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, -0.583444)
+
+[node name="LeafSetB_21" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, -3.29403)
+
+[node name="LeafSetB_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 1.64977)
+
+[node name="LeafSetB_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.31231, 0, 1.11913)
+
+[node name="LeafSetC_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 4.67011)
+
+[node name="LeafSetC_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 3.78688)
+
+[node name="LeafSetC_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 5.46636)
+
+[node name="LeafSetC_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 6.98544)
+
+[node name="LeafSetC_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 5.96785)
+
+[node name="LeafSetC_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 3.30013)
+
+[node name="LeafSetC_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 5.32754)
+
+[node name="LeafSetC_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 3.78688)
+
+[node name="LeafSetC_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 6.19188)
+
+[node name="LeafSetC_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 4.35089)
+
+[node name="LeafSetC_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 4.99708)
+
+[node name="LeafSetC_15" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 2.75386)
+
+[node name="LeafSetC_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 7.94161)
+
+[node name="LeafSetC_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 5.72031)
+
+[node name="LeafSetC_16" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, -3.02486)
+
+[node name="LeafSetC_17" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 0)
+
+[node name="LeafSetC_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71872, 0, 2.15858)
+
+[node name="LeafSetD_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.20767)
+
+[node name="LeafSetD_17" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.31443)
+
+[node name="LeafSetD_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.01946)
+
+[node name="LeafSetD_16" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.72322)
+
+[node name="LeafSetD_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.93401)
+
+[node name="LeafSetD_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.61519)
+
+[node name="LeafSetD_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.15117)
+
+[node name="LeafSetD_18" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.50313)
+
+[node name="LeafSetD_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.59164)
+
+[node name="LeafSetD_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.40376)
+
+[node name="LeafSetD_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.4412)
+
+[node name="LeafSetD_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.98095)
+
+[node name="LeafSetD_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.29938)
+
+[node name="LeafSetD_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.78615)
+
+[node name="LeafSetD_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.93103)
+
+[node name="LeafSetD_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.43086)
+
+[node name="LeafSetD_19" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.47628)
+
+[node name="LeafSetD_20" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.09454)
+
+[node name="LeafSetD_21" parent="."]
+
+[node name="LeafSetD_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.84834)
+
+[node name="LeafSetD_15" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.84834)
+
+[node name="LeafSetE_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.52591, 0, 3.11117)
+
+[node name="LeafSetE_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 5.37736)
+
+[node name="LeafSetE_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 4.28498)
+
+[node name="LeafSetE_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 5.12301)
+
+[node name="LeafSetE_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 5.38575)
+
+[node name="LeafSetE_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 5.60454)
+
+[node name="LeafSetE_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 3.52869)
+
+[node name="LeafSetE_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 4.02059)
+
+[node name="LeafSetE_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 4.55463)
+
+[node name="LeafSetE_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 1.37846)
+
+[node name="LeafSetE_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 3.97785)
+
+[node name="LeafSetE_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, -3.2682)
+
+[node name="LeafSetE_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 0)
+
+[node name="LeafSetE_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.34745, 0, 6.21961)
+
+[node name="LeafSetF_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.71419, 0, 3.23251)
+
+[node name="LeafSetF_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 3.11813)
+
+[node name="LeafSetF_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 2.9857)
+
+[node name="LeafSetF_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.19169, 0, 4.59304)
+
+[node name="LeafSetF_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 3.30222)
+
+[node name="LeafSetF_17" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 2.51315)
+
+[node name="LeafSetF_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 3.47943)
+
+[node name="LeafSetF_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.38643, 0, 3.43748)
+
+[node name="LeafSetF_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5872, 0, 5.04404)
+
+[node name="LeafSetF_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.88176, 0, 3.81973)
+
+[node name="LeafSetF_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.44373, 0, 3.94072)
+
+[node name="LeafSetF_16" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 4.91188)
+
+[node name="LeafSetF_15" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.70283, 0, 6.31592)
+
+[node name="LeafSetF_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 6.04273)
+
+[node name="LeafSetF_18" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 1.64968)
+
+[node name="LeafSetF_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 2.51315)
+
+[node name="LeafSetF_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 3.24872)
+
+[node name="LeafSetF_19" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, -2.88293)
+
+[node name="LeafSetF_20" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 0)
+
+[node name="LeafSetF_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65522, 0, 4.01092)
+
+[node name="LeafSetG_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 2.92645)
+
+[node name="LeafSetG_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 3.75724)
+
+[node name="LeafSetG_15" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 4.46874)
+
+[node name="LeafSetG_17" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 2.52466)
+
+[node name="LeafSetG_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.79829, 0, 3.88921)
+
+[node name="LeafSetG_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.63392, 0, 4.20679)
+
+[node name="LeafSetG_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 1.9709)
+
+[node name="LeafSetG_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 1.9709)
+
+[node name="LeafSetG_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 1.9709)
+
+[node name="LeafSetG_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5386, 0, 3.85326)
+
+[node name="LeafSetG_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 1.9709)
+
+[node name="LeafSetG_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 2.95558)
+
+[node name="LeafSetG_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 1.9709)
+
+[node name="LeafSetG_16" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 3.46495)
+
+[node name="LeafSetG_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.7047, 0, 3.37338)
+
+[node name="LeafSetG_18" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 1.51564)
+
+[node name="LeafSetG_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 4.12783)
+
+[node name="LeafSetG_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 3.13379)
+
+[node name="LeafSetG_19" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35472, 0, 2.14423)
+
+[node name="LeafSetG_20" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, 0)
+
+[node name="LeafSetG_21" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0557, 0, -2.14019)
+
+[node name="LeafSetH_1" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 2.16771)
+
+[node name="LeafSetH_2" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 2.37482)
+
+[node name="LeafSetH_8" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3157, 0, 3.31271)
+
+[node name="LeafSetH_12" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.1816, 0, 2.16771)
+
+[node name="LeafSetH_7" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 2.47851)
+
+[node name="LeafSetH_3" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 2.62909)
+
+[node name="LeafSetH_4" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 2.96157)
+
+[node name="LeafSetH_10" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 3.06349)
+
+[node name="LeafSetH_5" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 2.77223)
+
+[node name="LeafSetH_13" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 1.53427)
+
+[node name="LeafSetH_6" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 1.83986)
+
+[node name="LeafSetH_9" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 3.40691)
+
+[node name="LeafSetH_11" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 4.03486)
+
+[node name="LeafSetH_14" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, -2.26774)
+
+[node name="LeafSetH_15" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 0, 0)

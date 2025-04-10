@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=4 uid="uid://dpcyequyoaqlh"]
+
+[sub_resource type="ArrayMesh" id="31"]
+resource_name = "LeafSet_Plane023"
+_surfaces = [{
+"aabb": AABB(-0.29019, 0, -0.203612, 0.5726, 0.0782984, 0.54782),
+"attribute_data": PackedByteArray("AIByPwDgvDsAIE0/AOC8OwDAcj8A4BU+AGBNPwDgFT4AIGA/AOC8OwBgYD8A4BU+AKByPwCgbT0AQE0/AKBtPQBAYD8AoG09AEBpPwCgWD0AQGk/AKBYPQBAaT8AoFg9AEBpPwCgWD0AQGk/AIAIPQBAaT8AgAg9AEBpPwCACD0AIGA/AIAIPQAgYD8AgAg9ACBgPwCACD0AIGA/AIAIPQCgVj8AgAg9AKBWPwCACD0AoFY/AIAIPQCgVj8AYFc9AKBWPwBgVz0AoFY/AGBXPQCgVj8AYFc9AGBgPwAg0D0AYGA/ACDQPQBgYD8AINA9AGBgPwAg0D0AwFY/ACDQPQDAVj8AINA9AMBWPwAg0D0AYGk/ACDQPQBgaT8AINA9AGBpPwAg0D0="),
+"format": 34359742487,
+"index_count": 72,
+"index_data": PackedByteArray("CAANAAoACAATAA0AGQARAAgAGQAVABEAIAAIABsAIAAYAAgAHAALACMAHAAIAAsADgAGAAwADgAAAAYAFgAEABAAFgABAAQAFwABABQAFwAHAAEAHQADACEAHQAFAAMAEgAAAA8AEgAEAAAAJAAFAB4AJAACAAUACQACACIACQAGAAIAHwAHABoAHwADAAcA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 37,
+"vertex_data": PackedByteArray("N9OOPvbCMz2Yf1C+2ZOUvvbCMz2Yf1C+CpiQPvbCMz0XPLA+Bs+SvvbCMz0XPLA+oE2ouvbCMz2Yf1C+sEIOO/bCMz0XPLA+hHuPPvbCMz0AAIAyjOuTvvbCMz0AAIAyAADQMQAAAAAAAMAyXWYNPq64DT1jBaS8XWYNPq64DT1jBaS8XWYNPq64DT1jBaS8XWYNPq64DT1jBaS8eOgMPu9aoD0n+cS9eOgMPu9aoD0n+cS9eOgMPu9aoD0n+cS9hJWauq64DT0n+cS9hJWauq64DT0n+cS9hJWauq64DT0n+cS9hJWauq64DT0n+cS9gGcVvu9aoD0n+cS9gGcVvu9aoD0n+cS9gGcVvu9aoD0n+cS9f+sUvq64DT0IaK28f+sUvq64DT0IaK28f+sUvq64DT0IaK28f+sUvq64DT0IaK28nIbXOu9aoD0j+y0+nIbXOu9aoD0j+y0+nIbXOu9aoD0j+y0+nIbXOu9aoD0j+y0+nq8Tvq64DT0j+y0+nq8Tvq64DT0j+y0+nq8Tvq64DT0j+y0+WaAOPq64DT0i+y0+WaAOPq64DT0i+y0+WaAOPq64DT0i+y0+CATyefT6er34+/B49PqCwQYD8nn2+3q9+vzyefb7gsHa7Px+/P5+vwAA9nv8/n6/BALmc/b7er38/eZz9vuCwQAA6nX8/oLB+PvcbvT6hML4+9xu8vmEwvj73G7y+YLB+PvcbvL5hML2+t5v8PiGw/b63m/u94TC9vreb/D4hsMAAN5v8vl+vwAA3m/2+36/AADeb/z+gMAAAN5v+v2EwgoF4HD0+nK5CgXgcOz2eLwKBeBw8Ph4vAgE3G70+na7CATcbu73er0IBNxu7vd6vQgE3G7y+Xq9FAr8fvb7fr8UCvx+/P5+vxQK/H76/X6/FAr8fvz+er30+fp9+v2AwPT5+n34/IDA9Pn6ffb7gMAOB/p9+Px8vg4H+n36/Xq9Dgf6ffr9fL4=")
+}]
+
+[sub_resource type="Resource" id="Resource_hchvc"]
+metadata/__load_path__ = "res://Generic Foliage/Material/LeafSet_1.tres"
+
+[node name="LeafSetB_4" type="MeshInstance"]
+mesh = SubResource("31")
+material/0 = SubResource("Resource_hchvc")

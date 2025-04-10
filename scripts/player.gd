@@ -9,6 +9,7 @@ signal blinkStaminaBar
 @onready var animation_player: AnimationPlayer = $visuals/SmoothMC/AnimationPlayer
 @onready var cross_hair: TextureRect = $camera_mount/Camera3D/CanvasLayer/CrossHair
 @onready var stamina_bar: TextureProgressBar = $camera_mount/Camera3D/CanvasLayer/StaminaBar
+@onready var rich_text_label: RichTextLabel = $camera_mount/Camera3D/CanvasLayer/RichTextLabel
 const EMPTY_CIRCLE = preload("res://assets/models/Icons/empty-circle.png")
 const CROSSHAIR = preload("res://assets/models/Icons/crosshair.svg")
 
@@ -32,6 +33,9 @@ var can_regenerate_stamina = true
 var punch_to_idle = false
 @export var critical_stamina = false
 
+var selected_weapon
+var previous_weapon
+
 var combat_animation_number = 0
 var air_time = 0.0
 
@@ -44,6 +48,9 @@ func _ready():
 	animation_player.animation_finished.connect(self._on_animation_player_animation_finished)
 	await get_tree().create_timer(0.1).timeout
 	animation_player.play("a-idle")
+	if Global.show_fps == true:
+		Global.show_fps = false
+		Global.signalPlayerFPS.emit()
 
 
 func _input(event):
@@ -54,7 +61,7 @@ func _input(event):
 		camera_mount.rotation.z = 0
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
 		camera_mount.rotate_x(deg_to_rad((-event.relative.y*sens_vertical)))
-	elif event is InputEventMouseMotion and !punch_mode:
+	elif event is InputEventMouseMotion and !punch_mode and !is_selecting_mode:
 		camera_mount.rotate_y(deg_to_rad(-event.relative.x * sens_horizontal))
 		
 		# Clamp the vertical rotation to avoid flipping
@@ -62,7 +69,7 @@ func _input(event):
 		new_rotation_x = clamp(new_rotation_x, deg_to_rad(-90), deg_to_rad(90))
 		camera_mount.rotation.x = new_rotation_x
 	# Combat mouse mode
-	elif event is InputEventMouseMotion and punch_mode:
+	elif event is InputEventMouseMotion and punch_mode and !is_selecting_mode:
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
 
 func _physics_process(delta: float) -> void:
@@ -158,15 +165,21 @@ func _physics_process(delta: float) -> void:
 	# Handle the weapon selection
 	if Input.is_action_just_pressed("mode_selection") and !is_selecting_mode:
 		is_selecting_mode = true
+		$camera_mount/Camera3D/CanvasLayer/SelectionWheel.show()
 		
 		# Done as if we already selected punch mode
 		#Transition back to idle mode
-		if(punch_mode): 
-			speed = 0
-			_punch_mode_to_idle()
-			return
+		#if(punch_mode): 
+			#speed = 0
+			#_punch_mode_to_idle()
+			#return
+		#
+		#_punch_mode_transition()
+	elif Input.is_action_just_pressed("mode_selection") or Input.is_action_just_pressed("attack"):
+		is_selecting_mode = false
+		selected_weapon = $camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
 		
-		_punch_mode_transition()
+		_transition_to_weapon()
 	
 	# Hanlde camera_rotation
 	if punch_mode and (camera_mount.rotation.x != 0 or camera_mount.rotation.y != 0): 
@@ -335,6 +348,12 @@ func _launch_forward(direction, target) -> void:
 	
 	# Tween for movement
 	tween.tween_property(self, "global_position", target_position, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)  # 0.7s for movement
+
+# Item collection
+func show_item_text():
+	rich_text_label.visible = true
+func hide_item_text():
+	rich_text_label.visible = false
 
 # Stamina system functions
 func spend_stamina(amount):
@@ -650,6 +669,36 @@ func _reverse_landing() -> void:
 	animation_player.speed_scale = 1.8
 	animation_player.play_backwards("a-idle-to-fall")
 	reverse_anim_bool = true
+func _transition_to_weapon() -> void:
+	#Transition back to idle mode
+	match previous_weapon:
+		"fist":
+			speed = 0
+			_punch_mode_to_idle()
+			
+			
+			print("fist")
+		"pistol":
+			print("pistol")
+		"rifle":
+			print("rifle")
+		"dynamite":
+			print("dynamite")
+		_:
+			print("rest")
+			
+	match selected_weapon:
+		"fist":
+			_punch_mode_transition()
+			print("fist")
+		"pistol":
+			print("pistol")
+		"rifle":
+			print("rifle")
+		"dynamite":
+			print("dynamite")
+		_:
+			print("rest")
 func _punch_mode_transition() -> void:
 	if !_check_mode_changable():
 		is_selecting_mode = false

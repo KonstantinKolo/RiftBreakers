@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://djg2h86bx5ebm"]
+[gd_scene load_steps=19 format=3 uid="uid://djg2h86bx5ebm"]
 
+[ext_resource type="Script" uid="uid://b4mqewbf2nx13" path="res://scripts/test_scene.gd" id="1_7thk6"]
 [ext_resource type="Material" uid="uid://cntsmcyc3mkop" path="res://assets/materials/ground.tres" id="1_hygyl"]
 [ext_resource type="Material" uid="uid://drnj14n03hpft" path="res://assets/materials/wall.tres" id="2_wqxkr"]
 [ext_resource type="PackedScene" uid="uid://6okbev7wrecf" path="res://scenes/security_bot.tscn" id="3_sxhdf"]
@@ -37,6 +38,7 @@ size = Vector3(3.5, 0.25, 0.8)
 size = Vector3(3.5, 0.25, 0.8)
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_7thk6")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vqcix")

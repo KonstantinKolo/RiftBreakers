@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cy8gxwu6brfxu"]
 
-[ext_resource type="Script" path="res://scripts/punching_bag.gd" id="1_i20fw"]
+[ext_resource type="Script" uid="uid://bamdmb6d7r10w" path="res://scripts/punching_bag.gd" id="1_i20fw"]
 [ext_resource type="Material" uid="uid://cntsmcyc3mkop" path="res://assets/materials/ground.tres" id="2_76osm"]
 [ext_resource type="Texture2D" uid="uid://del301d7w52f" path="res://assets/models/Icons/rhombus-svgrepo-com.svg" id="3_0ncdq"]
 

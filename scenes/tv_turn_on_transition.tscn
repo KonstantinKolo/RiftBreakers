@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dfjjaydn71nyn"]
 
 [ext_resource type="Texture2D" uid="uid://m8cnqdm7o3cv" path="res://assets/backgrounds/circle.png" id="1_5h612"]
-[ext_resource type="Script" path="res://scripts/tv_turn_on_transition.gd" id="1_yswlc"]
+[ext_resource type="Script" uid="uid://61ke24mqlpc8" path="res://scripts/tv_turn_on_transition.gd" id="1_yswlc"]
 
 [sub_resource type="Gradient" id="Gradient_l3edx"]
 offsets = PackedFloat32Array(0, 0.5, 1)
@@ -213,8 +213,8 @@ tracks/7/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ckk8a"]
 _data = {
-"RESET": SubResource("Animation_akia2"),
-"turn_off": SubResource("Animation_n8jhi")
+&"RESET": SubResource("Animation_akia2"),
+&"turn_off": SubResource("Animation_n8jhi")
 }
 
 [sub_resource type="Environment" id="Environment_t12uk"]

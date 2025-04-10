@@ -1,0 +1,76 @@
+[gd_resource type="VisualShader" load_steps=9 format=3 uid="uid://5t5ea4gisckd"]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="1"]
+parameter_name = "Color"
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="2"]
+parameter_name = "Normal"
+texture_type = 2
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="3"]
+parameter_name = "RMAo"
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="4"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="5"]
+parameter_name = "Tiling"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="6"]
+output_port_for_preview = 0
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(2, 2, 0)]
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="7"]
+output_port_for_preview = 0
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorFunc" id="8"]
+output_port_for_preview = 0
+function = 20
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D Color : source_color;
+uniform sampler2D RMAo;
+uniform sampler2D Normal : hint_normal;
+
+
+
+void fragment() {
+// VectorDecompose:5
+	float n_out5p0 = .x;
+	float n_out5p1 = .y;
+	float n_out5p2 = .z;
+
+
+// Output:0
+	METALLIC = n_out5p1;
+	ROUGHNESS = n_out5p0;
+	AO = n_out5p2;
+
+
+}
+"
+graph_offset = Vector2(-264.492, -79.4746)
+modes/cull = 2
+nodes/fragment/0/position = Vector2(400, 20)
+nodes/fragment/2/node = SubResource("1")
+nodes/fragment/2/position = Vector2(-20, 20)
+nodes/fragment/3/node = SubResource("2")
+nodes/fragment/3/position = Vector2(-60, 400)
+nodes/fragment/4/node = SubResource("3")
+nodes/fragment/4/position = Vector2(-40, 180)
+nodes/fragment/5/node = SubResource("4")
+nodes/fragment/5/position = Vector2(140, 200)
+nodes/fragment/6/node = SubResource("5")
+nodes/fragment/6/position = Vector2(-680, 240)
+nodes/fragment/7/node = SubResource("6")
+nodes/fragment/7/position = Vector2(-480, 140)
+nodes/fragment/8/node = SubResource("7")
+nodes/fragment/8/position = Vector2(-680, 100)
+nodes/fragment/9/node = SubResource("8")
+nodes/fragment/9/position = Vector2(-279.75, 106.25)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 0, 8, 5, 0, 0, 3, 5, 1, 0, 2, 5, 2, 0, 6, 8, 0, 7, 0, 7, 0, 9, 0, 6, 0, 7, 1, 4, 0, 5, 0)

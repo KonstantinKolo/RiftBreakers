@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=4 uid="uid://bcmp3ropdssqe"]
+
+[sub_resource type="ArrayMesh" id="148"]
+resource_name = "LeafSet_Plane317"
+_surfaces = [{
+"aabb": AABB(-0.417883, -0.162445, 0, 0.835776, 0.690471, 0.151262),
+"attribute_data": PackedByteArray("AMA6PwAgWT8AAAA/AMArPwDAOj8AwCs/AOD/PgAgWT8AYB0/AMArPwBgHT8AYE4/AKAOPwDAKz8AoA4/AMBTPwAgLD8AwCs/ACAsPwDAUz8="),
+"format": 34359742487,
+"index_count": 24,
+"index_data": PackedByteArray("CQACAAAACQAIAAIABwAEAAUABwAGAAQAAwAGAAcAAwABAAYABQAIAAkABQAEAAgA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 10,
+"vertex_data": PackedByteArray("wvTVPgBYJr7g4Ro+w/TVvq4sBz/j4Ro+w/TVPq4sBz/j4Ro+wvTVvgBYJr7g4Ro+AAAAAK4sBz8PQ8YyAAAAAAAAAAAAAACARlFlvq4sBz8A5SA9Q1FlvgFYpr335CA9RlFlPq4sBz8A5SA9Q1FlPgFYpr335CA9pNEAAKDQfr9cLgAA//+s1qTRAACg0H6/XC4AAPz+rNYAAAAA//9+vwAAAAD8/n6/QiEAAPz+oNBIJAAA/P6i0b7eAAC63X6/uNsAALTafr8=")
+}]
+
+[sub_resource type="Resource" id="Resource_24usb"]
+metadata/__load_path__ = "res://Generic Foliage/Material/LeafSet_2.tres"
+
+[node name="LeafSetH_13" type="MeshInstance"]
+mesh = SubResource("148")
+material/0 = SubResource("Resource_24usb")

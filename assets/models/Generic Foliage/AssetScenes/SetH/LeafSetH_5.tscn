@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=4 uid="uid://djbf3388oswyo"]
+
+[sub_resource type="ArrayMesh" id="147"]
+resource_name = "LeafSet_Plane314"
+_surfaces = [{
+"aabb": AABB(-0.520375, -3.46914e-08, -0.0982699, 0.863566, 0.306637, 0.123805),
+"attribute_data": PackedByteArray("AAADPwDAeT8AAAM/ACBXPwAgIz8AIFc/ACAjPwDAeT8AABM/ACBXPwAAEz8AwHk/AAADPwCgcD8AAAM/AKBwPwAgIz8AoHA/AAATPwCgcD8AgG4/AIB4PwCAbj8A4Fo/AOBMPwCAeD8A4Ew/AOBaPwAAZT8AgHg/AIBaPwDgWj8AgG4/AKBwPwDgTD8AoHA/AEBiPwCgcD8A4EU/AKB5PwDgRT8AAFg/AGAmPwAAWD8AYCY/AKB5PwAgNj8AoHk/ACA2PwAAWD8A4EU/AOBuPwBgJj8A4G4/ACA2PwDgbj8AABc/AEACPwAABD8A4CQ/AAAEPwBAAj8AABc/AOAkPw=="),
+"format": 34359742487,
+"index_count": 78,
+"index_data": PackedByteArray("CQACAAgACQAEAAIABgAEAAkABgABAAQAAAAJAAUAAAAHAAkABQAIAAMABQAJAAgAEgALABAAEgAPAAsAEQAPABIAEQANAA8ADAASAA4ADAARABIADgAQAAoADgASABAAGwAUABkAGwAYABQAGgAYABsAGgAVABgAFgAbABcAFgAaABsAFwAZABMAFwAbABkAHQAcAB8AHQAeABwA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("2BgSvqX/FLOyidqm2BgSvulAkj4i0bS92RgSPulAkj4i0bS92RgSPqX/FLOyidqmpf8UMulAkj68voK9pf8UMqX/FLOyidqm2BgSvg/Opj0AgOYx2BgSvg/Opj0AgOYx2RgSPg/Opj0AgOYxpf8UMg/Opj2eScg8nlHPvXd/X7KBwSe8nlHPvUNmgT67Qcm9+sXMvnd/X7KBwSe8+sXMvkNmgT67Qcm9arw9vnd/X7KBwSe8msWOvkNmgT5Te/O8nlHPvYhEjz1LLjC9+sXMvohEjz1LLjC9wH5XvohEjz0GL9E8rLavPgAA0CXpUsK6rLavPnYBkz6OGZa9iAuDPXYBkz6OGZa9iAuDPQAA0CXpUsK6jnlQPgAA0CXpUsK6jnlQPnYBkz4Joz69rLavPl01wz3FUsK6iAuDPV01wz3FUsK6jnlQPl01wz37+s48APOzvnz/nD66oBA6TjcFv48/ujLUnxA6TjcFv3z/nD66oBA6APOzvo8/ujLUnxA68Pfi8Oj0fr/m8kQi2Ox+vxoNRCL8/pDIEAji8Pr9isUAAEwm//9+vwAA4O/6/Xy+6PMaDd7vfr/o8xoN3u9+vxgMGg38/nC4AAAcDvz+fr9AIAYD+v1crkAgNBr8/lOq3u72+tjsfr++3iAQrNZ8vh4PAAD8/o7H8vg0GubzfL5AICIR/P6k0sjjEAjA4H6/DAYeD/r9iMQSCeTx+v2KxR4PPB78/pLJ4vA8HtTqfr/u9uTx5vN+vwAA4vD6/Xy+AABEIv//fr8cDhYL/P5ut+TxFgvc7n6/AAAYDPz+fr8AAAAA//9+vwAAAAD//36/AAAAAP//fr8AAAAA//9+vw==")
+}]
+
+[sub_resource type="Resource" id="Resource_83tix"]
+metadata/__load_path__ = "res://Generic Foliage/Material/LeafSet_2.tres"
+
+[node name="LeafSetH_5" type="MeshInstance"]
+mesh = SubResource("147")
+material/0 = SubResource("Resource_83tix")

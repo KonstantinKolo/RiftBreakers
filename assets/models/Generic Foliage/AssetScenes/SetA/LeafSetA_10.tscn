@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=4 uid="uid://dlm3q54bks7iv"]
+
+[sub_resource type="ArrayMesh" id="9"]
+resource_name = "LeafSet_Plane044"
+_surfaces = [{
+"aabb": AABB(-0.047947, -1.68143e-08, -7.34977e-16, 0.095894, 0.506317, 1.00221e-05),
+"attribute_data": PackedByteArray("ACC6PgCg9z0AILo+AMCzPgBg0D4AoPc9AGDQPgDAsz4="),
+"format": 34359742487,
+"index_count": 6,
+"index_data": PackedByteArray("AQACAAMAAQAAAAIA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("GWREvU+dAT9hG74yGWREvRBvkLK511OmGWREPU+dAT9hG74yGWREPRBvkLK511OmAAAAAP//fr8AAAAA//9+vwAAAAD//36/AAAAAP//fr8=")
+}]
+
+[sub_resource type="Resource" id="Resource_f4fnt"]
+metadata/__load_path__ = "res://Generic Foliage/Material/LeafSet_1.tres"
+
+[node name="LeafSetA_10" type="MeshInstance"]
+mesh = SubResource("9")
+material/0 = SubResource("Resource_f4fnt")

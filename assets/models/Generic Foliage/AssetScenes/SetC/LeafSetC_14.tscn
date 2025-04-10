@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=4 uid="uid://bse1hdju3lud8"]
+
+[sub_resource type="ArrayMesh" id="51"]
+resource_name = "LeafSet_Plane028"
+_surfaces = [{
+"aabb": AABB(-0.573927, 0, -0.228433, 1.14786, 0.0505444, 0.456876),
+"attribute_data": PackedByteArray("AADPPgDgHz8AwOA9AMABPwAAzz4AwAE/AMDgPQDgHz8AwOA9AMAVPwDA4D0AwAs/AADPPgDAFT8AAM8+AMALPwDAnD4AwAE/AOBUPgDAAT8AwJw+AOAfPwDgVD4A4B8/AOBUPgDAFT8A4FQ+AMALPwDAnD4AwBU/AMCcPgDACz8="),
+"format": 34359742487,
+"index_count": 54,
+"index_data": PackedByteArray("DwACAAcADQABAAkADQAIAA8ADQAJAAgAAwAMAAsABAANAAwABAAFAA0ACwAOAAoACwAMAA4ADAAPAA4ADAANAA8AAAAOAAYADgAHAAYADgAPAAcABQABAA0ABAAMAAMACgAOAAAACAACAA8A"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("5uwSPwAAAABd6mk+5uwSvwAAAABd6mm+5uwSPwAAAABd6mm+5uwSvwAAAABd6mk+5uwSvwAAAACS8Zs95uwSvwAAAACU8Zu95uwSPwAAAACS8Zs95uwSPwAAAACU8Zu9iOZDPgAAAABd6mm+iOZDvgAAAABd6mm+iOZDPgAAAABd6mk+iOZDvgAAAABd6mk+iOZDvq8HTz2S8Zs9iOZDvq8HTz2U8Zu9iOZDPq8HTz2S8Zs9iOZDPq8HTz2U8Zu9FArWa+bzcrna7Oh05vOKxSYT6HTm83K57PXWa+bzisXk8eBw4PCMxuTx4HDg8IzGHA7gcODwcLgcDuBw4PBwuD4f/3///36/Ph//f///fr8AAL5f//9+vwAAvl///36/+PvWa/L5hMLa7PR68vmEwggE1mvy+Xi8JhP0evL5eLw=")
+}]
+
+[sub_resource type="Resource" id="Resource_85mpo"]
+metadata/__load_path__ = "res://Generic Foliage/Material/LeafSet_1.tres"
+
+[node name="LeafSetC_14" type="MeshInstance"]
+mesh = SubResource("51")
+material/0 = SubResource("Resource_85mpo")

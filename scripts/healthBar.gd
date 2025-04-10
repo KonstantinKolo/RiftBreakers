@@ -22,7 +22,7 @@ func update():
 		damage.visible = false
 	
 	value = player.health
-	rich_text_label.text = "[b]" + str(value) + "/100[/b]" 
+	rich_text_label.text = "[b]" + str(int(value)) + "/100[/b]" 
 
 
 func _on_timer_timeout() -> void:

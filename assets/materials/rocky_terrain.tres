@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://tbxecedfyy3y"]
+
+[ext_resource type="Texture2D" uid="uid://7au6ile3gjuf" path="res://assets/materials/rocky_albedo.tres" id="1_djybg"]
+[ext_resource type="Texture2D" uid="uid://capgekox175t8" path="res://assets/materials/textures/rocky_terrain_02_arm_1k.jpg" id="2_8x1yn"]
+
+[resource]
+resource_name = "rocky_terrain_02"
+cull_mode = 2
+albedo_texture = ExtResource("1_djybg")
+metallic_texture = ExtResource("2_8x1yn")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_8x1yn")
+roughness_texture_channel = 1
+normal_enabled = true
+uv1_triplanar = true

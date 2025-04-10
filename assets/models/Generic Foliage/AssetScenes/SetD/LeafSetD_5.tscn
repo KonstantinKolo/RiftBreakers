@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=4 uid="uid://djolxy4bk5r83"]
+
+[sub_resource type="ArrayMesh" id="74"]
+resource_name = "LeafSet_Plane203"
+_surfaces = [{
+"aabb": AABB(-0.0923881, -3.35666e-08, -0.110931, 0.222039, 0.263084, 0.221279),
+"attribute_data": PackedByteArray("AAAKPwDgVz8AIA4/AOBXPwAACj8AgD0/ACAOPwCAPT8A4BU/ACAhPwDgFT8AAAU/ACAyPwAABT8AIDI/ACAhPwAAJD8AICE/AAAkPwAABT8AIDI/AAATPwDgFT8AABM/AAAkPwAAEz8AYCo/AAATPwBgKj8AwAw/AAAkPwBAGT8AwB0/AEAZPwAAJD8AwAw/AMAdPwDADD8AwB0/AAATPwBgKj8AQBk/"),
+"format": 34359742487,
+"index_count": 78,
+"index_data": PackedByteArray("AAADAAEAAAACAAMADAAOAA0ADAASABEAEAAMAA8AFAAMAA0ADgAKAA0ADgAGAAoADwAEABAADwAIAAQAEgAJABEAEgAFAAkAEwAFABIAEwALAAUAFAAIAA8AFAAHAAgAEQAGAA4AEQAJAAYADQAHABQADQAKAAcAEAALABMAEAAEAAsAEwASAAwAEQAOAAwADwAMABQAEwAMABAA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 21,
+"vertex_data": PackedByteArray("2vpHvOkqELPEc9OmCay+POkqELPEc9Om2vpHvG9LaD7FWioyCay+PG9LaD7FWioy9TW9vTr+dD4V/uE99TW9vTr+dD7gL+O9WMMEPjr+dD7gL+O9WMMEPjr+dD4V/uE9dKGYPO+yhj4V/uE9dKGYPO+yhj7gL+O9WMMEPu+yhj6C5Zi59TW9ve+yhj6C5Zi5dKGYPDUraD6C5Zi5P0SLPcWJgT6C5Zi5QESLPearaj7h2km9dKGYPMWJgT5Kd0c9F877vOaraj5Ld0c9dKGYPMWJgT7g2km9F877vOaraj7h2km9Fc77vMWJgT6C5Zi5QESLPearaj5Ld0c9AAAAAP//fr8AAAAA//9+vwAAAAD//36/AAAAAP//fr8CAfx+/P5+vwAA+n36/X6/AAD6ffz+fr/+/vx++v1+vzwe/3/8/ny+AADAYPz+gMDE4cBgwOCczjwewGDA4GCwAAD/f///fr+427RatNqi0f7++Hz6/YDASCT/f/z+fL4EAvp9+v18vgAAtFr8/oDAAgH4fPr9fL5IJLRatNparfz9+n36/YDA")
+}]
+
+[sub_resource type="Resource" id="Resource_mlywt"]
+metadata/__load_path__ = "res://Generic Foliage/Material/LeafSet_1.tres"
+
+[node name="LeafSetD_5" type="MeshInstance"]
+mesh = SubResource("74")
+material/0 = SubResource("Resource_mlywt")

@@ -20,4 +20,4 @@ func blink():
 
 func update():
 	value = player.stamina
-	rich_text_label.text = "[b]" + str(value) + "/100[/b]" 
+	rich_text_label.text = "[b]" + str(int(value)) + "/100[/b]" 

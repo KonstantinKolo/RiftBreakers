@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://jiu2dbhjh24a"]
 
-[ext_resource type="Script" path="res://scripts/confirmation_modal.gd" id="1_kv4jy"]
+[ext_resource type="Script" uid="uid://de88tkqa4rgid" path="res://scripts/confirmation_modal.gd" id="1_kv4jy"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_od5c6"]
 

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=4 uid="uid://b8w5cq8wwgeu8"]
+
+[sub_resource type="ArrayMesh" id="131"]
+resource_name = "LeafSet_Plane292"
+_surfaces = [{
+"aabb": AABB(-0.513417, -0.072718, -0.414979, 1.04549, 0.791233, 0.852701),
+"attribute_data": PackedByteArray("AAAAAACgLD8AAAAAAEBaPwCAXT4AoCw/AIBdPgCgLD8AgF0+AEBaPwBgoz0AoCw/AGCjPQBAWj8AAAAAACA5PwCAXT4AAFE/AGCjPQAAUz8AAAAAAKAsPwAAAAAAQFo/AIBdPgCgLD8AgF0+AKAsPwCAXT4AQFo/AGCjPQCgLD8AYKM9AEBaPwAAAAAAIDk/AIBdPgAAUT8AYKM9AABTPwAAAAAAoCw/AAAAAABAWj8AgF0+AKAsPwCAXT4AoCw/AIBdPgBAWj8AYKM9AKAsPwBgoz0AQFo/AAAAAAAgOT8AgF0+AABRPwBgoz0AAFM/"),
+"format": 34359742487,
+"index_count": 81,
+"index_data": PackedByteArray("CQACAAgABwAFAAkABwAAAAUAAQAJAAYAAQAHAAkABgAIAAQABgAJAAgACAADAAQABQACAAkAEwAMABIAEQAPABMAEQAKAA8ACwATABAACwARABMAEAASAA4AEAATABIAEgANAA4ADwAMABMAHQAWABwAGwAZAB0AGwAUABkAFQAdABoAFQAbAB0AGgAcABgAGgAdABwAHAAXABgAGQAWAB0A"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 30,
+"vertex_data": PackedByteArray("JkFmPnKPFT/KG+A+zYdmPirtlL1DyVc+T28Dv5bwNz9cQUU9T28Dv5bwNz9cQUU9pl0Dv943fD38HTe+70qNuRgtKD9Ubmg+s9KfMhVTzzLpC7gyiVRmPurXzj6mOcA+OmEDv65jRz7aAgi+3N00uOVi1z3f1hQ9Hiufvo7uMT/cQXq9HiufvgAA4DPfQXq9LDYIP43uMT8EeAG+LDYIP43uMT8EeAG+LDYIPwAA2DMDeAG+AAiHNI3uMT8AANC0f62BNCTE3TOg+NO0HiufvuYdAT/cQXq9LTYIP1g+ED4EeAG+gLCCNHnh4z0AAMy0G9XzvnWPFT+Wwv290kCdvh7tlL0nW+E8tbucPpjwNz8meNS+tbucPpjwNz8meNS+/0/zPuo3fD3O8Ya+gygtvhotKD/KDBu+mON8NOqY0TNPL9S0ZxTcvu/Xzj51r6i9CMThPrJjRz4CqJa+6cPdvPBi1z31k8a82GyORyYTxOLYbI5HJhPE4splxGIWC6bTymXEYv9/fr/KZcRiFgum09JpqFQeD7bb0mmoVB4PttvYbI5HJhPE4iyV8nlIJFis0mmoVB4PttvY6wAA1Op+v9jrAADU6n6/MBgAAPz+lsswGAAA/39+vzAYAAD//2azBAIAAPz+gMAEAgAA/P58vtjrAADU6n6//38oFHg8CYUEAgAA/P6AwAYDLhfQ6J7PBgMuF9Dons9EIjAY6vWy2UQiMBj/f36/RCIwGOr1stkoFDAY3u+o1CgUMBje76jUBgMuF9Dons+i0AoFmMx8vigUMBje76jU")
+}]
+
+[sub_resource type="Resource" id="Resource_bjawt"]
+metadata/__load_path__ = "res://Generic Foliage/Material/LeafSet_2.tres"
+
+[node name="LeafSetG_16" type="MeshInstance"]
+mesh = SubResource("131")
+material/0 = SubResource("Resource_bjawt")

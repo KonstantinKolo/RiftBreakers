@@ -1,0 +1,351 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        1.7236565351486206,
+        17.84619140625,
+        1.6887202262878418
+      ],
+      "min": [
+        -1.7236565351486206,
+        -17.84618377685547,
+        -1.6887257099151611
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 6852,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        0.9995505809783936,
+        0.9971728324890137,
+        0.9998265504837036
+      ],
+      "min": [
+        -0.9994372129440308,
+        -0.9993308782577515,
+        -0.9997702240943909
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        0.9850917458534241,
+        0.9999809265136719,
+        0.662278413772583,
+        1.0
+      ],
+      "min": [
+        -0.37914571166038513,
+        -0.9999997615814209,
+        -0.8972284197807312,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        0.9792296290397644,
+        0.9705427885055542
+      ],
+      "min": [
+        0.03145802021026611,
+        0.05587064474821091
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 4568,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        4.656612873077393e-10,
+        4.656612873077393e-10
+      ],
+      "min": [
+        4.656612873077393e-10,
+        4.656612873077393e-10
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 9136,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        0.9792296290397644,
+        0.9705427885055542
+      ],
+      "min": [
+        0.03145802021026611,
+        0.05587064474821091
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 13704,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        0.9792296290397644,
+        0.9705427885055542
+      ],
+      "min": [
+        0.03145802021026611,
+        0.05587064474821091
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 18272,
+      "componentType": 5126,
+      "count": 571,
+      "max": [
+        0.9792296290397644,
+        0.9705427885055542
+      ],
+      "min": [
+        0.03145802021026611,
+        0.05587064474821091
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 2592,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "MaX3Dd (https://sketchfab.com/MaX3Dd)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/dynamite-low-poly-b4bc8c5bcf06468e81dc091bca646838",
+      "title": "Dynamite Low-poly"
+    },
+    "generator": "Sketchfab-16.59.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 10368,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 22840,
+      "byteOffset": 10368,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 13704,
+      "byteOffset": 33208,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 9136,
+      "byteOffset": 46912,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 56048,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/dynamite_baseColor.png"
+    },
+    {
+      "uri": "textures/dynamite_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/dynamite_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "dynamite",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "dynamite_dynamite_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4,
+            "TEXCOORD_2": 5,
+            "TEXCOORD_3": 6,
+            "TEXCOORD_4": 7
+          },
+          "indices": 8,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "dynamite.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        1.6882100105285645,
+        9.5367431640625e-07,
+        1.0
+      ],
+      "name": "dynamite"
+    },
+    {
+      "mesh": 0,
+      "name": "dynamite_dynamite_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bqf8b2uomtunu"]
 
-[ext_resource type="Script" path="res://scripts/heal_pad.gd" id="1_0lt2e"]
+[ext_resource type="Script" uid="uid://dh3vmn7tx5w4" path="res://scripts/heal_pad.gd" id="1_0lt2e"]
 [ext_resource type="Material" uid="uid://cdsgcvecbtqol" path="res://assets/materials/player.tres" id="1_ocxyo"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_7nus7"]

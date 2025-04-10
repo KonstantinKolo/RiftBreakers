@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c4cegskdafo00"]
 
 [ext_resource type="Material" uid="uid://drnj14n03hpft" path="res://assets/materials/wall.tres" id="1_fvw6o"]
-[ext_resource type="Script" path="res://scripts/hurt_pad.gd" id="1_qgfm3"]
+[ext_resource type="Script" uid="uid://dq7u2bmrs3kt" path="res://scripts/hurt_pad.gd" id="1_qgfm3"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_7nus7"]
 height = 0.05

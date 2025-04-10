@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://b8lasn2cr43ux"
+path.s3tc="res://.godot/imported/LeafSet_LeafSetTrim_1_Summer_Albedo-LeafSetTrim_1_Mask_Albedo.png-13e5216a555d461c947d99d32fffe717.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "276b2c3dea06d9b28cf8a6bda0b8c2b8"
+}
+
+[deps]
+
+source_file="res://assets/models/Generic Foliage/GLTF/LeafSet_LeafSetTrim_1_Summer_Albedo-LeafSetTrim_1_Mask_Albedo.png"
+dest_files=["res://.godot/imported/LeafSet_LeafSetTrim_1_Summer_Albedo-LeafSetTrim_1_Mask_Albedo.png-13e5216a555d461c947d99d32fffe717.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

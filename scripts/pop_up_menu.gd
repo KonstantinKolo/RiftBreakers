@@ -30,8 +30,10 @@ func _on_check_box_toggled(toggled_on: bool) -> void:
 	AudioServer.set_bus_mute(0,toggled_on)
 func _on_fullscreen_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		print(1)
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN) 
 	else:
+		print(2)
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
 		DisplayServer.window_set_size(Vector2i(1152, 648))
 func _on_fps_toggled(toggled_on: bool) -> void:
