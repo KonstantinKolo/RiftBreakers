@@ -36,6 +36,7 @@ viewport_path = NodePath("SubViewport2")
 
 [node name="PunchingBag" type="StaticBody3D" groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.852, 0)
+collision_layer = 3
 script = ExtResource("1_i20fw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

@@ -81,7 +81,7 @@ func _draw():
 			)
 
 func _input(event):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and visible == true:
 			var mouse_radius = event.relative.length
 			var mouse_rads = fposmod(event.relative.angle() * -1, TAU)
 			selection = ceil((mouse_rads / TAU) * (len(options) - 1))

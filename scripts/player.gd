@@ -26,11 +26,16 @@ var reverse_anim_bool = false
 var is_jumping = false
 var jump_concluded = false
 var start_counting_air_time = false
+
 var punch_mode = false
-var is_punching = false
-var is_selecting_mode = false
-var can_regenerate_stamina = true
 var punch_to_idle = false
+var is_punching = false
+
+var is_selecting_mode = false
+var is_gun_mode = false
+var is_throw_mode = false
+
+var can_regenerate_stamina = true
 @export var critical_stamina = false
 
 var selected_weapon
@@ -54,6 +59,7 @@ func _ready():
 
 
 func _input(event):
+	# Camera and player movement events
 	if event is InputEventMouseMotion and \
 	   Input.is_action_pressed("right_mouse") and \
 	   !punch_mode:
@@ -71,6 +77,56 @@ func _input(event):
 	# Combat mouse mode
 	elif event is InputEventMouseMotion and punch_mode and !is_selecting_mode:
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
+	
+	# Combat events
+	if event is InputEventMouseButton:
+		# Handle the weapon selection
+		if Input.is_action_just_pressed("mode_selection") and \
+		!is_selecting_mode:
+			is_selecting_mode = true
+			$camera_mount/Camera3D/CanvasLayer/SelectionWheel.show()
+		elif Input.is_action_just_pressed("mode_selection") and _check_mode_changable():
+			selected_weapon = $camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
+			
+			_transition_to_weapon()
+		
+		# Handle attack functionality
+		if Input.is_action_just_pressed("attack") and !is_selecting_mode and \
+			stamina >= 10 and !critical_stamina and !is_punching and \
+			!is_gun_mode and !is_throw_mode:
+			if !punch_mode:
+				is_selecting_mode = true
+				is_punching = true
+				selected_weapon = "fist"
+				_transition_to_weapon()
+				
+				# wait until the animations are over
+				while animation_player.current_animation != "a-idle-fight_":
+						await get_tree().process_frame
+				
+				_punch_attack()
+			elif punch_mode:
+				# Check which mode we have selected when we have multiple modes
+				is_punching = true
+				speed = 0
+				_punch_attack()
+		elif Input.is_action_pressed("attack") and \
+		is_gun_mode and !is_selecting_mode:
+			var damage: int
+			if selected_weapon == "pistol":
+				damage = 35
+			elif selected_weapon == "rifle":
+				damage = 20
+			$camera_mount/GunCast3D.fire_shot(damage)
+		elif Input.is_action_pressed("attack") and selected_weapon == "dynamite":
+			var grenadeins = preload("res://scenes/grenade.tscn").instantiate()
+			grenadeins.position = $camera_mount/Camera3D/Grenadepos.global_position
+			get_tree().current_scene.add_child(grenadeins)
+			
+			var forward_force = 10
+			var upForce = 3.5
+			var playerDirection = $camera_mount.global_transform.basis.z.normalized()
+			grenadeins.apply_central_impulse((playerDirection * -forward_force) + Vector3(0,upForce,0))
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -141,45 +197,6 @@ func _physics_process(delta: float) -> void:
 			speed = 0
 		else:
 			_reverse_landing()
-	
-	# Handle attack functionality
-	if Input.is_action_just_pressed("attack") and !is_selecting_mode and \
-		stamina >= 10 and !critical_stamina and !is_punching:
-		if !punch_mode:
-			is_selecting_mode = true
-			is_punching = true
-			speed = 0
-			_punch_mode_transition()
-			
-			# wait until the animations are over
-			while animation_player.current_animation != "a-idle-fight_":
-					await get_tree().process_frame
-			
-			_punch_attack()
-		elif punch_mode:
-			# Check which mode we have selected when we have multiple modes
-			is_punching = true
-			speed = 0
-			_punch_attack()
-   
-	# Handle the weapon selection
-	if Input.is_action_just_pressed("mode_selection") and !is_selecting_mode:
-		is_selecting_mode = true
-		$camera_mount/Camera3D/CanvasLayer/SelectionWheel.show()
-		
-		# Done as if we already selected punch mode
-		#Transition back to idle mode
-		#if(punch_mode): 
-			#speed = 0
-			#_punch_mode_to_idle()
-			#return
-		#
-		#_punch_mode_transition()
-	elif Input.is_action_just_pressed("mode_selection") or Input.is_action_just_pressed("attack"):
-		is_selecting_mode = false
-		selected_weapon = $camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
-		
-		_transition_to_weapon()
 	
 	# Hanlde camera_rotation
 	if punch_mode and (camera_mount.rotation.x != 0 or camera_mount.rotation.y != 0): 
@@ -672,33 +689,51 @@ func _reverse_landing() -> void:
 func _transition_to_weapon() -> void:
 	#Transition back to idle mode
 	match previous_weapon:
+		"run":
+			speed = 0
 		"fist":
 			speed = 0
 			_punch_mode_to_idle()
-			
-			
-			print("fist")
 		"pistol":
-			print("pistol")
+			speed = 0
+			is_gun_mode = false
+			_pistol_to_idle()
 		"rifle":
-			print("rifle")
+			speed = 0
+			is_gun_mode = false
+			_rifle_to_idle()
 		"dynamite":
-			print("dynamite")
+			speed = 0
+			is_throw_mode = false
+			_dynamite_to_idle()
 		_:
-			print("rest")
-			
+			speed = 0
+			#print("1none")
+	
+	# Transition from idle to other modes
 	match selected_weapon:
+		"run":
+			speed = 1
 		"fist":
 			_punch_mode_transition()
-			print("fist")
 		"pistol":
-			print("pistol")
+			is_gun_mode = true
+			_pistol_transition()
 		"rifle":
-			print("rifle")
+			is_gun_mode = true
+			_rifle_transition()
 		"dynamite":
-			print("dynamite")
+			is_throw_mode = true
+			_dynamite_transition()
 		_:
-			print("rest")
+			speed = 1
+			print("2none")
+	
+	is_selecting_mode = false
+	if selected_weapon != "":
+		previous_weapon = selected_weapon
+
+# From idle animatios
 func _punch_mode_transition() -> void:
 	if !_check_mode_changable():
 		is_selecting_mode = false
@@ -717,6 +752,14 @@ func _punch_mode_transition() -> void:
 	cross_hair.position.x -= 10
 	cross_hair.position.y -= 10
 	is_selecting_mode = false
+func _dynamite_transition() -> void:
+	pass
+func _pistol_transition() -> void:
+	pass
+func _rifle_transition() -> void:
+	pass
+
+# To idle animations
 func _punch_mode_to_idle() -> void:
 	# reset the crosshair to normal
 	cross_hair.texture = EMPTY_CIRCLE
@@ -735,10 +778,16 @@ func _punch_mode_to_idle() -> void:
 	is_selecting_mode = false
 	punch_mode = false
 	is_punching = false
+func _dynamite_to_idle() -> void:
+	pass
+func _pistol_to_idle() -> void:
+	pass
+func _rifle_to_idle() -> void:
+	pass
 
 # Boolean functions
 func _check_mode_changable() -> bool:
-	if is_on_floor() and health > 0 and !punch_mode and \
+	if is_on_floor() and health > 0 and \
 	animation_player.current_animation != "a-jump" and \
 	animation_player.current_animation != "a-landing" and \
 	animation_player.current_animation != "a-fall" and \
