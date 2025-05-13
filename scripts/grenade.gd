@@ -1,6 +1,7 @@
 extends RigidBody3D
 
 @onready var grenade_mesh: Node3D = $Sketchfab_Scene
+@onready var explosion_scene : PackedScene = preload("res://scenes/ParticleEffects/explosion.tscn")
 
 
 func _on_radius_body_entered(body: Node3D) -> void:
@@ -18,6 +19,9 @@ func _on_fusetimer_timeout() -> void:
 		elif obj.get_parent().is_in_group("obstacles"):
 			obj.get_parent().queue_free()
 	
-	# TODO make explosion
 	await get_tree().create_timer(1.2).timeout
+	var explosion = explosion_scene.instantiate()
+	get_tree().root.add_child(explosion)
+	explosion.position = global_position
+	explosion.explode()
 	queue_free()
