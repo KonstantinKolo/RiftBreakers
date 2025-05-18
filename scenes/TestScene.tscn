@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://djg2h86bx5ebm"]
+[gd_scene load_steps=16 format=3 uid="uid://djg2h86bx5ebm"]
 
 [ext_resource type="Script" uid="uid://b4mqewbf2nx13" path="res://scripts/test_scene.gd" id="1_7thk6"]
 [ext_resource type="Material" uid="uid://cntsmcyc3mkop" path="res://assets/materials/ground.tres" id="1_hygyl"]
@@ -9,15 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://c4cegskdafo00" path="res://scenes/hurt_pad.tscn" id="5_kgp0n"]
 [ext_resource type="PackedScene" uid="uid://cy8gxwu6brfxu" path="res://scenes/punching_bag.tscn" id="6_m21dm"]
 [ext_resource type="PackedScene" uid="uid://lnmtwfrcdbac" path="res://scenes/boss_girl.tscn" id="8_2bbdn"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ifqv7"]
-
-[sub_resource type="Sky" id="Sky_j40jj"]
-sky_material = SubResource("ProceduralSkyMaterial_ifqv7")
-
-[sub_resource type="Environment" id="Environment_vqcix"]
-background_mode = 5
-sky = SubResource("Sky_j40jj")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cfplf"]
 size = Vector3(1, 1, 0.048)
@@ -40,13 +31,11 @@ size = Vector3(3.5, 0.25, 0.8)
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7thk6")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_vqcix")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866579, -0.432031, 0.249782, -0.000970649, 0.501982, 0.864878, -0.49904, 0.749242, -0.435426, 0, 0, 0)
+transform = Transform3D(-0.866579, -0.432031, 0.249782, -0.000970649, 0.501982, 0.864878, -0.49904, 0.749242, -0.435426, 0, 14.0659, 0)
 shadow_enabled = true
 directional_shadow_mode = 0
+sky_mode = 1
 
 [node name="Floor" type="StaticBody3D" parent="."]
 

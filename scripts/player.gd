@@ -127,6 +127,8 @@ func _input(event):
 			var upForce = 3.5
 			var playerDirection = $camera_mount.global_transform.basis.z.normalized()
 			grenadeins.apply_central_impulse((playerDirection * -forward_force) + Vector3(0,upForce,0))
+			await get_tree().create_timer(1.45).timeout
+			camera_mount.shake_camera(0.4, 0.15)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

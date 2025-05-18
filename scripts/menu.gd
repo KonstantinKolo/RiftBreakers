@@ -67,7 +67,7 @@ func _on_button_1_pressed() -> void:
 	
 	if is_confirmed:
 		_button_pressed_particles(level_1)
-		_transition_to_scene("res://scenes/TestScene.tscn")
+		_transition_to_scene("res://scenes/Maps/map_1.tscn")
 func _on_button_2_pressed() -> void:
 	if Global.has_unlocked_level_2:
 		conf.customize(
@@ -88,7 +88,7 @@ func _on_button_2_pressed() -> void:
 	
 	if is_confirmed and Global.has_unlocked_level_2:
 		_button_pressed_particles(level_2)
-		_transition_to_scene("res://scenes/TestScene.tscn")
+		_transition_to_scene("res://scenes/Maps/map_2.tscn")
 	elif is_confirmed:
 		conf.cancel()
 func _on_button_3_pressed() -> void:
@@ -112,7 +112,7 @@ func _on_button_3_pressed() -> void:
 	
 	if is_confirmed and Global.has_unlocked_level_3:
 		_button_pressed_particles(level_3)
-		_transition_to_scene("res://scenes/TestScene.tscn")
+		_transition_to_scene("res://scenes/Maps/map_3.tscn")
 	else:
 		conf.cancel()
 

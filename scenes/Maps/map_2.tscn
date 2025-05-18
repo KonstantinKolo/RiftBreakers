@@ -1530,7 +1530,6 @@ mesh = SubResource("BoxMesh_q7ko2")
 
 [node name="ProtonScatter" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.988899, 0)
-visible = false
 script = ExtResource("2_nmm31")
 keep_static_colliders = true
 modifier_stack = SubResource("Resource_ygkd5")
@@ -1736,7 +1735,6 @@ shape = SubResource("Resource_6r3wa")
 metadata/_custom_type_script = "uid://dw6fvqlngj2t4"
 
 [node name="ProtonScatter2" type="Node3D" parent="."]
-visible = false
 script = ExtResource("2_nmm31")
 modifier_stack = SubResource("Resource_gcka6")
 Performance/use_chunks = true
@@ -3659,6 +3657,10 @@ shape = SubResource("BoxShape3D_gcka6")
 transform = Transform3D(0.384304, 0, 0.31986, 0, 0.5, 0, -0.31986, 0, 0.384304, -230.34, -0.568801, 143.72)
 mesh = SubResource("ArrayMesh_l8a0a")
 skeleton = NodePath("")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-2.94099e-08, 0.161742, -0.986833, 4.82028e-09, 0.986833, 0.161742, 1, 0, -2.98023e-08, -497.045, 108.014, 97.4936)
+sky_mode = 1
 
 [connection signal="body_entered" from="Graveyard/Dynamite/Area3D" to="Graveyard/Dynamite" method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Graveyard/Dynamite/Area3D" to="Graveyard/Dynamite" method="_on_area_3d_body_exited"]
