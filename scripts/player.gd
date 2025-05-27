@@ -26,20 +26,24 @@ var reverse_anim_bool = false
 var is_jumping = false
 var jump_concluded = false
 var start_counting_air_time = false
+var is_walking_backwards = false
 
 var punch_mode = false
 var punch_to_idle = false
 var is_punching = false
+var has_thrown = false
 
 var is_selecting_mode = false
 var is_gun_mode = false
 var is_throw_mode = false
+var walk_sideways = false
 
 var can_regenerate_stamina = true
 @export var critical_stamina = false
 
 var selected_weapon
 var previous_weapon
+var last_camera_mode
 
 var combat_animation_number = 0
 var air_time = 0.0
@@ -47,6 +51,12 @@ var air_time = 0.0
 @export var sens_horizontal = 0.5
 @export var sens_vertical = 0.5
 @export var sens_rotation = 2.0
+
+# Bone attachments
+@onready var dynamite: MeshInstance3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment/Dynamite
+@onready var pistol: MeshInstance3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment/Pistol
+@onready var rifle: Node3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment/Rifle
+
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -61,21 +71,35 @@ func _ready():
 func _input(event):
 	# Camera and player movement events
 	if event is InputEventMouseMotion and \
-	   Input.is_action_pressed("right_mouse") and \
-	   !punch_mode:
+	   (Input.is_action_pressed("right_mouse") and \
+	   !punch_mode and !is_gun_mode and !is_throw_mode or is_gun_mode):
 		# TODO in a-idle reseting the z axis is kinda jittery
+		if last_camera_mode != 1:
+			last_camera_mode = 1
+			camera_mount.rotation = Vector3(0, 0, 0)  # Set to default rotation values
+		
 		camera_mount.rotation.z = 0
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
 		camera_mount.rotate_x(deg_to_rad((-event.relative.y*sens_vertical)))
-	elif event is InputEventMouseMotion and !punch_mode and !is_selecting_mode:
+	elif event is InputEventMouseMotion and !punch_mode and \
+	!is_gun_mode and !is_throw_mode and !is_selecting_mode:
+		if last_camera_mode != 2:
+			last_camera_mode = 2
+			camera_mount.rotation = Vector3(0, 0, 0)  # Set to default rotation values
+		
 		camera_mount.rotate_y(deg_to_rad(-event.relative.x * sens_horizontal))
 		
 		# Clamp the vertical rotation to avoid flipping
 		var new_rotation_x = camera_mount.rotation.x + deg_to_rad(-event.relative.y * sens_vertical)
 		new_rotation_x = clamp(new_rotation_x, deg_to_rad(-90), deg_to_rad(90))
 		camera_mount.rotation.x = new_rotation_x
-	# Combat mouse mode
-	elif event is InputEventMouseMotion and punch_mode and !is_selecting_mode:
+	# Combat, throw and gun mouse mode
+	elif event is InputEventMouseMotion and !is_selecting_mode and \
+	(punch_mode or is_throw_mode):
+		if last_camera_mode != 3:
+			last_camera_mode = 3
+			camera_mount.rotation = Vector3(0, 0, 0)  # Set to default rotation values
+		
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
 	
 	# Combat events
@@ -85,7 +109,8 @@ func _input(event):
 		!is_selecting_mode:
 			is_selecting_mode = true
 			$camera_mount/Camera3D/CanvasLayer/SelectionWheel.show()
-		elif Input.is_action_just_pressed("mode_selection") and _check_mode_changable():
+		elif Input.is_action_just_pressed("mode_selection") and \
+		_check_mode_changable() or animation_player.current_animation == "":
 			selected_weapon = $camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
 			
 			_transition_to_weapon()
@@ -118,7 +143,16 @@ func _input(event):
 			elif selected_weapon == "rifle":
 				damage = 20
 			$camera_mount/GunCast3D.fire_shot(damage)
-		elif Input.is_action_pressed("attack") and selected_weapon == "dynamite":
+		elif Input.is_action_pressed("attack") and \
+		selected_weapon == "dynamite" and !has_thrown:
+			#play throw animation
+			has_thrown = true
+			speed = 0
+			animation_player.speed_scale = 1.5
+			animation_player.play("b-throw")
+			await get_tree().create_timer(1).timeout
+			
+			
 			var grenadeins = preload("res://scenes/grenade.tscn").instantiate()
 			grenadeins.position = $camera_mount/Camera3D/Grenadepos.global_position
 			get_tree().current_scene.add_child(grenadeins)
@@ -129,6 +163,15 @@ func _input(event):
 			grenadeins.apply_central_impulse((playerDirection * -forward_force) + Vector3(0,upForce,0))
 			await get_tree().create_timer(1.45).timeout
 			camera_mount.shake_camera(0.4, 0.15)
+			has_thrown = false
+		
+		# Aiming
+		if Input.is_action_just_pressed("right_mouse") and \
+		is_gun_mode and !is_selecting_mode:
+			$camera_mount/Camera3D.fov = 45
+		elif Input.is_action_just_released("right_mouse") and \
+		is_gun_mode:
+			$camera_mount/Camera3D.fov = 75
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -161,7 +204,8 @@ func _physics_process(delta: float) -> void:
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor() and \
-	   !punch_mode and stamina >= 10 and !critical_stamina and \
+	   !punch_mode and !is_throw_mode and !is_gun_mode and \
+	   stamina >= 10 and !critical_stamina and \
 	   animation_player.current_animation != "a-jump" and \
 	   animation_player.current_animation != "a-landing" and \
 	   animation_player.current_animation != "a-fall":
@@ -218,18 +262,48 @@ func _physics_process(delta: float) -> void:
 			var target_basis = Basis(rotation_axis, current_forward.angle_to(target_rotation)) * transform.basis
 			transform.basis = transform.basis.slerp(target_basis, sens_rotation * delta)
 		
-		var is_walking_backwards = current_forward.dot(direction) < 0
+		is_walking_backwards = current_forward.dot(direction) < 0
 		
 		# If player is pressing just left or right use turning anims
 		if !Input.is_action_pressed("forward") and \
 		!Input.is_action_pressed("backward") and \
 		_check_turnable():
-			animation_player.speed_scale = 1.5
-			speed = 0.5
 			if Input.is_action_pressed("left"):
-				animation_player.play("a-left-turn")
+				if is_gun_mode:
+					if !_check_gun_turnable(): return
+					walk_sideways = true
+					if selected_weapon == "rifle":
+						animation_player.play("b-rifle-idle-walk")
+					else:
+						animation_player.play("b-pistol-idle-walk")
+				else:
+					animation_player.speed_scale = 1.5
+					speed = 0.5
+					animation_player.play("a-left-turn")
 			elif Input.is_action_pressed("right"):
-				animation_player.play("a-right-turn")
+				if is_gun_mode:
+					if !_check_gun_turnable(): return
+					walk_sideways = true
+					if selected_weapon == "rifle":
+						animation_player.play("b-rifle-idle-walk")
+					else:
+						animation_player.play("b-pistol-idle-walk")
+				else:
+					animation_player.speed_scale = 1.5
+					speed = 0.5
+					animation_player.play("a-right-turn")
+		elif punch_mode and !is_punching and \
+		animation_player.current_animation == "a-idle-fight_":
+			sens_rotation = 0
+			animation_player.play("a-idle-fight-to-fight-walk")
+		elif is_gun_mode and is_gun_walkable() and !is_walking_backwards:
+			speed = 1.5
+			if selected_weapon == "rifle":
+				animation_player.speed_scale = 1
+				animation_player.play("b-rifle-idle-walk")
+			else:
+				animation_player.speed_scale = 1
+				animation_player.play("b-pistol-idle-walk")
 		
 		if _check_walkable() and !is_walking_backwards and \
 		   (!Input.is_action_pressed("sprint") or critical_stamina):
@@ -245,16 +319,24 @@ func _physics_process(delta: float) -> void:
 				animation_player.play("a-idle-to-walk")
 				speed = 2
 		elif _check_backwards_walkable() and is_walking_backwards:
-			sens_rotation = 1.5
-			can_regenerate_stamina = true
-			if animation_player.current_animation == "a-run":
-				animation_player.play_backwards("a-walk-backwards-to-run")
-				reverse_anim_bool = true
-			elif animation_player.current_animation == "a-walk":
-				animation_player.play("a-walk-to-walk-backwards")
+			if is_gun_mode:
+				_reverse_animation_to_gun_idle()
+				can_regenerate_stamina = true
+				if selected_weapon == "rifle":
+					animation_player.play("b-rifle-idle-walk")
+				else:
+					animation_player.play("b-pistol-idle-walk")
 			else:
-				animation_player.play("a-idle-to-walk-backwards")
-				speed = 1
+				sens_rotation = 1.5
+				can_regenerate_stamina = true
+				if animation_player.current_animation == "a-run":
+					animation_player.play_backwards("a-walk-backwards-to-run")
+					reverse_anim_bool = true
+				elif animation_player.current_animation == "a-walk":
+					animation_player.play("a-walk-to-walk-backwards")
+				else:
+					animation_player.play("a-idle-to-walk-backwards")
+					speed = 1
 		elif _check_runable() && Input.is_action_pressed("sprint") and !is_walking_backwards:
 			sens_rotation = 3.0
 			can_regenerate_stamina = false
@@ -265,23 +347,30 @@ func _physics_process(delta: float) -> void:
 			else:
 				animation_player.play("a-idle-to-run")
 				speed = 4
+		elif !is_walking_backwards and is_gun_mode and \
+		(animation_player.current_animation == "b-pistol-walk-backwards" or \
+		animation_player.current_animation == "b-rifle-walk-backwards"):
+			sens_rotation = 2.0
+			_reverse_animation_to_gun_idle()
 		
-		if punch_mode and !is_punching and \
-		animation_player.current_animation == "a-idle-fight_":
-			sens_rotation = 0
-			animation_player.play("a-idle-fight-to-fight-walk")
 		
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 	else:
+		is_walking_backwards = false
 		can_regenerate_stamina = true
 		if animation_player.current_animation == "a-left-turn" \
 		or animation_player.current_animation == "a-right-turn":
 			_turn_to_idle()
-		elif animation_player.current_animation != "a-idle" and !punch_mode:
+		elif animation_player.current_animation != "a-idle" and \
+		!punch_mode and !is_gun_mode:
 			_reverse_animation_to_idle()
 		elif punch_mode:
 			_reverse_animation_to_fight_idle()
+		elif is_gun_mode and _can_reverse_to_gun_idle():
+			_reverse_animation_to_gun_idle()
+			animation_player.speed_scale = 1
+			sens_rotation = 2.0
 		
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
@@ -487,6 +576,33 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	elif anim_name == "a-left-turn" or anim_name == "a-right-turn":
 		animation_player.play("a-idle")
 		speed = 2
+	elif anim_name == "b-throw":
+		speed = 1
+		animation_player.speed_scale = 1
+		animation_player.play("b-throw-idle")
+	elif anim_name == "b-throw-idle":
+		animation_player.play("a-idle")
+	elif is_gun_mode:
+		if anim_name == "b-rifle-idle-walk":
+			if walk_sideways:
+				animation_player.play("b-rifle-left")
+			elif is_walking_backwards:
+				animation_player.play("b-rifle-walk-backwards")
+			elif !reverse_anim_bool:
+				animation_player.play("b-rifle-walk")
+			else:
+				animation_player.play("b-rifle-idle")
+				reverse_anim_bool = false
+		elif anim_name == "b-pistol-idle-walk":
+			if walk_sideways:
+				animation_player.play("b-pistol-left")
+			elif is_walking_backwards:
+				animation_player.play("b-pistol-walk-backwards")
+			elif !reverse_anim_bool:
+				animation_player.play("b-pistol-walk")
+			else:
+				animation_player.play("b-pistol-idle")
+				reverse_anim_bool = false
 	elif punch_mode:
 		if anim_name == "a-left-punch" and punch_to_idle:
 			animation_player.play("a-left-punch-to-idle-fight")
@@ -679,6 +795,38 @@ func _reverse_animation_to_fight_idle() -> void:
 	elif animation_player.current_animation == "a-fight-walk":
 		animation_player.play_backwards("a-idle-fight-to-fight-walk")
 		reverse_anim_bool = true
+func _reverse_animation_to_gun_idle():
+	if animation_player.current_animation == "b-pistol-left" or animation_player.current_animation == "b-rifle-left":
+		walk_sideways = false
+		if selected_weapon == "rifle":
+			$visuals.scale.x = 1
+			reverse_anim_bool = true
+			animation_player.play_backwards("b-rifle-idle-walk")
+		else:
+			$visuals.scale.x = 1
+			reverse_anim_bool = true
+			animation_player.play_backwards("b-pistol-idle-walk")
+	elif selected_weapon == "rifle":
+		if animation_player.current_animation == "b-rifle-walk":
+			animation_player.play_backwards("b-rifle-idle-walk")
+			reverse_anim_bool = true
+		elif animation_player.current_animation == "b-rifle-walk-backwards":
+			animation_player.play_backwards("b-rifle-idle-walk")
+			reverse_anim_bool = true
+	else:
+		if animation_player.current_animation == "b-pistol-walk":
+			animation_player.play_backwards("b-pistol-idle-walk")
+			reverse_anim_bool = true
+		elif animation_player.current_animation == "b-pistol-walk-backwards":
+			animation_player.play_backwards("b-pistol-idle-walk")
+			reverse_anim_bool = true
+func _can_reverse_to_gun_idle() -> bool:
+	if animation_player.current_animation != "b-pistol-idle-walk" and \
+	animation_player.current_animation != "b-rifle-idle-walk" and \
+	animation_player.current_animation != "b-pistol-idle" and \
+	animation_player.current_animation != "b-rifle-idle":
+		return true
+	return false
 func _turn_to_idle() -> void:
 	speed = 1
 	if animation_player.current_animation_position < animation_player.current_animation_length / 2:
@@ -693,6 +841,7 @@ func _transition_to_weapon() -> void:
 	match previous_weapon:
 		"run":
 			speed = 0
+			is_selecting_mode = false
 		"fist":
 			speed = 0
 			_punch_mode_to_idle()
@@ -710,7 +859,10 @@ func _transition_to_weapon() -> void:
 			_dynamite_to_idle()
 		_:
 			speed = 0
-			#print("1none")
+			is_throw_mode = false
+			is_gun_mode = false
+			punch_mode = false
+			is_selecting_mode = false
 	
 	# Transition from idle to other modes
 	match selected_weapon:
@@ -729,7 +881,6 @@ func _transition_to_weapon() -> void:
 			_dynamite_transition()
 		_:
 			speed = 1
-			print("2none")
 	
 	is_selecting_mode = false
 	if selected_weapon != "":
@@ -755,11 +906,23 @@ func _punch_mode_transition() -> void:
 	cross_hair.position.y -= 10
 	is_selecting_mode = false
 func _dynamite_transition() -> void:
-	pass
+	speed = 0
+	animation_player.play("b-idle-pulldynamite-idle")
+	await get_tree().create_timer(0.75).timeout
+	dynamite.visible = true
+	speed = 1
 func _pistol_transition() -> void:
-	pass
+	speed = 0
+	animation_player.play("b-pull-pistol")
+	await get_tree().create_timer(0.4).timeout
+	pistol.visible = true
+	speed = 1
 func _rifle_transition() -> void:
-	pass
+	speed = 0
+	animation_player.play("b-pull-gun")
+	await get_tree().create_timer(1).timeout
+	rifle.visible = true
+	speed = 1
 
 # To idle animations
 func _punch_mode_to_idle() -> void:
@@ -781,13 +944,52 @@ func _punch_mode_to_idle() -> void:
 	punch_mode = false
 	is_punching = false
 func _dynamite_to_idle() -> void:
-	pass
+	speed = 0
+	animation_player.play_backwards("b-idle-pulldynamite-idle")
+	await get_tree().create_timer(0.75).timeout
+	dynamite.visible = false
+	speed = 1
+	is_selecting_mode = false
 func _pistol_to_idle() -> void:
-	pass
+	speed = 0
+	animation_player.play_backwards("b-pull-pistol")
+	await get_tree().create_timer(0.8).timeout
+	pistol.visible = false
+	speed = 1
+	is_selecting_mode = false
 func _rifle_to_idle() -> void:
-	pass
+	speed = 0
+	animation_player.play_backwards("b-pull-gun")
+	await get_tree().create_timer(2).timeout
+	rifle.visible = false
+	speed = 1
+	is_selecting_mode = false
 
 # Boolean functions
+func is_gun_walkable() -> bool:
+	var anim = animation_player.current_animation
+	if anim != "b-idle-pull-gun" and \
+	anim != "b-pistol-hit" and \
+	anim != "b-pistol-idle-hit" and \
+	anim != "b-pistol-idle-whip" and \
+	anim != "b-pistol-whip" and \
+	anim != "b-pull-gun" and \
+	anim != "b-pull-gun-gun" and \
+	anim != "b-pull-pistol" and \
+	anim != "b-rifle-hit" and \
+	anim != "b-rifle-idle-shoot" and \
+	anim != "b-rifle-idle-to-shoot" and \
+	anim != "b-rifle-walk-shoot" and \
+	anim != "b-rifle-walk-to-shoot" and \
+	anim != "b-rifle-walk" and \
+	anim != "b-rifle-idle-walk" and \
+	anim != "b-pistol-idle-walk" and \
+	anim != "b-pistol-walk-to-left" and \
+	anim != "b-rifle-walk-to-left" and \
+	anim != "b-pistol-walk" and \
+	walk_sideways == false:
+		return true
+	return false
 func _check_mode_changable() -> bool:
 	if is_on_floor() and health > 0 and \
 	animation_player.current_animation != "a-jump" and \
@@ -814,7 +1016,16 @@ func _check_turnable() -> bool:
 	animation_player.current_animation != "a-left-turn" and \
 	is_on_floor() and !punch_mode:
 		return true
-	else: return false
+	return false
+func _check_gun_turnable() -> bool:
+	if animation_player.current_animation != "b-rifle-idle-walk" and \
+	animation_player.current_animation != "b-rifle-walk-to-left" and \
+	animation_player.current_animation != "b-rifle-left" and \
+	animation_player.current_animation != "b-pistol-idle-walk" and \
+	animation_player.current_animation != "b-pistol-walk-to-left" and \
+	animation_player.current_animation != "b-pistol-left":
+		return true
+	return false
 func _check_walkable() -> bool:
 	if animation_player.current_animation != "a-walk" and \
 	   animation_player.current_animation != "a-idle-to-walk" and \
@@ -827,7 +1038,8 @@ func _check_walkable() -> bool:
 	   animation_player.current_animation != "a-idle-to-fall" and \
 	   animation_player.current_animation != "a-left-turn" and \
 	   animation_player.current_animation != "a-right-turn" and \
-	   !punch_mode:
+	   animation_player.current_animation != "b-throw" and \
+	   !punch_mode and !is_gun_mode and speed > 0:
 		return true
 	else:
 		return false
@@ -843,7 +1055,12 @@ func _check_backwards_walkable() -> bool:
 	   animation_player.current_animation != "a-left-turn" and \
 	   animation_player.current_animation != "a-right-turn" and \
 	   animation_player.current_animation != "a-idle-to-fall" and \
-	   !punch_mode:
+	   animation_player.current_animation != "b-throw" and \
+	   animation_player.current_animation != "b-rifle-idle-walk" and \
+	   animation_player.current_animation != "b-pistol-idle-walk" and \
+	   animation_player.current_animation != "b-rifle-walk-backwards" and \
+	   animation_player.current_animation != "b-pistol-walk-backwards" and \
+	   !punch_mode and speed > 0:
 		return true
 	else:
 		return false
@@ -863,7 +1080,8 @@ func _check_runable() -> bool:
 	   animation_player.current_animation != "a-idle-to-fall" and \
 	   animation_player.current_animation != "a-left-turn" and \
 	   animation_player.current_animation != "a-right-turn" and \
-	   !punch_mode:
+	   animation_player.current_animation != "b-throw" and \
+	   !punch_mode and !is_gun_mode and speed > 0:
 		return true
 	else:
 		return false
