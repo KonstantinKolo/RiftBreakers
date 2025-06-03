@@ -1,0 +1,195 @@
+[gd_scene load_steps=17 format=3 uid="uid://c3aay2i1kt54b"]
+
+[ext_resource type="Texture2D" uid="uid://ce6inqtshwfd8" path="res://assets/muzzle/muzzlesmokeeffect_001.png" id="1_85ogt"]
+[ext_resource type="Script" uid="uid://bhsxbrld2l2a0" path="res://scenes/ParticleEffects/muzzle_flash.gd" id="1_mbwux"]
+[ext_resource type="Texture2D" uid="uid://bg8wag2rdtn51" path="res://assets/muzzle/muzzleflasheffect_001.png" id="2_mbwux"]
+
+[sub_resource type="Shader" id="Shader_c3uoh"]
+code = "shader_type spatial;
+render_mode blend_add,depth_draw_opaque,cull_disabled,
+diffuse_toon,specular_disabled,unshaded,shadows_disabled,
+ambient_light_disabled,fog_disabled;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+
+uniform int particles_anim_h_frames;
+uniform int particles_anim_v_frames;
+//uniform bool particles_anim_loop;
+
+void vertex() {
+	mat4 mat_world = mat4(normalize(INV_VIEW_MATRIX[0]), normalize(INV_VIEW_MATRIX[1]) ,normalize(INV_VIEW_MATRIX[2]), MODEL_MATRIX[3]);
+	mat_world = mat_world * mat4(vec4(cos(INSTANCE_CUSTOM.x), -sin(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(sin(INSTANCE_CUSTOM.x), cos(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(0.0, 0.0, 1.0, 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat_world;
+	MODELVIEW_MATRIX = MODELVIEW_MATRIX * mat4(vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0),vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+	
+	float h_frames = float(particles_anim_h_frames);
+	float v_frames = float(particles_anim_v_frames);
+	float particle_total_frames = float(particles_anim_h_frames * particles_anim_v_frames);
+	float particle_frame = floor(INSTANCE_CUSTOM.z * float(particle_total_frames));
+	
+	particle_frame = clamp(particle_frame, 0.0, particle_total_frames - 1.0);
+	// We don't want to cycle for particle animation frames, only offset, so the condition is removed.
+	//if (!particles_anim_loop) {
+		//particle_frame = clamp(particle_frame, 0.0, particle_total_frames - 1.0);
+	//} else {
+		//particle_frame = mod(particle_frame, particle_total_frames);
+	//}
+	
+	UV /= vec2(h_frames, v_frames);
+	UV += vec2(mod(particle_frame, h_frames) / h_frames, floor((particle_frame + 0.5) / h_frames) / v_frames);
+}
+
+void fragment() {
+	vec4 albedo_tex = texture(texture_albedo,UV);
+	ALBEDO = albedo_tex.rgb * COLOR.rgb * albedo_tex.a;
+	ALPHA = (albedo_tex.a * COLOR.a);
+	ALPHA_SCISSOR_THRESHOLD = 0.001;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xgnxj"]
+render_priority = 0
+shader = SubResource("Shader_c3uoh")
+shader_parameter/texture_albedo = ExtResource("1_85ogt")
+shader_parameter/particles_anim_h_frames = 2
+shader_parameter/particles_anim_v_frames = 2
+
+[sub_resource type="Curve" id="Curve_lvwbo"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.494382, 0.967391), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ts3py"]
+curve = SubResource("Curve_lvwbo")
+
+[sub_resource type="Curve" id="Curve_7g4is"]
+_data = [Vector2(0, 0.0326086), 0.0, 2.76397, 0, 0, Vector2(0.363636, 0.688312), 0.864865, 0.864865, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fk2w2"]
+curve = SubResource("Curve_7g4is")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f1k2d"]
+particle_flag_damping_as_friction = true
+angle_min = -360.0
+angle_max = 360.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 0, -1)
+spread = 25.0
+initial_velocity_min = 2.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 1.0
+linear_accel_max = 3.0
+damping_min = 1.0
+damping_max = 3.0
+attractor_interaction_enabled = false
+scale_min = 0.8
+scale_curve = SubResource("CurveTexture_fk2w2")
+color = Color(0.15, 0.15, 0.15, 1)
+alpha_curve = SubResource("CurveTexture_ts3py")
+anim_offset_max = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_re18x"]
+size = Vector2(5, 5)
+
+[sub_resource type="Shader" id="Shader_0uo6o"]
+code = "shader_type spatial;
+render_mode blend_add,depth_draw_opaque,cull_disabled,
+diffuse_toon,specular_disabled,unshaded,shadows_disabled,
+ambient_light_disabled,fog_disabled;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+
+uniform int particles_anim_h_frames;
+uniform int particles_anim_v_frames;
+//uniform bool particles_anim_loop;
+
+void vertex() {
+	float h_frames = float(particles_anim_h_frames);
+	float v_frames = float(particles_anim_v_frames);
+	float particle_total_frames = float(particles_anim_h_frames * particles_anim_v_frames);
+	float particle_frame = floor(INSTANCE_CUSTOM.z * float(particle_total_frames));
+	
+	// We don't want to cycle so  the if is removed.
+	particle_frame = clamp(particle_frame, 0.0, particle_total_frames - 1.0);
+	//if (!particles_anim_loop) {
+		//particle_frame = clamp(particle_frame, 0.0, particle_total_frames - 1.0);
+	//} else {
+		//particle_frame = mod(particle_frame, particle_total_frames);
+	//}
+	
+	UV /= vec2(h_frames, v_frames);
+	UV += vec2(mod(particle_frame, h_frames) / h_frames, floor((particle_frame + 0.5) / h_frames) / v_frames);
+}
+
+
+float fresnel(float amount, vec3 normal, vec3 view){
+	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 )), amount);
+}
+// The inverse fresnel is used to fade away the sprite-like geometry when viewed from the front,
+// this improves the look of it and whenever is looked from the sides it get's displayed at full
+// opacity, control the amount for a stronger or weaker effect.
+float inverse_fresnel(float amount, vec3 normal, vec3 view){
+	return pow(clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0), amount);
+}
+
+void fragment() {
+	vec4 albedo_tex = texture(texture_albedo,UV);
+	ALBEDO = albedo_tex.rgb * COLOR.rgb * albedo_tex.a * 4.0;
+	ALPHA = (albedo_tex.a * inverse_fresnel(1.5, NORMAL, VIEW) * COLOR.a); // Fade away when looking at front view the muzzleflare using a fresnel.
+	ALPHA_SCISSOR_THRESHOLD = 0.001;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oxh8p"]
+render_priority = 0
+shader = SubResource("Shader_0uo6o")
+shader_parameter/texture_albedo = ExtResource("2_mbwux")
+shader_parameter/particles_anim_h_frames = 2
+shader_parameter/particles_anim_v_frames = 2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3h2be"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+direction = Vector3(0, 0, -1)
+spread = 0.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+color = Color(1, 0.686252, 0.0195702, 1)
+anim_offset_max = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_eyi8k"]
+orientation = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_oqskg"]
+
+[node name="MuzzleFlash" type="Node3D"]
+script = ExtResource("1_mbwux")
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82648)
+material_override = SubResource("ShaderMaterial_xgnxj")
+emitting = false
+amount = 6
+lifetime = 0.5
+one_shot = true
+visibility_aabb = AABB(-3.31206, -2.88994, -4.29018, 6.62412, 5.77987, 5.91751)
+process_material = SubResource("ParticleProcessMaterial_f1k2d")
+draw_pass_1 = SubResource("QuadMesh_re18x")
+
+[node name="Fire" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_oxh8p")
+emitting = false
+amount = 1
+lifetime = 0.1
+interp_to_end = 0.99
+one_shot = true
+visibility_aabb = AABB(-0.328572, -0.64904, -0.443773, 0.657144, 1.29808, 0.887545)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_3h2be")
+draw_passes = 2
+draw_pass_1 = SubResource("QuadMesh_eyi8k")
+draw_pass_2 = SubResource("QuadMesh_oqskg")
+
+[node name="FireSound" type="AudioStreamPlayer3D" parent="."]

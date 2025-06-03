@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://d34uujlbx5ek6"
-path="res://.godot/imported/SmoothMC.gltf-8d99191c00e6548824048d21dea65259.scn"
+valid=false
 
 [deps]
 
 source_file="res://assets/models/MC/SmoothMC.gltf"
-dest_files=["res://.godot/imported/SmoothMC.gltf-8d99191c00e6548824048d21dea65259.scn"]
 
 [params]
 

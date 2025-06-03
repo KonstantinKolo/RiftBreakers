@@ -31,6 +31,7 @@ var is_walking_backwards = false
 var punch_mode = false
 var punch_to_idle = false
 var is_punching = false
+var is_shooting = false
 var has_thrown = false
 
 var is_selecting_mode = false
@@ -56,6 +57,7 @@ var air_time = 0.0
 @onready var dynamite: MeshInstance3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment/Dynamite
 @onready var pistol: MeshInstance3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment/Pistol
 @onready var rifle: Node3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment/Rifle
+@onready var bone_attachment: BoneAttachment3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment
 
 
 func _ready():
@@ -110,7 +112,7 @@ func _input(event):
 			is_selecting_mode = true
 			$camera_mount/Camera3D/CanvasLayer/SelectionWheel.show()
 		elif Input.is_action_just_pressed("mode_selection") and \
-		_check_mode_changable() or animation_player.current_animation == "":
+		(_check_mode_changable() or animation_player.current_animation == ""):
 			selected_weapon = $camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
 			
 			_transition_to_weapon()
@@ -137,12 +139,39 @@ func _input(event):
 				_punch_attack()
 		elif Input.is_action_pressed("attack") and \
 		is_gun_mode and !is_selecting_mode:
+			is_shooting = true
+			
 			var damage: int
+			var rate_of_fire: float
+			
 			if selected_weapon == "pistol":
 				damage = 35
+				rate_of_fire = 0.4
 			elif selected_weapon == "rifle":
+				speed = 0
 				damage = 20
-			$camera_mount/GunCast3D.fire_shot(damage)
+				rate_of_fire = 0.2
+				
+				# Check if the player is moving
+				var input_dir := Input.get_vector("left", "right", "forward", "backward")
+				var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+				# if its not the right animation for shooting
+				# we dont allow the player to shoot
+				if animation_player.current_animation != "b-rifle-idle-shoot" and \
+				animation_player.current_animation != "b-rifle-idle-walk" and \
+				animation_player.current_animation != "b-rifle-idle-to-shoot":
+					if direction.length() > 0:
+						animation_player.play_backwards("b-rifle-idle-walk")
+						reverse_anim_bool = true
+						await get_tree().create_timer(0.2).timeout
+					if animation_player.current_animation == "b-rifle-idle" or \
+					animation_player.current_animation == "":
+						animation_player.play("b-rifle-idle-to-shoot")
+					await get_tree().create_timer(0.1).timeout
+			while Input.is_action_pressed("attack"):
+				$camera_mount/GunCast3D.fire_shot(damage)
+				_flash_bullet()
+				await get_tree().create_timer(rate_of_fire).timeout
 		elif Input.is_action_pressed("attack") and \
 		selected_weapon == "dynamite" and !has_thrown:
 			#play throw animation
@@ -151,7 +180,6 @@ func _input(event):
 			animation_player.speed_scale = 1.5
 			animation_player.play("b-throw")
 			await get_tree().create_timer(1).timeout
-			
 			
 			var grenadeins = preload("res://scenes/grenade.tscn").instantiate()
 			grenadeins.position = $camera_mount/Camera3D/Grenadepos.global_position
@@ -164,6 +192,15 @@ func _input(event):
 			await get_tree().create_timer(1.45).timeout
 			camera_mount.shake_camera(0.4, 0.15)
 			has_thrown = false
+		elif is_gun_mode:
+			if animation_player.current_animation == "b-rifle-idle-shoot" or \
+			animation_player.current_animation == "b-rifle-idle-to-shoot":
+				animation_player.play_backwards("b-rifle-idle-to-shoot")
+				reverse_anim_bool = true
+			
+			is_shooting = false
+			speed = 1
+		
 		
 		# Aiming
 		if Input.is_action_just_pressed("right_mouse") and \
@@ -417,7 +454,19 @@ func _damage_enemy(damage: int) -> void:
 		targeted_enemy.hurt(damage)
 		if targeted_enemy._return_health() == 0:
 			targeted_enemy.queue_free()
-
+func _flash_bullet() -> void:
+	var bullet = load("res://scenes/ParticleEffects/muzzle_flash.tscn").instantiate()
+	bone_attachment.add_child(bullet)
+	
+	bullet.position.x += 0.1
+	bullet.position.z += 0.1
+	bullet.position.y += 0.7
+	if selected_weapon == "rifle":
+		bullet.position.x -= 0.1
+		bullet.position.y += 0.35
+	bullet.rotation.x = bullet.rotation.x + 8
+	
+	bullet.shoot()
 func _randomizer(numElements) -> int:
 	return randi() % numElements + 1
 func _get_direction_to_Node(targetNode : Node) -> Vector3:
@@ -603,6 +652,13 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			else:
 				animation_player.play("b-pistol-idle")
 				reverse_anim_bool = false
+		elif anim_name == "b-rifle-idle-to-shoot":
+			if !reverse_anim_bool:
+				animation_player.play("b-rifle-idle-shoot")
+			else:
+				animation_player.play("b-rifle-idle")
+				reverse_anim_bool = false
+			
 	elif punch_mode:
 		if anim_name == "a-left-punch" and punch_to_idle:
 			animation_player.play("a-left-punch-to-idle-fight")
@@ -987,7 +1043,7 @@ func is_gun_walkable() -> bool:
 	anim != "b-pistol-walk-to-left" and \
 	anim != "b-rifle-walk-to-left" and \
 	anim != "b-pistol-walk" and \
-	walk_sideways == false:
+	walk_sideways == false and !is_shooting:
 		return true
 	return false
 func _check_mode_changable() -> bool:

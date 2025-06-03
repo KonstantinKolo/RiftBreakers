@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://d1386biatrea4"
-path="res://.godot/imported/rocky_terrain_02_1k.blend-0e8ade10d8463343b87fa20d0eb4ff9a.scn"
+valid=false
 
 [deps]
 
 source_file="res://assets/materials/rocky_terrain_02_1k.blend"
-dest_files=["res://.godot/imported/rocky_terrain_02_1k.blend-0e8ade10d8463343b87fa20d0eb4ff9a.scn"]
 
 [params]
 
