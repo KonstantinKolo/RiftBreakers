@@ -1,5 +1,16 @@
 extends CharacterBody3D
 
+enum States {
+	Walking,
+	Pursuit
+}
+
+@export var walkSpeed : float = 1.0
+@export var runSpeed : float = 2.0
+
+@onready var follow_target_3d: FollowTarget3D = $FollowTarget3D
+@onready var random_target_3d: RandomTarget3D = $RandomTarget3D
+
 @onready var progress_bar: ProgressBar = $SubViewport/ProgressBar
 @onready var target_sprite: Sprite3D = $Sprite3D2
 @onready var model_3d: MeshInstance3D = $visuals/security_bot/Armature/Skeleton3D/Plane_003
@@ -12,7 +23,20 @@ var target_visible = false
 var health = 100 
 var time = 0.0
 
+var state : States = States.Walking
+var target : Node3D
+
+func _ready() -> void:	
+	ChangeState(States.Walking)
+	target_sprite.visible = false
+	progress_bar.visible = false
+	progress_bar.value = health
+
 func _process(delta):
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+	
+	#fot material overlays when looked ad
 	time += delta
 	if model_3d.material_overlay and model_3d.material_overlay.next_pass and model_3d.material_overlay.next_pass is ShaderMaterial:
 		model_3d.material_overlay.next_pass.set("shader_parameter/time", time)
@@ -29,11 +53,6 @@ func _process(delta):
 		# Make the sprite face the camera
 		target_sprite.look_at(camera_position, Vector3.UP)
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	target_sprite.visible = false
-	progress_bar.visible = false
-	progress_bar.value = health
 
 func show_target() -> void:
 	if target_sprite:
@@ -71,3 +90,25 @@ func hurt(hit_points: int) -> void:
 		progress_bar.value = health
 func _return_health() -> int:
 	return health
+
+func ChangeState(newState : States) -> void:
+	state = newState
+	match state:
+		States.Walking:
+			follow_target_3d.ClearTarget()
+			follow_target_3d.Speed = walkSpeed
+			follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+			target = null
+		States.Pursuit:
+			follow_target_3d.Speed = runSpeed
+			follow_target_3d.SetTarget(target)
+
+func _on_follow_target_3d_navigation_finished() -> void:
+	follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+
+func _on_simple_vision_3d_get_sight(body: Node3D) -> void:
+	target = body
+	ChangeState(States.Pursuit)
+
+func _on_simple_vision_3d_lost_sight() -> void:
+	ChangeState(States.Walking)

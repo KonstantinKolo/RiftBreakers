@@ -913,12 +913,17 @@ func _transition_to_weapon() -> void:
 			speed = 0
 			is_throw_mode = false
 			_dynamite_to_idle()
-		_:
-			speed = 0
-			is_throw_mode = false
-			is_gun_mode = false
-			punch_mode = false
-			is_selecting_mode = false
+	speed = 0
+	is_throw_mode = false
+	is_gun_mode = false
+	punch_mode = false
+	is_selecting_mode = false
+	
+	# wait until we get into idle animation for "fist"
+	# mode, because it takes a bit longer than others
+	if previous_weapon == "fist":
+		while animation_player.current_animation != "a-idle":
+			await get_tree().process_frame
 	
 	# Transition from idle to other modes
 	match selected_weapon:

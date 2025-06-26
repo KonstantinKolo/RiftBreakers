@@ -51,7 +51,8 @@ func wait_for_distance_shortened() -> void:
 		await get_tree().create_timer(0.5).timeout
 		if !is_instance_valid(current_collider): return
 		if get_collision_point().distance_to(global_position) > 2.0 \
-		and (current_collider == previous_collider and previous_collider != null):
+		and (current_collider == previous_collider and previous_collider != null) and \
+		current_collider.has_method("show_target"):
 			current_collider.show_target()
-		elif current_collider.target_visible == true:
+		elif current_collider.has_method("hide_target") and current_collider.target_visible == true:
 			current_collider.hide_target()
