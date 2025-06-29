@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 enum States {
+	Look,
 	Walking,
 	Pursuit
 }
@@ -16,6 +17,8 @@ enum States {
 @onready var model_3d: MeshInstance3D = $visuals/security_bot/Armature/Skeleton3D/Plane_003
 @onready var players_camera = get_node("/root/Node3D/Player/camera_mount/Camera3D")
 
+@onready var animation_player: AnimationPlayer = $visuals/security_bot/AnimationPlayer
+
 @export var radius: float = 0.35  # Distance from the center of the StaticBody3D
 @export var offset: Vector3 = Vector3(0, 1, 0)  # Optional offset from the StaticBody3D's position
 
@@ -27,6 +30,7 @@ var state : States = States.Walking
 var target : Node3D
 
 func _ready() -> void:	
+	print(5)
 	ChangeState(States.Walking)
 	target_sprite.visible = false
 	progress_bar.visible = false
@@ -35,6 +39,9 @@ func _ready() -> void:
 func _process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	
+	if velocity.length() < 0.3: # checks if the bot is stuck
+		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 	
 	#fot material overlays when looked ad
 	time += delta
@@ -92,23 +99,48 @@ func _return_health() -> int:
 	return health
 
 func ChangeState(newState : States) -> void:
+	print(0)
 	state = newState
 	match state:
+		States.Look:
+			print(1)
+			follow_target_3d.ClearTarget()
+			if target:
+				look_at(target.global_position, Vector3.UP)
 		States.Walking:
+			print(2)
+			animation_player.play("walk");
 			follow_target_3d.ClearTarget()
 			follow_target_3d.Speed = walkSpeed
 			follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 			target = null
 		States.Pursuit:
+			print(3)
+			animation_player.play("walk-to-run")
 			follow_target_3d.Speed = runSpeed
 			follow_target_3d.SetTarget(target)
 
 func _on_follow_target_3d_navigation_finished() -> void:
-	follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+	print("nav finished")
+	if target:
+		print("target")
+		#play hit animation
+		look_at(target.global_position, Vector3.UP)
+	else:
+		print("no target")
+		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 
 func _on_simple_vision_3d_get_sight(body: Node3D) -> void:
+	print("get sight")
 	target = body
 	ChangeState(States.Pursuit)
 
 func _on_simple_vision_3d_lost_sight() -> void:
-	ChangeState(States.Walking)
+	print("lost sight")
+	
+	#ChangeState(States.Walking)
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "walk-to-run":
+		animation_player.play("run");

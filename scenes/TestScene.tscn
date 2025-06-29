@@ -105,7 +105,7 @@ sens_horizontal = 0.4
 sens_vertical = 0.4
 
 [node name="SecurityBot" parent="." instance=ExtResource("3_sxhdf")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.36201, 1.16961, 6.63776)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 13.1362, 0.263618, 6.63776)
 
 [node name="HealPad" parent="." instance=ExtResource("4_am54t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.58515, 0.112286, -1.90562)
