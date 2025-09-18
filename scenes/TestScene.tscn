@@ -79,6 +79,18 @@ mesh = SubResource("BoxMesh_rc2wy")
 transform = Transform3D(8.24664, 0, 0, 0, 1, 0, 0, 0, 1, 1.99073, 1, 1)
 shape = SubResource("BoxShape3D_kilmp")
 
+[node name="Wall3" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.47918, 0, 3.28253)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="NavigationRegion3D/Wall3"]
+transform = Transform3D(8.25154, 0, 0, 0, 1, 0, 0, 0, 1, 2.2048, 1, 1)
+material_override = ExtResource("2_wqxkr")
+mesh = SubResource("BoxMesh_rc2wy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Wall3"]
+transform = Transform3D(8.24664, 0, 0, 0, 1, 0, 0, 0, 1, 1.99073, 1, 1)
+shape = SubResource("BoxShape3D_kilmp")
+
 [node name="Ramp" type="StaticBody3D" parent="NavigationRegion3D"]
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="NavigationRegion3D/Ramp"]
@@ -120,4 +132,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.06899, 0.862479, 3.66263)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.06899, 0.862479, 4.94539)
 
 [node name="BossGirl" parent="." instance=ExtResource("8_2bbdn")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 14.1295, 0.00768936, 12.6053)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 14.1295, 0.170224, 12.6053)

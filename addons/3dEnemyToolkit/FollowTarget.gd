@@ -69,3 +69,7 @@ func go_to_location(targetPosition : Vector3):
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	parent.velocity = parent.velocity.move_toward(safe_velocity, 0.25)
+
+
+func _on_navigation_finished() -> void:
+	pass # Replace with function body.

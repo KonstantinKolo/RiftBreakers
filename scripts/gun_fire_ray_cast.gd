@@ -18,8 +18,3 @@ func _check_hit(collider):
 
 func _damage_enemy(collider, damage: int):
 	collider.hurt(damage)
-
-#func _physics_process(delta: float) -> void:
-	#if check_hit:
-		#check_hit = false
-		#_check_hit()
