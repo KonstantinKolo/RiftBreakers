@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://djg2h86bx5ebm"]
+[gd_scene load_steps=18 format=3 uid="uid://djg2h86bx5ebm"]
 
 [ext_resource type="Script" uid="uid://b4mqewbf2nx13" path="res://scripts/test_scene.gd" id="1_7thk6"]
 [ext_resource type="Material" uid="uid://cntsmcyc3mkop" path="res://assets/materials/ground.tres" id="1_hygyl"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c4cegskdafo00" path="res://scenes/hurt_pad.tscn" id="5_kgp0n"]
 [ext_resource type="PackedScene" uid="uid://cy8gxwu6brfxu" path="res://scenes/punching_bag.tscn" id="6_m21dm"]
 [ext_resource type="PackedScene" uid="uid://lnmtwfrcdbac" path="res://scenes/boss_girl.tscn" id="8_2bbdn"]
+[ext_resource type="PackedScene" uid="uid://cabgrr2bvykhs" path="res://scenes/spider_bot/spider_bot.tscn" id="11_c7u1e"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_u6bnu"]
 vertices = PackedVector3Array(-15.1123, 0.258906, -0.1123, -4.3623, 0.258906, -0.1123, -4.1123, 0.258906, -1.1123, -2.6123, 0.258906, -15.1123, -15.1123, 0.258906, -15.1123, -2.6123, 0.258906, -1.1123, -1.3623, 0.258906, -1.1123, -1.3623, 0.258906, 0.6377, 6.6377, 0.258906, 3.3877, 15.1377, 0.258906, 3.1377, 15.1377, 0.258906, -15.1123, -4.3623, 0.258906, 0.3877, -15.1123, 0.258906, 15.1377, -4.6123, 0.258906, 15.1377, 8.1377, 0.258906, 15.1377, 8.3877, 0.258906, 9.8877, 6.8877, 0.258906, 9.8877, 6.6377, 0.258906, 8.8877, 15.1377, 0.258906, 8.6377, 15.1377, 0.258906, 4.6377, 6.8877, 0.258906, 4.6377, -4.1123, 0.258906, 0.8877, 15.1377, 0.258906, 15.1377, 15.1377, 0.258906, 9.8877)
@@ -87,6 +88,11 @@ transform = Transform3D(8.25154, 0, 0, 0, 1, 0, 0, 0, 1, 2.2048, 1, 1)
 material_override = ExtResource("2_wqxkr")
 mesh = SubResource("BoxMesh_rc2wy")
 
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="NavigationRegion3D/Wall3"]
+transform = Transform3D(8.25154, 0, 0, 0, 1, 0, 0, 0, 1, 9.69859, 1, 1)
+material_override = ExtResource("2_wqxkr")
+mesh = SubResource("BoxMesh_rc2wy")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Wall3"]
 transform = Transform3D(8.24664, 0, 0, 0, 1, 0, 0, 0, 1, 1.99073, 1, 1)
 shape = SubResource("BoxShape3D_kilmp")
@@ -133,3 +139,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.06899, 0.862479, 4.94539)
 
 [node name="BossGirl" parent="." instance=ExtResource("8_2bbdn")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 14.1295, 0.170224, 12.6053)
+
+[node name="SpiderBot" parent="." instance=ExtResource("11_c7u1e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.322329, 2.11592, -0.139498)
