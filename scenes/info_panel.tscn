@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://weer6wroo83t"]
+
+[ext_resource type="Script" uid="uid://dbc3851xcp70n" path="res://scripts/info_panel.gd" id="1_mxpga"]
+[ext_resource type="Texture2D" uid="uid://cec4c0cdwx0dh" path="res://assets/backgrounds/map1.png" id="1_nkgev"]
+
+[node name="InfoPanel" type="PopupPanel"]
+position = Vector2i(366, 240)
+size = Vector2i(420, 433)
+visible = true
+script = ExtResource("1_mxpga")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 416.0
+offset_bottom = 429.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("1_nkgev")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MapName" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "CITY MAP"
+horizontal_alignment = 1
+
+[node name="InitialLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 14
+text = "Strange portals have appeared all over the city, plunging it into chaos. Get rid of the portals, spawning the enemies, and their Boss."
+horizontal_alignment = 1
+autowrap_mode = 3

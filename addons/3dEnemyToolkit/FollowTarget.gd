@@ -50,7 +50,10 @@ func go_to_location(targetPosition : Vector3):
 		set_target_position(targetPosition)
 		lastTargetPosition = targetPosition
 		isTargetSet = true
-		
+	
+	if parent == null:
+		parent = get_parent()
+	
 	var lookDir = atan2(-parent.velocity.x, -parent.velocity.z)
 	parent.rotation.y = lerp_angle(parent.rotation.y, lookDir, TurnSpeed)
 	

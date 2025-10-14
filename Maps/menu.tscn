@@ -1,0 +1,163 @@
+[gd_scene load_steps=15 format=3 uid="uid://ctm1wktles0ek"]
+
+[ext_resource type="Script" uid="uid://b6ijyramniv4q" path="res://scripts/menu.gd" id="1_tyjp1"]
+[ext_resource type="PackedScene" uid="uid://5ab443vvypir" path="res://scenes/button_click_particle.tscn" id="2_hweiw"]
+[ext_resource type="Texture2D" uid="uid://qqd3ut7y5un3" path="res://assets/backgrounds/Map.png" id="3_ffk7p"]
+[ext_resource type="Texture2D" uid="uid://b53h18jvrhlb3" path="res://assets/backgrounds/dot-circle-small.png" id="4_rk63k"]
+[ext_resource type="Texture2D" uid="uid://bt11u3h0m3uwk" path="res://assets/backgrounds/shape-rhombus.png" id="5_fb6o5"]
+[ext_resource type="PackedScene" uid="uid://weer6wroo83t" path="res://scenes/info_panel.tscn" id="5_hweiw"]
+[ext_resource type="Texture2D" uid="uid://cec4c0cdwx0dh" path="res://assets/backgrounds/map1.png" id="6_ffk7p"]
+[ext_resource type="PackedScene" uid="uid://jiu2dbhjh24a" path="res://scenes/confirmation_modal.tscn" id="6_gdniv"]
+[ext_resource type="Texture2D" uid="uid://mt3re5b55low" path="res://assets/backgrounds/map2.png" id="7_rk63k"]
+[ext_resource type="PackedScene" uid="uid://bh6nbt7epumbm" path="res://scenes/pop_up_menu.tscn" id="7_wijlr"]
+[ext_resource type="PackedScene" uid="uid://c4j7o2fg8k01x" path="res://scenes/crt_shader2.tscn" id="8_sx3qr"]
+[ext_resource type="Texture2D" uid="uid://cv0cdb4q6h2ut" path="res://assets/backgrounds/map3.png" id="9_fb6o5"]
+[ext_resource type="PackedScene" uid="uid://dfjjaydn71nyn" path="res://scenes/tv_turn_on_transition.tscn" id="9_fvu7f"]
+
+[sub_resource type="Environment" id="Environment_n124n"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 16.0
+glow_levels/2 = 16.0
+glow_levels/3 = 16.0
+glow_levels/4 = 16.0
+glow_levels/5 = 16.0
+glow_levels/6 = 16.0
+glow_levels/7 = 16.0
+glow_intensity = 1.0
+glow_strength = 1.2
+glow_blend_mode = 1
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_tyjp1")
+death_particle = ExtResource("2_hweiw")
+
+[node name="Map" type="TextureRect" parent="."]
+modulate = Color(1.4, 1.4, 1.4, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -251.0
+offset_top = -98.0
+offset_right = 212.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ffk7p")
+expand_mode = 1
+
+[node name="Level1" type="TextureRect" parent="Map"]
+modulate = Color(1.1, 0, 1.2, 1)
+layout_mode = 0
+offset_left = 760.0
+offset_top = 463.0
+offset_right = 800.0
+offset_bottom = 503.0
+scale = Vector2(1.68447, 1.68447)
+mouse_filter = 2
+texture = ExtResource("4_rk63k")
+expand_mode = 2
+
+[node name="Button1" type="Button" parent="Map/Level1"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+scale = Vector2(5.09831, 5.09831)
+flat = true
+
+[node name="InfoPanel1" parent="Map/Level1" instance=ExtResource("5_hweiw")]
+position = Vector2i(565, 210)
+image = ExtResource("6_ffk7p")
+text = "Strange portals have appeared all over the city, plunging it into chaos. Get rid of the portals, spawning the enemies, and their Boss."
+_map_name = "CITY "
+
+[node name="Level2" type="TextureRect" parent="Map"]
+modulate = Color(1.1, 0, 1.2, 1)
+layout_mode = 0
+offset_left = 575.0
+offset_top = 579.0
+offset_right = 615.0
+offset_bottom = 619.0
+scale = Vector2(1.68447, 1.68447)
+mouse_filter = 0
+texture = ExtResource("4_rk63k")
+expand_mode = 2
+
+[node name="Button2" type="Button" parent="Map/Level2"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+scale = Vector2(5.09831, 5.09831)
+flat = true
+
+[node name="InfoPanel2" parent="Map/Level2" instance=ExtResource("5_hweiw")]
+auto_translate_mode = 1
+position = Vector2i(380, 330)
+image = ExtResource("7_rk63k")
+text = "A secret enemy hideout has been found in the wilderness. To neutralize the threat, defeat the enemies and their boss. "
+_map_name = "FARM LANDS"
+
+[node name="Level3" type="TextureRect" parent="Map"]
+modulate = Color(1.28, 0.35, 1.25, 1)
+layout_mode = 0
+offset_left = 475.0
+offset_top = 401.0
+offset_right = 515.0
+offset_bottom = 441.0
+scale = Vector2(2.43372, 2.43372)
+texture = ExtResource("5_fb6o5")
+expand_mode = 2
+
+[node name="Button3" type="Button" parent="Map/Level3"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+scale = Vector2(5.09831, 5.09831)
+flat = true
+
+[node name="InfoPanel3" parent="Map/Level3" instance=ExtResource("5_hweiw")]
+auto_translate_mode = 1
+position = Vector2i(290, 160)
+image = ExtResource("9_fb6o5")
+text = "The enemies have launched a huge attack on the capital city. Stop them from taking it over and destroy their portal and Boss."
+_map_name = "CAPITAL"
+
+[node name="ConfirmationModal" parent="." instance=ExtResource("6_gdniv")]
+visible = false
+modulate = Color(1.2, 1.2, 1.2, 1)
+layout_mode = 1
+mouse_filter = 1
+
+[node name="PopUpMenu" parent="." instance=ExtResource("7_wijlr")]
+layout_mode = 1
+mouse_filter = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_n124n")
+
+[node name="Control" parent="." instance=ExtResource("8_sx3qr")]
+layout_mode = 1
+
+[node name="TVTurnOnTransition" parent="." instance=ExtResource("9_fvu7f")]
+
+[connection signal="mouse_entered" from="Map/Level1" to="." method="_on_level_1_mouse_entered"]
+[connection signal="mouse_entered" from="Map/Level1/Button1" to="." method="_on_button_1_mouse_entered"]
+[connection signal="mouse_exited" from="Map/Level1/Button1" to="." method="_on_button_1_mouse_exited"]
+[connection signal="pressed" from="Map/Level1/Button1" to="." method="_on_button_1_pressed"]
+[connection signal="mouse_entered" from="Map/Level2/Button2" to="." method="_on_button_2_mouse_entered"]
+[connection signal="mouse_exited" from="Map/Level2/Button2" to="." method="_on_button_2_mouse_exited"]
+[connection signal="pressed" from="Map/Level2/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="mouse_entered" from="Map/Level3/Button3" to="." method="_on_button_3_mouse_entered"]
+[connection signal="mouse_exited" from="Map/Level3/Button3" to="." method="_on_button_3_mouse_exited"]
+[connection signal="pressed" from="Map/Level3/Button3" to="." method="_on_button_3_pressed"]

@@ -217,7 +217,7 @@ func _physics_process(delta: float) -> void:
 	
 	if can_regenerate_stamina: regenerate_stamina(delta)
 	elif !can_regenerate_stamina && animation_player.current_animation == "a-run":
-		spend_stamina(delta * 5)
+		spend_stamina(delta * 2)
 	
 	# Handle falling without jumping
 	if not is_on_floor() and \
@@ -242,7 +242,7 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor() and \
 	   !punch_mode and !is_throw_mode and !is_gun_mode and \
-	   stamina >= 10 and !critical_stamina and \
+	   stamina >= 5 and !critical_stamina and \
 	   animation_player.current_animation != "a-jump" and \
 	   animation_player.current_animation != "a-landing" and \
 	   animation_player.current_animation != "a-fall":
@@ -253,7 +253,7 @@ func _physics_process(delta: float) -> void:
 			await get_tree().process_frame
 		
 		can_regenerate_stamina = false
-		spend_stamina(10)
+		spend_stamina(2)
 		
 		is_jumping = true;
 		animation_player.play("a-jump")

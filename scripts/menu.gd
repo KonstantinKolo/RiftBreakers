@@ -5,6 +5,10 @@ extends Control
 var turn_on_has_finished: bool = false
 
 @onready var pop_up_menu: Control = $PopUpMenu
+@onready var info_panel_1: PopupPanel = $Map/Level1/InfoPanel1
+@onready var info_panel_2: PopupPanel = $Map/Level2/InfoPanel2
+@onready var info_panel_3: PopupPanel = $Map/Level3/InfoPanel3
+
 @onready var level_1: TextureRect = $Map/Level1
 @onready var level_2: TextureRect = $Map/Level2
 @onready var level_3: TextureRect = $Map/Level3
@@ -67,7 +71,7 @@ func _on_button_1_pressed() -> void:
 	
 	if is_confirmed:
 		_button_pressed_particles(level_1)
-		_transition_to_scene("res://scenes/Maps/map_1.tscn")
+		_transition_to_scene("res://Maps/map_1.tscn")
 func _on_button_2_pressed() -> void:
 	if Global.has_unlocked_level_2:
 		conf.customize(
@@ -88,7 +92,7 @@ func _on_button_2_pressed() -> void:
 	
 	if is_confirmed and Global.has_unlocked_level_2:
 		_button_pressed_particles(level_2)
-		_transition_to_scene("res://scenes/Maps/map_2.tscn")
+		_transition_to_scene("res://Maps/map_2.tscn")
 	elif is_confirmed:
 		conf.cancel()
 func _on_button_3_pressed() -> void:
@@ -112,17 +116,21 @@ func _on_button_3_pressed() -> void:
 	
 	if is_confirmed and Global.has_unlocked_level_3:
 		_button_pressed_particles(level_3)
-		_transition_to_scene("res://scenes/Maps/map_3.tscn")
+		_transition_to_scene("res://Maps/map_3.tscn")
 	else:
 		conf.cancel()
 
 func _on_button_1_mouse_entered() -> void:
+	_unvisible_info()
+	info_panel_1.visible = true
 	level_1.texture = DOT_CIRCLE 
 	level_1.modulate = Color(1.25, 0.25, 1.2, 1)
 func _on_button_1_mouse_exited() -> void:
 	level_1.texture = DOT_CIRCLE_SMALL
 	level_1.modulate = Color(1.1, 0, 1.2, 1)
 func _on_button_2_mouse_entered() -> void:
+	_unvisible_info()
+	info_panel_2.visible = true
 	level_2.texture = DOT_CIRCLE
 	if Global.has_unlocked_level_2:
 		level_2.modulate = Color(1.25, 0.25, 1.2, 1)
@@ -135,6 +143,8 @@ func _on_button_2_mouse_exited() -> void:
 	else:
 		level_2.modulate = Color(0.6, 0.31, 0.6)
 func _on_button_3_mouse_entered() -> void:
+	_unvisible_info()
+	info_panel_3.visible = true
 	level_3.scale = Vector2(level_3.scale.x + 0.1, level_3.scale.y + 0.1)
 	if Global.has_unlocked_level_3:
 		level_3.modulate = Color(1.33, 0.35, 1.28, 1)
@@ -167,6 +177,10 @@ func _close_game() -> void:
 	
 	if is_confirmed:
 		get_tree().quit()
+func _unvisible_info() -> void:
+	info_panel_1.visible = false
+	info_panel_2.visible = false
+	info_panel_3.visible = false
 
 func _transition_to_scene(pathToNewScene: String):
 	TransitionScene.transition()

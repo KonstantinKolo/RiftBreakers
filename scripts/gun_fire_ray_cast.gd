@@ -8,11 +8,23 @@ func fire_shot(damage: int):
 	print(collider)
 	if is_instance_valid(collider) and _check_hit(collider):
 		_damage_enemy(collider, damage)
+	elif is_instance_valid(collider) and _check_hit_parent(collider):
+		_damage_enemy(collider.get_parent(), damage)
 
 func _check_hit(collider):
 	print("_check_hit")
+	
 	if collider.is_in_group("enemies"):
 		print("HIT!")
+		return true
+	return false
+func _check_hit_parent(collider):
+	print("_check_hit_parent")
+	
+	if collider.get_parent() and \
+	collider.get_parent().is_in_group("enemies"):
+		print("HIT!")
+		collider = collider.get_parent()
 		return true
 	return false
 

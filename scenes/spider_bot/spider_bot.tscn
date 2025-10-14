@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cabgrr2bvykhs"]
+[gd_scene load_steps=12 format=3 uid="uid://cabgrr2bvykhs"]
 
 [ext_resource type="Script" uid="uid://b023v076l03im" path="res://scenes/spider_bot/start_ik.gd" id="1_n6l5c"]
 [ext_resource type="PackedScene" uid="uid://b1n5rqw53onuo" path="res://scenes/spider_bot/spider_bot_model.gltf" id="1_vovvw"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://cdv4jrlypwwhc" path="res://scenes/spider_bot/step_ray.gd" id="4_8a6ki"]
 [ext_resource type="Script" uid="uid://cquf5yat7nb3e" path="res://scenes/spider_bot/ik_target.gd" id="4_p25cf"]
 [ext_resource type="Script" uid="uid://dd8vbj3vflnt1" path="res://scenes/spider_bot/StepTargetContainer.gd" id="5_yguvh"]
+[ext_resource type="Script" uid="uid://dk26my8c4cxwf" path="res://addons/3dEnemyToolkit/RandomTarget3D.gd" id="7_nikcq"]
+[ext_resource type="Script" uid="uid://dfyjts6oedqyy" path="res://addons/3dEnemyToolkit/FollowTarget.gd" id="8_2a1rk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dwxtc"]
 albedo_color = Color(0.169245, 0.169245, 0.169245, 1)
@@ -146,3 +148,11 @@ step_target = NodePath("BackRightStepTarget")
 
 [node name="BackRightStepTarget" type="Marker3D" parent="StepTargetContainer/BackRightRay" index="0"]
 transform = Transform3D(0.996195, 0.0868241, -0.00759612, -0.0871557, 0.992404, -0.0868241, 9.31322e-10, 0.0871557, 0.996195, -2.38419e-07, -5.21685, -2.38419e-07)
+
+[node name="RandomTarget3D" type="Node3D" parent="." index="6"]
+script = ExtResource("7_nikcq")
+metadata/_custom_type_script = "uid://dk26my8c4cxwf"
+
+[node name="FollowTarget3D" type="NavigationAgent3D" parent="." index="7"]
+script = ExtResource("8_2a1rk")
+metadata/_custom_type_script = "uid://dfyjts6oedqyy"

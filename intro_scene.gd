@@ -5,7 +5,9 @@ extends Node3D
 
 func _ready() -> void:
 	animation_player.play("a-idle")
-
+	
+	#TODO change for a loading screen
+	scene_animation_player.play("initial_load")
 
 func _on_button_pressed() -> void:
 	scene_animation_player.play("fade_to_black")
