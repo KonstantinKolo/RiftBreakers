@@ -50,7 +50,6 @@ func _handle_movement(delta):
 	# Check if stuck
 	if last_position == null:
 		last_position = my_pos
-	
 	var distance_moved = my_pos.distance_to(last_position)
 	if distance_moved < stuck_distance_threshold:
 		stuck_timer += delta

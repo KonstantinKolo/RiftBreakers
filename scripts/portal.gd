@@ -65,7 +65,6 @@ func try_teleport() -> void:
 		return
 
 	is_teleporting = true
-	print("Teleportation sequence initiated...")
 	
 	_on_teleport_ready()
 func _on_teleport_ready() -> void:
@@ -73,11 +72,9 @@ func _on_teleport_ready() -> void:
 		return
 func _on_portal_body_entered(body: Node) -> void:
 	if body.name == "Player":
-		print("Player entered the portal area.")
 		player_in_portal = true
 func _on_portal_body_exited(body: Node) -> void:
 	if body.name == "Player":
-		print("Player left the portal area.")
 		player_in_portal = false
 
 	var scene_res = load(map_path)
@@ -85,9 +82,9 @@ func _on_portal_body_exited(body: Node) -> void:
 		push_error("Failed to load map: " + str(map_path))
 		is_teleporting = false
 		return
-
-	get_tree().change_scene_to_packed(scene_res)
-	print("Teleported to new map: ", map_path)
+	
+	if is_inside_tree():
+		get_tree().change_scene_to_packed(scene_res)
 
 func _spawn_enemy() -> void:
 	if enemy_type == null:
@@ -100,17 +97,17 @@ func _spawn_enemy() -> void:
 
 	var enemy_instance = enemy_type.instantiate()
 	enemy_instance.global_transform.origin = spawn_position
-	get_tree().current_scene.add_child(enemy_instance)
+	if is_inside_tree():
+		get_tree().current_scene.add_child(enemy_instance)
 
 	# Optional: make the enemy face the player
 	if players_camera:
 		var dir_to_player = (players_camera.global_transform.origin - enemy_instance.global_transform.origin).normalized()
 		var look_rotation = Basis.looking_at(dir_to_player)
 		enemy_instance.global_transform.basis = look_rotation
-	
-	print("Spawned enemy of type: ", enemy_type, " at position: ", spawn_position)
 func get_enemy_count() -> int:
 	var count = 0
+	if !is_inside_tree(): return 0
 	for node in get_tree().current_scene.get_children():
 		if node.scene_file_path == enemy_type.resource_path:
 			count += 1
@@ -156,7 +153,6 @@ func _return_health() -> int:
 	return health
 
 func destroy() -> void:
-	print("DESTROY")
 	var bodies = $Radius.get_overlapping_bodies()
 	for obj in bodies:
 		if obj.has_method("hurt"):
@@ -165,7 +161,8 @@ func destroy() -> void:
 			obj.get_parent().queue_free()
 	
 	var explosion = explosion_scene.instantiate()
-	get_tree().root.add_child(explosion)
+	if is_inside_tree():
+		get_tree().root.add_child(explosion)
 	explosion.global_position = global_position + Vector3(0, 2, 0)
 	explosion.explode()
 	

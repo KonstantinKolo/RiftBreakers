@@ -6,6 +6,8 @@ enum States {
 	Pursuit
 }
 
+@export var is_stationery := false
+
 @export var walkSpeed : float = 1.2
 @export var runSpeed : float = 2.4
 
@@ -32,11 +34,12 @@ var state : States = States.Walking
 var target : Node3D
 
 func _ready() -> void:
-	var next_point = random_target_3d.GetNextPoint()
-	print("RandomTarget3D next_point:", next_point)
-	print("Global origin:", random_target_3d.global_transform.origin)
+	if !is_stationery:
+		var next_point = random_target_3d.GetNextPoint()
+		ChangeState(States.Walking)
+	else:
+		ChangeState(States.Look)
 	
-	ChangeState(States.Walking)
 	target_sprite.visible = false
 	progress_bar.visible = false
 	progress_bar.value = health
@@ -48,7 +51,7 @@ func _process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	if velocity.length() < 0.3 and !_is_next_to_target(): # checks if the bot is stuck
+	if velocity.length() < 0.3 and !_is_next_to_target() and state != States.Look: # checks if the bot is stuck
 		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 	
 	#fot material overlays when looked ad
@@ -99,6 +102,7 @@ func hide_health_bar() -> void:
 func die() -> void:
 	follow_target_3d.Speed = 0
 	_return_to_idle()
+	if !is_inside_tree(): return
 	await get_tree().create_timer(0.5).timeout
 	if animation_player.current_animation != "death": 
 		animation_player.play("death")
@@ -110,6 +114,7 @@ func hurt(hit_points: int) -> void:
 		follow_target_3d.Speed = 0.9
 		_return_to_idle()
 		while animation_player.current_animation != "idle":
+			if !is_inside_tree(): return
 			await get_tree().process_frame
 		animation_player.play("hit")
 	else:
@@ -156,16 +161,18 @@ func _on_follow_target_3d_navigation_finished() -> void:
 		if _check_punchable():
 			_return_to_idle()
 			while animation_player.current_animation != "idle":
+				if !is_inside_tree(): return
 				await get_tree().process_frame
 			
 			var random_animation = combat_anims[randi() % combat_anims.size()] #Pick a random combat anim
 			
 			animation_player.play(random_animation) #Play the randomly picked animation
 			
-			var player_nodes = get_tree().get_nodes_in_group("player")
-			await get_tree().create_timer(0.7).timeout
-			if _is_next_to_target():
-				player_nodes[0].hurt(5) #deal damage to player
+			if is_inside_tree():
+				var player_nodes = get_tree().get_nodes_in_group("player")
+				await get_tree().create_timer(0.7).timeout
+				if _is_next_to_target():
+					player_nodes[0].hurt(5) #deal damage to player
 		elif !_is_next_to_target():
 			if animation_player.current_animation != "run":
 				animation_player.play("idle-to-run")
@@ -178,6 +185,10 @@ func _on_simple_vision_3d_get_sight(body: Node3D) -> void:
 	if health == 0:
 		return
 	target = body
+	
+	if is_stationery: 
+		print("FOUND PLAYER")
+	
 	ChangeState(States.Pursuit)
 func _on_simple_vision_3d_lost_sight() -> void:
 	pass
@@ -232,6 +243,7 @@ func _return_to_idle():
 		reverse_anim_bool = true
 		animation_player.play_backwards("idle-to-walk")
 	else:
+		if !is_inside_tree(): return
 		await get_tree().create_timer(0.5).timeout
 		animation_player.play("idle")
 		

@@ -76,6 +76,7 @@ flat = true
 
 [node name="InfoPanel1" parent="Map/Level1" instance=ExtResource("5_hweiw")]
 position = Vector2i(565, 210)
+visible = false
 image = ExtResource("6_ffk7p")
 text = "Strange portals have appeared all over the city, plunging it into chaos. Get rid of the portals, spawning the enemies, and their Boss."
 _map_name = "CITY "
@@ -103,6 +104,7 @@ flat = true
 [node name="InfoPanel2" parent="Map/Level2" instance=ExtResource("5_hweiw")]
 auto_translate_mode = 1
 position = Vector2i(380, 330)
+visible = false
 image = ExtResource("7_rk63k")
 text = "A secret enemy hideout has been found in the wilderness. To neutralize the threat, defeat the enemies and their boss. "
 _map_name = "FARM LANDS"
@@ -129,6 +131,7 @@ flat = true
 [node name="InfoPanel3" parent="Map/Level3" instance=ExtResource("5_hweiw")]
 auto_translate_mode = 1
 position = Vector2i(290, 160)
+visible = false
 image = ExtResource("9_fb6o5")
 text = "The enemies have launched a huge attack on the capital city. Stop them from taking it over and destroy their portal and Boss."
 _map_name = "CAPITAL"

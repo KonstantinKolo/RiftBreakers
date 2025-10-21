@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+#TODO CHANGE THE NAME OF THE BOSS GIRL
+
 enum States {
 	Look,
 	Walking,
