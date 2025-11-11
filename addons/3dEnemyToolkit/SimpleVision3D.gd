@@ -40,8 +40,12 @@ func _process(delta: float) -> void:
 
 func CheckSight(sightTarget : Node3D) -> bool:
 	var space = get_world_3d().direct_space_state
-	var ignore : Array[RID] = []	
-	var query = PhysicsRayQueryParameters3D.create(global_position, sightTarget.global_position)
+	var ignore : Array[RID] = []
+	
+	var from = global_position + Vector3.UP * 1.5
+	var to = sightTarget.global_position + Vector3.UP * 1.5
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+
 	var collision = space.intersect_ray(query)
 	if collision:
 		if collision.collider == sightTarget:

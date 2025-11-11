@@ -4,67 +4,69 @@ signal healthChanged
 signal staminaChanged
 signal blinkStaminaBar
 
-@onready var raycast3D : RayCast3D = get_node("camera_mount/RayCast3D")
+@onready var raycast3D: RayCast3D = get_node("camera_mount/RayCast3D")
 @onready var camera_mount: Node3D = $camera_mount
 @onready var animation_player: AnimationPlayer = $visuals/SmoothMC/AnimationPlayer
 @onready var cross_hair: TextureRect = $camera_mount/Camera3D/CanvasLayer/CrossHair
 @onready var stamina_bar: TextureProgressBar = $camera_mount/Camera3D/CanvasLayer/StaminaBar
 @onready var rich_text_label: RichTextLabel = $camera_mount/Camera3D/CanvasLayer/RichTextLabel
 @onready var death_screen: Control = $camera_mount/Camera3D/CanvasLayer/DeathScreen
+@onready var load_screen: Control = $camera_mount/Camera3D/CanvasLayer/LoadScreen
 
-const EMPTY_CIRCLE = preload("res://assets/models/Icons/empty-circle.png")
-const CROSSHAIR = preload("res://assets/models/Icons/crosshair.svg")
+const EMPTY_CIRCLE: Resource = preload("res://assets/models/Icons/empty-circle.png")
+const CROSSHAIR: Resource = preload("res://assets/models/Icons/crosshair.svg")
 
-var targeted_enemy : Node = null
+var targeted_enemy: Node = null
 
-var speed = 2.0
-const JUMP_VELOCITY = 4.5
+var speed: float = 2.0
+const JUMP_VELOCITY: float = 4.5
 
-@export var walk_speed = 2.5
-@export var backwards_speed = 1
-@export var run_speed = 5
-@export var turn_speed = 0.5
+@export var walk_speed: float = 3
+@export var backwards_speed: float = 1.5
+@export var run_speed: float = 5.5
+@export var turn_speed: float = 0.5
 
-@export var fight_speed = 1
-@export var pistol_speed = 2
-@export var rifle_speed = 1.5
-@export var throw_speed = 2
+@export var fight_speed: float = 1.5
+@export var pistol_speed: float = 2
+@export var rifle_speed: float = 2.5
+@export var throw_speed: float = 2.5
 
-@export var health = 100
-@export var stamina = 100
-@export var ray_length = 100.0
+@export var health: int = 100
+@export var stamina: int = 100
+@export var ray_length: float = 100.0
 
-var reverse_anim_bool = false
-var is_jumping = false
-var jump_concluded = false
-var start_counting_air_time = false
-var is_walking_backwards = false
+var reverse_anim_bool: bool = false
+var is_jumping: bool = false
+var jump_concluded: bool = false
+var start_counting_air_time: bool = false
+var is_walking_backwards: bool = false
 
-var punch_mode = false
-var punch_to_idle = false
-var is_punching = false
-var is_shooting = false
-var has_thrown = false
+var punch_mode: bool = false
+var punch_to_idle: bool = false
+var is_punching: bool = false
+var is_shooting: bool = false
+var has_thrown: bool = false
 
-var is_selecting_mode = false
-var is_gun_mode = false
-var is_throw_mode = false
-var walk_sideways = false
+var is_selecting_mode: bool = false
+var is_gun_mode: bool = false
+var is_throw_mode: bool = false
+var walk_sideways: bool = false
 
-var can_regenerate_stamina = true
-@export var critical_stamina = false
+var is_dead: bool = false
+var can_regenerate_stamina: bool = true
+@export var critical_stamina: bool = false
 
-var selected_weapon
-var previous_weapon
-var last_camera_mode
+var selected_weapon: String
+var previous_weapon: String
+var last_camera_mode: int
 
-var combat_animation_number = 0
-var air_time = 0.0
-var death_timer := 0.0
+var combat_animation_number: int = 0
+var air_time: float = 0.0
+var death_timer: float = 0.0
 
-@export var sens_horizontal = 0.5
-@export var sens_vertical = 0.5
-@export var sens_rotation = 2.0
+@export var sens_horizontal: float = 0.5
+@export var sens_vertical: float = 0.5
+@export var sens_rotation: float = 2.0
 
 # Bone attachments
 @onready var dynamite: MeshInstance3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment/Dynamite
@@ -73,17 +75,16 @@ var death_timer := 0.0
 @onready var bone_attachment: BoneAttachment3D = $visuals/SmoothMC/Armature/Skeleton3D/BoneAttachment
 
 
-func _ready():
+func _ready() -> void:
+	load_screen.appear()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	animation_player.animation_finished.connect(self._on_animation_player_animation_finished)
 	await get_tree().create_timer(0.1).timeout
 	animation_player.play("a-idle")
 	if Global.show_fps == true:
 		Global.show_fps = false
 		Global.signalPlayerFPS.emit()
 
-
-func _input(event):
+func _input(event: InputEvent) -> void:
 	# So the camera doesnt move after the death screen appears
 	if death_timer >= 4.8:
 		return
@@ -144,11 +145,13 @@ func _input(event):
 				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("Three"):
-				selected_weapon = "rifle"
+				if !Global.has_rifle_unlocked: selected_weapon = ""
+				else: selected_weapon = "rifle"
 				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("Four"):
-				selected_weapon = "dynamite"
+				if !Global.has_dynamite_unlocked: selected_weapon = ""
+				else: selected_weapon = "dynamite"
 				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("Five"):
@@ -521,7 +524,7 @@ func _flash_bullet() -> void:
 	bullet.rotation.x = bullet.rotation.x + 8
 	
 	bullet.shoot()
-func _randomizer(numElements) -> int:
+func _randomizer(numElements: int) -> int:
 	return randi() % numElements + 1
 func _get_direction_to_Node(targetNode : Node) -> Vector3:
 	if targetNode == null:
@@ -530,7 +533,7 @@ func _get_direction_to_Node(targetNode : Node) -> Vector3:
 		var direction = (targetNode.global_position - global_position).normalized()
 		direction.y = 0  # Keep Y-axis unchanged
 		return direction
-func _launch_backwards(direction) -> void:
+func _launch_backwards(direction: Vector3) -> void:
 		direction = -direction.normalized()  # Reverse direction
 		var backward_position = global_position + (direction * 0.3) # 0.4 is the backwards distance
 		backward_position.y = global_position.y  # Keep Y unchanged
@@ -538,7 +541,7 @@ func _launch_backwards(direction) -> void:
 		# Move backwards smoothly
 		var tween = create_tween()
 		tween.tween_property(self, "global_position", backward_position, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT) #0.7 is the move time
-func _launch_forward(direction, target) -> void:
+func _launch_forward(direction: Vector3, target: Node3D) -> void:
 	# Calculate direction vector toward the target
 	var look_at_direction = (target.global_position - global_position).normalized()
 	
@@ -560,32 +563,37 @@ func _launch_forward(direction, target) -> void:
 	# Tween for movement
 	tween.tween_property(self, "global_position", target_position, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)  # 0.7s for movement
 
+# Load screen funcs
+func load_screen_disappear() -> void:
+	load_screen.disappear()
+
 # Item collection
-func show_item_text():
+func show_item_text() -> void:
 	rich_text_label.visible = true
-func hide_item_text():
+func hide_item_text() -> void:
 	rich_text_label.visible = false
 
 # Stamina system functions
-func spend_stamina(amount):
+func spend_stamina(amount: int) -> void:
 	if stamina < amount:
 		stamina = 0
 	else:
 		stamina -= amount
 	staminaChanged.emit()
-func regenerate_stamina(delta):
+func regenerate_stamina(delta: float) -> void:
 	if stamina < 100:
 		stamina += 1.7 * delta
 		stamina = min(stamina, 100)
 		staminaChanged.emit()
 # Health system functions
-func heal(amount):
+func heal(amount: int) -> void:
 	if amount + health > 100:
 		health = 100
 	else:
 		health += amount 
 	healthChanged.emit()
-func hurt(hit_points):
+func hurt(hit_points: int) -> void:
+	if is_dead: return
 	if hit_points < health:
 		health -= hit_points
 	else:
@@ -594,6 +602,7 @@ func hurt(hit_points):
 		die()
 	healthChanged.emit()
 func die() -> void:
+	is_dead = true
 	speed = 0
 	_reverse_animation_to_idle()
 	
@@ -965,8 +974,12 @@ func _reverse_landing() -> void:
 	reverse_anim_bool = true
 func _transition_to_weapon() -> void:
 	#Transition back to idle mode
+	print("|||||||")
+	print(selected_weapon)
 	
 	if selected_weapon == previous_weapon:
+		print("PREVIOUS")
+		print(previous_weapon)
 		is_selecting_mode = false
 		return
 	
@@ -1023,8 +1036,6 @@ func _transition_to_weapon() -> void:
 		"dynamite":
 			is_throw_mode = true
 			_dynamite_transition()
-		_:
-			speed = walk_speed
 	
 	is_selecting_mode = false
 	if selected_weapon != "":

@@ -6,13 +6,19 @@ enum States {
 	Pursuit
 }
 
-@export var is_stationery := false
+@export var custom_material_overlay : StandardMaterial3D = null
 
 @export var walkSpeed : float = 1.2
 @export var runSpeed : float = 2.4
 
 @onready var follow_target_3d: FollowTarget3D = $FollowTarget3D
 @onready var random_target_3d: RandomTarget3D = $RandomTarget3D
+
+var stuck_time := 0.0
+var stuck_threshold := 2.0
+var min_movement_threshold := 0.05
+var last_position := Vector3.ZERO
+var is_stuck := false
 
 @onready var progress_bar: ProgressBar = $SubViewport/ProgressBar
 @onready var target_sprite: Sprite3D = $Sprite3D2
@@ -23,25 +29,25 @@ enum States {
 var combat_anims = ["swing", "combo", "kick"]
 var reverse_anim_bool = false
 
-@export var radius: float = 0.35  # Distance from the center of the StaticBody3D
-@export var offset: Vector3 = Vector3(0, 1, 0)  # Optional offset from the StaticBody3D's position
+var offset: Vector3 = Vector3(0, 1, 0)  # offset for the target that appears
 
+var player_target: CharacterBody3D = null
 var target_visible = false
-var health = 100 
+@export var health = 100 
 var time = 0.0
 
+@export var reach_target_distance := 1.3
 var state : States = States.Walking
 var target : Node3D
 
 func _ready() -> void:
-	if !is_stationery:
-		var next_point = random_target_3d.GetNextPoint()
-		ChangeState(States.Walking)
-	else:
-		ChangeState(States.Look)
+	follow_target_3d.target_desired_distance = reach_target_distance
+	var next_point = random_target_3d.GetNextPoint()
+	ChangeState(States.Walking)
 	
 	target_sprite.visible = false
 	progress_bar.visible = false
+	progress_bar.max_value = health
 	progress_bar.value = health
 
 func _process(delta):
@@ -51,10 +57,32 @@ func _process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	if velocity.length() < 0.3 and !_is_next_to_target() and state != States.Look: # checks if the bot is stuck
+	
+	# logic for when the bot gets stuck
+	var distance_moved = global_position.distance_to(last_position)
+	if distance_moved < min_movement_threshold:
+		stuck_time += delta
+		if stuck_time > stuck_threshold and !is_stuck:
+			is_stuck = true
+			if animation_player.current_animation != "idle":
+				animation_player.play("idle")
+	else:
+		if animation_player.current_animation == "idle":
+			animation_player.play("idle-to-run")
+		stuck_time = 0.0
+		is_stuck = false
+	last_position = global_position
+	if velocity.length() < 0.3 and !_is_next_to_target() and state != States.Look and player_target == null:
 		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 	
-	#fot material overlays when looked ad
+	
+	if state == States.Look:
+		if animation_player.current_animation == "idle":
+			var random_animation = combat_anims[randi() % combat_anims.size()] #Pick a random combat anim
+			animation_player.play(random_animation) #Play the randomly picked animation
+			_await_damage(5)
+	
+	#for material overlays when looked ad
 	time += delta
 	if model_3d.material_overlay and model_3d.material_overlay.next_pass and model_3d.material_overlay.next_pass is ShaderMaterial:
 		model_3d.material_overlay.next_pass.set("shader_parameter/time", time)
@@ -83,11 +111,16 @@ func hide_target() -> void:
 
 # Methods to change the material overlay
 func change_mat_overlay(ENEMY_OUTLINE, ENEMY_STATIC_MATERIAL) -> void:
-	model_3d.material_overlay = ENEMY_OUTLINE
-	model_3d.material_overlay.next_pass = ENEMY_STATIC_MATERIAL
+	if custom_material_overlay != null:
+		model_3d.material_overlay.next_pass = ENEMY_OUTLINE
+		model_3d.material_overlay.next_pass.next_pass = ENEMY_STATIC_MATERIAL
+	else:
+		model_3d.material_overlay = ENEMY_OUTLINE
+		model_3d.material_overlay.next_pass = ENEMY_STATIC_MATERIAL
 func remove_mat_overlay() -> void:
-	model_3d.material_overlay = null
-
+	model_3d.material_overlay = custom_material_overlay
+	if model_3d.material_overlay and model_3d.material_overlay.next_pass:
+		model_3d.material_overlay.next_pass = null
 
 # Method to show the health bar
 func show_health_bar() -> void:
@@ -128,6 +161,13 @@ func hurt(hit_points: int) -> void:
 func _return_health() -> int:
 	return health
 
+func _await_damage(amount: int):
+	var player_nodes = get_tree().get_nodes_in_group("player")
+	if is_inside_tree():
+		await get_tree().create_timer(0.7).timeout
+	if _is_next_to_target(2.5):
+		player_nodes[0].hurt(5)
+
 func ChangeState(newState : States) -> void:
 	if health == 0:
 		return
@@ -143,19 +183,25 @@ func ChangeState(newState : States) -> void:
 			follow_target_3d.ClearTarget()
 			follow_target_3d.Speed = walkSpeed
 			follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+			
 			target = null
 		States.Pursuit:
 			if !_is_combat_anim():
 				animation_player.play("walk-to-run")
 			follow_target_3d.Speed = runSpeed
-			follow_target_3d.SetTarget(target)
+			if player_target == null:
+				follow_target_3d.SetTarget(target)
+			else:
+				follow_target_3d.SetTarget(player_target)
 
 # ai funcs
 func _on_follow_target_3d_navigation_finished() -> void:
 	if health == 0:
 		return
 	
-	if target and _is_next_to_target():
+	if scale.x > 1:
+		_boss_follow_logic()
+	if (target or player_target) and _is_next_to_target():
 		look_at(target.global_position)
 		#play hit animation
 		if _check_punchable():
@@ -176,28 +222,50 @@ func _on_follow_target_3d_navigation_finished() -> void:
 		elif !_is_next_to_target():
 			if animation_player.current_animation != "run":
 				animation_player.play("idle-to-run")
-	elif target:
+	elif target and !player_target:
 		animation_player.play("idle-to-run")
+	elif player_target:
+		animation_player.play("idle")
+		await get_tree().create_timer(0.5).timeout
 	else:
 		animation_player.play("idle-to-run")
 		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+func _boss_follow_logic() -> void:
+	if animation_player.current_animation != "idle" and \
+	   animation_player.current_animation != combat_anims[0] and \
+	   animation_player.current_animation != combat_anims[1] and \
+	   animation_player.current_animation != combat_anims[2]:
+		animation_player.play("idle")
+		await get_tree().create_timer(0.1).timeout
+		follow_target_3d.Speed = 0
+		velocity = Vector3.ZERO
+		
+	ChangeState(States.Look)
+	while _is_within_range(reach_target_distance):
+		if !is_inside_tree(): return
+		await get_tree().process_frame
+	if state != States.Pursuit:
+		ChangeState(States.Pursuit)
+func _is_within_range(range: float) -> bool:
+	if target:
+		return global_position.distance_to(target.global_position) <= range
+	return false
 func _on_simple_vision_3d_get_sight(body: Node3D) -> void:
 	if health == 0:
 		return
 	target = body
-	
-	if is_stationery: 
-		print("FOUND PLAYER")
+	if player_target == null:
+		player_target = body
 	
 	ChangeState(States.Pursuit)
 func _on_simple_vision_3d_lost_sight() -> void:
 	pass
 	
 	#ChangeState(States.Walking)
-func _is_next_to_target() -> bool:
+func _is_next_to_target(max_distance := 2.0) -> bool:
 	if target:
 		var distance = global_position.distance_to(target.global_position)
-		return distance <= 2.0  # Adjust this distance as needed
+		return distance <= max_distance  # Adjust this distance as needed
 	return false
 
 # animation funcs
@@ -231,7 +299,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	elif anim_name == combat_anims[0] or \
 		 anim_name == combat_anims[1] or \
 		 anim_name == combat_anims[2]:
-		if States.Pursuit:
+		if state == States.Pursuit:
 			animation_player.play("walk-to-run")
 		else:
 			animation_player.play("idle")

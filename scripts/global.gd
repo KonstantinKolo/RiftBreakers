@@ -1,12 +1,15 @@
 extends Node
 
-var has_unlocked_level_2 = false;
-var has_unlocked_level_3 = false;
+var has_unlocked_level_2: bool = false;
+var has_unlocked_level_3: bool = false;
+
+var has_dynamite_unlocked: bool = false
+var has_rifle_unlocked: bool = false
 
 signal signalFPS
 signal signalPlayerFPS
 var show_fps: bool = false
-var fps_label = Label.new()
+var fps_label: Label = Label.new()
 
 func _ready() -> void:
 	signalFPS.connect(fps_handle)

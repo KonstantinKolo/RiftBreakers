@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://bhu1llqoptjaf"]
+[gd_scene load_steps=20 format=4 uid="uid://bhu1llqoptjaf"]
 
 [ext_resource type="Script" uid="uid://ddgimgjndovp2" path="res://scripts/portal.gd" id="1_jr6l0"]
 [ext_resource type="Texture2D" uid="uid://b3s4da82agokp" path="res://assets/models/StarGate5.fbm/SG_2.bmp" id="2_d4jfq"]
@@ -144,6 +144,9 @@ bg_color = Color(0.3182, 0.635874, 0.836192, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_d4jfq"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_jr6l0"]
+size = Vector3(90, 7.5, 90)
+
 [node name="Portal" type="Node3D" groups=["enemies"]]
 script = ExtResource("1_jr6l0")
 spawn_speed = 10.0
@@ -212,3 +215,11 @@ show_percentage = false
 transform = Transform3D(-2.5, 0, -3.77489e-07, 0, 2.5, 0, 3.77489e-07, 0, -2.5, 0, 4.32534, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_d4jfq")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_jr6l0")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

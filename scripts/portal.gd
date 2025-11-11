@@ -6,28 +6,31 @@ extends Node3D
 @onready var area_teleport: Area3D = $AreaTeleport
 
 @onready var progress_bar: ProgressBar = $SubViewport/ProgressBar
-var target_visible = false
+var target_visible: bool = false
 
-@onready var players_camera = get_node("/root/Node3D/Player/camera_mount/Camera3D")
+@onready var players_camera: Node = get_node("/root/Node3D/Player/camera_mount/Camera3D")
 
-@onready var explosion_scene : PackedScene = preload("res://scenes/ParticleEffects/explosion.tscn")
+@onready var explosion_scene: PackedScene = preload("res://scenes/ParticleEffects/explosion.tscn")
 
 @export var map_path: String
 
-@export var is_spawn := false
-@export var map_max_enemy_count = 10
-@export var spawn_speed = 7.0
-@export var spawn_distance = 0.5
-@export var teleport_delay := 2.0  
+@export var is_spawn: bool = false
+var in_spawn_range: bool = false
+@export var map_max_enemy_count: int = 10
+@export var spawn_speed: float = 7.0
+@export var spawn_distance: float = 0.5
+@export var despawn_distance : float = 100.0
+@export var teleport_delay: float= 2.0  
 @export var enemy_type: PackedScene
+var spawned_enemies: Array[CharacterBody3D] = []
 
-const MAX_HEALTH = 300
-var health = MAX_HEALTH
-var time = 0.0
-var spawn_timer := 0.0
-var is_teleporting := false
-var player_in_portal := false
-var reverse_anim_bool := false
+const MAX_HEALTH: int = 300
+var health: int = MAX_HEALTH
+var time: float = 0.0
+var spawn_timer: float = 0.0
+var is_teleporting: bool = false
+var player_in_portal: bool = false
+var reverse_anim_bool: bool = false
 
 func _ready() -> void:
 	portal.visible = true
@@ -47,14 +50,15 @@ func _process(delta: float) -> void:
 	   activated.material_overlay.next_pass is ShaderMaterial:
 		activated.material_overlay.next_pass.set("shader_parameter/time", time)
 	
-	if is_spawn and health > 0:
+	if is_spawn and health > 0 and in_spawn_range:
 		spawn_timer += delta
 		if spawn_timer >= spawn_speed && get_enemy_count() < map_max_enemy_count:
 			_spawn_enemy()
 			spawn_timer = 0.0
 	
 	# If the player is inside and not already teleporting
-	if player_in_portal and not is_teleporting and !is_spawn:
+	if player_in_portal and !is_teleporting and !is_spawn:
+		print("TELEPORTING")
 		try_teleport()
 
 func try_teleport() -> void:
@@ -71,10 +75,13 @@ func _on_teleport_ready() -> void:
 	if not map_path or map_path == "":
 		return
 func _on_portal_body_entered(body: Node) -> void:
-	if body.name == "Player":
+	if is_spawn: return
+	if body.is_in_group("player"):
+		print("IS PLAYER")
 		player_in_portal = true
 func _on_portal_body_exited(body: Node) -> void:
-	if body.name == "Player":
+	if is_spawn: return
+	if body.is_in_group("player"):
 		player_in_portal = false
 
 	var scene_res = load(map_path)
@@ -99,8 +106,10 @@ func _spawn_enemy() -> void:
 	enemy_instance.global_transform.origin = spawn_position
 	if is_inside_tree():
 		get_tree().current_scene.add_child(enemy_instance)
-
-	# Optional: make the enemy face the player
+	
+	spawned_enemies.append(enemy_instance)
+	
+	# make the enemy face the player
 	if players_camera:
 		var dir_to_player = (players_camera.global_transform.origin - enemy_instance.global_transform.origin).normalized()
 		var look_rotation = Basis.looking_at(dir_to_player)
@@ -173,3 +182,31 @@ func destroy() -> void:
 	hide_health_bar()
 	
 	return
+
+#detects when the player goes in and out of range
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		in_spawn_range = true
+		if spawned_enemies.size() == 0:
+			#spawn some initial enemies
+			_spawn_enemy()
+			if is_inside_tree():
+				await get_tree().create_timer(1.0).timeout
+				_spawn_enemy()
+func _on_area_3d_body_exited(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		in_spawn_range = false
+		_despawn_enemies_later(body)
+func _despawn_enemies_later(player: Node3D) -> void:
+	# despawns enemies if player is far away
+	# saves FPS
+	while player and player.global_position.distance_to(global_position) <= despawn_distance and is_inside_tree():
+		await get_tree().process_frame
+	
+	#some enemies may have died so we will check if they still exist
+	for enemy in spawned_enemies:
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	spawned_enemies.clear()
+	
+	print("ENEMIES DESPAWN")

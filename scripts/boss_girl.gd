@@ -8,9 +8,12 @@ enum States {
 	Pursuit
 }
 
-@export var walkSpeed : float = 1.2
-@export var runSpeed : float = 2.4
+@export var custom_material_overlay: StandardMaterial3D = null
 
+@export var walkSpeed: float = 1.2
+@export var runSpeed: float = 2.4
+
+@onready var simple_vision_3d: SimpleVision3D = $SimpleVision3D
 @onready var follow_target_3d: FollowTarget3D = $FollowTarget3D
 @onready var random_target_3d: RandomTarget3D = $RandomTarget3D
 
@@ -18,34 +21,59 @@ enum States {
 @onready var progress_bar: ProgressBar = $SubViewport/ProgressBar
 @onready var target_sprite: Sprite3D = $Sprite3D2
 @onready var model_3d: MeshInstance3D = $visuals/bossgirl/Armature/Skeleton3D/Plane_002
-@onready var players_camera = get_node("/root/Node3D/Player/camera_mount/Camera3D")
+@onready var players_camera: Node = get_node("/root/Node3D/Player/camera_mount/Camera3D")
 
 @onready var animation_player: AnimationPlayer = $visuals/bossgirl/AnimationPlayer
-var reverse_anim_bool = false
+var reverse_anim_bool: bool = false
 
-@export var radius: float = 0.35  # Distance from the center of the StaticBody3D
-@export var offset: Vector3 = Vector3(0, 1, 0)  # Optional offset from the StaticBody3D's position
+var offset: Vector3 = Vector3(0, 1, 0)  # offset for that target that appears
 
-var target_visible = false
-var is_shooting = false
-var health = 100 
-var time = 0.0
+var stuck_time: float = 0.0
+var stuck_anim_threshold: float = 2.0
+var stuck_reset_threshold: float = 6.0
+var min_movement_threshold: float = 0.01
+var last_position: Vector3 = Vector3.ZERO
+var is_stuck: bool = false
 
-var fading_out := false
-var fade_speed := 0.2 # alpha units per second
+var target_visible: bool = false
+var is_shooting: bool = false
+@export var health: int = 100 
+@export var damage: int = 10.0
+@export var shooting_delay: float = 2.0
+var shooting_delay_elapsed: float = 0.0
+var time: float = 0.0
 
-var state : States = States.Walking
-var is_state_look = false
-var target : Node3D
+var fading_out: bool = false
+var fade_speed: float = 0.2 # alpha units per second
+
+var state: States = States.Walking
+var is_state_look: bool = false
+var target: Node3D
+var dir: int = 1 # 1 or -1
+var left_point: Vector3
+var right_point: Vector3
 
 func _ready() -> void:
 	await get_tree().process_frame
 	
-	var next_point = random_target_3d.GetNextPoint()
-	print("RandomTarget3D next_point:", next_point)
-	print("Global origin:", random_target_3d.global_transform.origin)
+	left_point = global_position - transform.basis.x * 5.0
+	right_point = global_position + transform.basis.x * 5.0
 	
-	ChangeState(States.Walking)
+	animation_player.play("walk-pistol");
+	follow_target_3d.ClearTarget()
+	follow_target_3d.Speed = walkSpeed
+	if scale.x > 1: #boss logic
+		var line_target
+		if dir == 1: line_target = right_point
+		else: line_target = left_point
+		
+		follow_target_3d.SetFixedTarget(line_target)
+		if global_position.distance_to(line_target) < 1.0:
+			dir *= -1 # flip direction
+	else:
+		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+	target = null 
+	
 	target_sprite.visible = false
 	progress_bar.visible = false
 	progress_bar.value = health
@@ -55,22 +83,38 @@ func _process(delta):
 		_fade_out(delta)
 	
 	if health <= 0: 
-		if animation_player.current_animation != "death" and animation_player.current_animation != "":
-			print(animation_player.current_animation)
-			animation_player.play("death") 
-			fading_out = true
-		
+		if !fading_out: fading_out = true
 		return
 	
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
+	shooting_delay_elapsed += delta #count the time here
+	
+	# logic for when the bot gets stuck
+	var distance_moved = global_position.distance_to(last_position)
+	if distance_moved < min_movement_threshold && !is_shooting:
+		stuck_time += delta
+		if stuck_time > stuck_anim_threshold and !is_stuck:
+			is_stuck = true
+			if animation_player.current_animation != "idle-pistol":
+				animation_player.play("idle-pistol")
+		if stuck_time > stuck_reset_threshold:
+			ChangeState(States.Walking)
+	else:
+		if animation_player.current_animation == "idle-pistol":
+			animation_player.play("idle-pistol-to-walk")
+		stuck_time = 0.0
+		is_stuck = false
+	last_position = global_position
+	if velocity.length() < 0.3 and !_is_next_to_target() and !is_state_look:
+		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+	
 	# stop moving when close to target
-	if target and _is_within_range(5.0) and !is_state_look:
+	if target and _is_within_range(8.0) and !is_state_look:
 		_in_range_behaviour()
-	elif state == States.Pursuit and !_is_within_range(5.0) and follow_target_3d.target != target:
+	elif state == States.Pursuit and !_is_within_range(8.0) and follow_target_3d.target != target:
 		# ensure it keeps moving when not in range
-		print("NOT IN RANGE")
 		is_state_look = false
 		if target:
 			follow_target_3d.Speed = runSpeed
@@ -78,20 +122,14 @@ func _process(delta):
 		else:
 			# TODO go random target
 			pass
-	elif state == States.Look and !_is_within_range(5.5):
-		print("Elif look")
+	elif state == States.Look and !_is_within_range(8.5):
 		is_state_look = false
 		ChangeState(States.Pursuit)
-	
-	#if velocity.length() < 0.3 and !_is_next_to_target(): # checks if the bot is stuck
-		#follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
-		#print("Stuck")
 	
 	#for material overlays when looked ad
 	time += delta
 	if model_3d.material_overlay and model_3d.material_overlay.next_pass and model_3d.material_overlay.next_pass is ShaderMaterial:
 		model_3d.material_overlay.next_pass.set("shader_parameter/time", time)
-	# TODO make it if the player is close the target dissappears
 	if players_camera and target_visible:
 		# Calculate the direction vector to the camera
 		var camera_position = players_camera.global_transform.origin
@@ -107,7 +145,6 @@ func _process(delta):
 func _in_range_behaviour():
 	is_state_look = true
 	while is_state_look and health > 0:
-		print("IN RANGE")
 		follow_target_3d.Speed = 0
 		velocity = Vector3.ZERO
 		ChangeState(States.Look)
@@ -126,33 +163,108 @@ func hide_target() -> void:
 
 # Methods to change the material overlay
 func change_mat_overlay(ENEMY_OUTLINE, ENEMY_STATIC_MATERIAL) -> void:
-	model_3d.material_overlay = ENEMY_OUTLINE
-	model_3d.material_overlay.next_pass = ENEMY_STATIC_MATERIAL
+	if custom_material_overlay != null:
+		model_3d.material_overlay.next_pass = ENEMY_OUTLINE
+		model_3d.material_overlay.next_pass.next_pass = ENEMY_STATIC_MATERIAL
+	else:
+		model_3d.material_overlay = ENEMY_OUTLINE
+		model_3d.material_overlay.next_pass = ENEMY_STATIC_MATERIAL
 func remove_mat_overlay() -> void:
-	model_3d.material_overlay = null
+	model_3d.material_overlay = custom_material_overlay
+	if model_3d.material_overlay and model_3d.material_overlay.next_pass:
+		model_3d.material_overlay.next_pass = null
 
-# Method to add effect for shooting
+# combat funcs
 func _shoot():
-	print("BOT SHOOT")
+	if shooting_delay_elapsed < shooting_delay:
+		return
+	shooting_delay_elapsed = 0.0
+	
+	var close_range_distance := 1.5
+	var distance_to_target := global_transform.origin.distance_to(target.global_transform.origin)
+	
+	var space_state = get_world_3d().direct_space_state
+	var from = global_transform.origin + Vector3.UP * 1.5
+	var to = target.global_transform.origin + Vector3.UP * 1.5
+
+	var params = PhysicsRayQueryParameters3D.new()
+	params.from = from
+	params.to = to
+	# exclude the enemy and its child collision shapes
+	params.exclude = _get_all_descendants(self)
+	params.collide_with_areas = true
+	params.collide_with_bodies = true
+
+	var result = space_state.intersect_ray(params)
+
+	if result.size() > 0:
+		var collider = result.get("collider") # collider is the object we hit
+		
+		if collider == target || target.is_ancestor_of(collider):
+			# clear line of sight
+			pass
+		elif collider is Area3D:
+			# area3d objects are invisible so bullets can pass 
+			pass
+		else:
+			# obstacle so no shots
+			return
+	else:
+		# Nothing hit (target may have no collider)
+		pass
+	
 	is_shooting = true
-	animation_player.play("idle-pistol-to-shoot") 
-	await get_tree().create_timer(0.3).timeout
-	animation_player.play_backwards("idle-pistol-to-shoot") 
-	await get_tree().create_timer(0.3).timeout
-	animation_player.play("idle-pistol")
-	await get_tree().create_timer(0.3).timeout
+	
+	# Check if target is too close for shooting animation
+	if distance_to_target <= close_range_distance:
+		_close_range_attack(target)
+	else:
+		animation_player.play("idle-pistol-to-shoot") 
+		await get_tree().create_timer(0.3).timeout
+		animation_player.play_backwards("idle-pistol-to-shoot") 
+		await get_tree().create_timer(0.3).timeout
+		animation_player.play("idle-pistol")
+		await get_tree().create_timer(0.3).timeout
+		is_shooting = false
+		
+		_gun_bullet()
+		_gun_flash()
+func _gun_bullet() -> void:
+	var bullet = load("res://scenes/bullet.tscn").instantiate()
+	bullet.set_damage(10)
+
+	# Spawn at gun socket
+	bullet.global_transform = $visuals/bossgirl/Armature/Skeleton3D/BoneAttachment3D.global_transform
+
+	# Set direction toward target
+	bullet.global_transform = $visuals/bossgirl/Armature/Skeleton3D/BoneAttachment3D.global_transform
+	get_tree().current_scene.add_child(bullet)
+	var aim_height_offset = Vector3.UP * 1.2 # tweak to aim at chest/head
+	var from_pos = bullet.global_transform.origin
+	var to_pos = target.global_transform.origin + aim_height_offset
+	var direction = (to_pos - from_pos).normalized()
+	bullet.set_direction(direction)
+func _gun_flash() -> void:
+	var flash = load("res://scenes/ParticleEffects/muzzle_flash.tscn").instantiate()
+	bone_attachment.add_child(flash)
+	
+	flash.position.z += 0.1
+	flash.position.y += 1.05
+	flash.rotation.x = flash.rotation.x + 8
+	
+	flash.shoot()
+func _close_range_attack(target: CharacterBody3D) -> void:
+	animation_player.play("shove")
+	await get_tree().create_timer(0.8).timeout
+	if _is_next_to_target(1.8):
+		target.hurt(5) #deal damage to player
+	await get_tree().create_timer(1.4).timeout # wait for the animation to finish
 	is_shooting = false
-	
-	_flash_bullet()
-func _flash_bullet() -> void:
-	var bullet = load("res://scenes/ParticleEffects/muzzle_flash.tscn").instantiate()
-	bone_attachment.add_child(bullet)
-	
-	bullet.position.z += 0.1
-	bullet.position.y += 1.05
-	bullet.rotation.x = bullet.rotation.x + 8
-	
-	bullet.shoot()
+func _get_all_descendants(node: Node) -> Array:
+	var nodes = [node]
+	for child in node.get_children():
+		nodes += _get_all_descendants(child)
+	return nodes
 
 # Method to show the health bar
 func show_health_bar() -> void:
@@ -165,10 +277,15 @@ func hide_health_bar() -> void:
 		progress_bar.visible = false
 
 func die() -> void:
-	print("DEATH")
 	follow_target_3d.Speed = 0
+	velocity = Vector3.ZERO
 	_return_to_idle()
-	await get_tree().create_timer(0.1).timeout
+	if !is_inside_tree(): return
+	await get_tree().create_timer(0.5).timeout
+	if animation_player.current_animation != "death":
+		follow_target_3d.Speed = 0
+		velocity = Vector3.ZERO
+		animation_player.play("death")
 func hurt(hit_points: int) -> void:
 	if hit_points < health:
 		health -= hit_points
@@ -203,29 +320,24 @@ func _return_health() -> int:
 	return health
 
 func ChangeState(newState : States) -> void:
-	if health == 0:
+	if health <= 0:
 		return
-	
-	print(newState)
 	
 	state = newState
 	match state:
 		States.Look:
-			print("STATE LOOK")
 			follow_target_3d.ClearTarget()
 			if target:
 				look_at(target.global_position, Vector3.UP)
 				if !is_shooting:
 					_shoot()
 		States.Walking:
-			print("STATE WALK")
 			animation_player.play("walk-pistol");
 			follow_target_3d.ClearTarget()
 			follow_target_3d.Speed = walkSpeed
 			follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 			target = null 
 		States.Pursuit:
-			print("STATE PURSUIT")
 			if !_is_combat_anim():
 				animation_player.play("walk-to-run")
 			follow_target_3d.Speed = runSpeed
@@ -233,62 +345,60 @@ func ChangeState(newState : States) -> void:
 
 # ai funcs
 func _on_follow_target_3d_navigation_finished() -> void:
-	if health == 0:
+	if health <= 0:
 		return
 	
-	print(follow_target_3d.targetPosition)
-	
-	if target and _is_next_to_target():
-		print("I")
+	if target and _is_next_to_target(20):
 		look_at(target.global_position)
 		#play strife-left animation
-		if _check_punchable():
+		if _check_punchable() and !is_shooting:
 			_return_to_idle()
 			while animation_player.current_animation != "idle-pistol":
 				await get_tree().process_frame
 			
 			_shoot()
 	elif target && !_is_next_to_target():
-		print("II")
 		if animation_player.current_animation != "run":
 			animation_player.play("walk-to-run")
 	elif target:
-		print("III")
 		animation_player.play("walk-to-run")
 	else :
-		print("IV")
-		print(animation_player.current_animation)
 		if !is_walking():
 			animation_player.play("walk-to-run")
-		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
+		if scale.x > 1: # boss logic
+			var line_target
+			if dir == 1: line_target = right_point
+			else: line_target = left_point
+			
+			follow_target_3d.SetFixedTarget(line_target)
+			if global_position.distance_to(line_target) < 1.0:
+				dir *= -1 # flip direction
+		else:
+			follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 func _on_simple_vision_3d_get_sight(body: Node3D) -> void:
-	print("Get sight")
-	if health == 0:
+	if health <= 0:
 		return
 	target = body
 	ChangeState(States.Pursuit)
 func _on_simple_vision_3d_lost_sight() -> void:
-	print("Lost sight")
 	pass
 func _is_within_range(range: float) -> bool:
 	if target:
 		return global_position.distance_to(target.global_position) <= range
 	return false
-func _is_next_to_target() -> bool:
-	print("Next to target")
+func _is_next_to_target(max_distance := 2.0) -> bool:
 	if target:
 		var distance = global_position.distance_to(target.global_position)
-		return distance <= 2.0  # Adjust this distance as needed
+		return distance <= max_distance
 	return false
 
-# animation funcs
+# animation functions
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if health == 0:
+	if health <= 0:
 		return
 	
 	if anim_name == "walk-to-run":
 		if !reverse_anim_bool:
-			print("Finished walk-to-run")
 			animation_player.play("run")
 		else:
 			animation_player.play("walk-pistol")
@@ -303,9 +413,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		follow_target_3d.Speed = runSpeed
 		animation_player.speed_scale = 1
 		_run()
-
 func _run():
-	print("Run")
 	_return_to_idle()
 	
 	while animation_player.current_animation != "idle-pistol":
@@ -318,14 +426,20 @@ func _run():
 	
 	animation_player.play("walk-to-run")
 func _play_hit():
-	print("Play hit")
 	if health > 0:
 		_return_to_idle()
+	else: return
 	
+	
+	follow_target_3d.Speed = 0
+	velocity = Vector3.ZERO
 	while animation_player.current_animation != "idle-pistol":
 		await get_tree().process_frame
 	
-	animation_player.play("strife-left")
+	animation_player.play("idle-pistol-to-shoot")
+	await get_tree().create_timer(0.3).timeout
+	animation_player.play("idle-pistol")
+	follow_target_3d.Speed = runSpeed
 func _return_to_idle():
 	if animation_player.current_animation == "run":
 		reverse_anim_bool = true
@@ -341,7 +455,8 @@ func _return_to_idle():
 	else:
 		await get_tree().create_timer(0.5).timeout
 		animation_player.play("idle-pistol")
-		
+
+# boolean functions
 func is_walking():
 	if animation_player.current_animation != " walk-to-run" and \
 	   animation_player.current_animation != "run" and \

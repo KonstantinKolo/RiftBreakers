@@ -1,8 +1,13 @@
 extends RayCast3D
 
+#for obstacles extra info
+signal show_info(text: String, world_pos: Vector3)
+signal hide_info()
+
 var enemy_detected = false
 var previous_collider: Node = null
 var current_collider: Node = null
+var current_obstacle: Node = null
 
 const ENEMY_OUTLINE = preload("res://assets/materials/enemy_outline.tres")
 const ENEMY_STATIC_MATERIAL = preload("res://assets/materials/enemy_static_material.tres")
@@ -11,13 +16,13 @@ func _physics_process(delta: float) -> void:
 	if is_colliding():
 		current_collider = get_collider().get_parent()
 		
-		if current_collider != previous_collider and  \
-		previous_collider and \
-		previous_collider.is_in_group("enemies"):
-			previous_collider.hide_health_bar()
+		# obstacle functionality
+		var obj = get_collider().get_parent().get_parent()
+		if obj != current_obstacle and obj.is_in_group("obstacles"):
+			current_obstacle = obj
+			emit_signal("show_info", obj.info_text, obj.global_transform.origin)
 		
-		previous_collider = current_collider
-		
+		# enemy functionality
 		if current_collider.is_in_group("enemies") and !enemy_detected:
 			enemy_detected = true
 			current_collider.show_health_bar()
@@ -27,6 +32,12 @@ func _physics_process(delta: float) -> void:
 			current_collider.change_mat_overlay(ENEMY_OUTLINE, ENEMY_STATIC_MATERIAL)
 			wait_for_distance_shortened()
 	else:
+		#obstacle functionality
+		if current_obstacle != null:
+			current_obstacle = null
+			emit_signal("hide_info")
+		
+		#enemy functionality
 		if previous_collider and is_instance_valid(previous_collider):
 			# Stopped colliding
 			if previous_collider.is_in_group("enemies"): 
