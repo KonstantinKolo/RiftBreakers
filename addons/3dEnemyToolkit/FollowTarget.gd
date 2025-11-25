@@ -26,7 +26,8 @@ func _process(delta: float) -> void:
 		if target and parent.global_position.distance_to(target.global_position) <= ReachTargetMinDistance:
 			emit_signal("ReachedTarget", target)
 	
-	parent.move_and_slide()
+	if is_instance_valid(parent):
+		parent.move_and_slide()
 	
 func SetFixedTarget(newTarget : Vector3) -> void:
 	target = null

@@ -18,12 +18,15 @@ var selection = 0
 
 func Close() -> String:
 	hide()
-	var choice: String = options[selection].name
-	if choice == "dynamite" and !Global.has_dynamite_unclocked:
+	var chosen_item_id = selection
+	if chosen_item_id == 2: chosen_item_id = 4 # selection is mirrored
+	elif chosen_item_id == 4: chosen_item_id = 2
+	var choice: String = options[chosen_item_id].name
+	if choice == "dynamite" and !Global.has_dynamite_unlocked:
 		return ""
 	if choice == "rifle" and !Global.has_rifle_unlocked:
 		return ""
-	return options[selection].name
+	return choice
 
 func _draw():
 	var offset = SPRITE_SIZE / -2
@@ -81,8 +84,8 @@ func _draw():
 				var option_name: String
 				if options.size() != i + 1: # for locked items
 					option_name = options[i + 1].name if "name" in options[i] else ""
-				if (option_name == "dynamite" and !Global.has_dynamite_unlocked) or \
-				   (option_name == "rifle" and !Global.has_rifle_unlocked):
+				if (option_name == "dynamite" and !Global.has_rifle_unlocked) or \
+				   (option_name == "rifle" and !Global.has_dynamite_unlocked):
 					for k in range(vertices.size()):
 						colors.append(locked_color)
 				else:
@@ -111,13 +114,15 @@ func _draw():
 		# draw lines for the weapons that haven't been unlocked
 		for i in range(1, len(options)):
 			var name: String = options[i].name if "name" in options[i] else ""
-			var locked := false
+			var locked_dynamite: bool = false
+			var locked_rifle: bool = false
 			
-			if (name == "dynamite" and !Global.has_dynamite_unlocked) or \
-			   (name == "rifle" and !Global.has_rifle_unlocked):
-				locked = true
+			if name == "dynamite" and !Global.has_dynamite_unlocked:
+				locked_dynamite = true
+			if name == "rifle" and !Global.has_rifle_unlocked:
+				locked_rifle = true
 			
-			if locked:
+			if (locked_dynamite and i == 4) or (locked_rifle and i == 3):
 				# Compute the midpoint angle for this segment
 				var start_rads = TAU * (i - 1) / float(len(options) - 1)
 				var end_rads = TAU * i / float(len(options) - 1)

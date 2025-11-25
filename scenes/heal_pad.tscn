@@ -20,7 +20,7 @@ material = ExtResource("1_ocxyo")
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 billboard = 1
-text = "+10 health"
+text = "Heal"
 
 [node name="HitPlayerArea" type="Area3D" parent="."]
 

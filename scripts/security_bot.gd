@@ -20,6 +20,9 @@ var min_movement_threshold := 0.05
 var last_position := Vector3.ZERO
 var is_stuck := false
 
+var fading_out: bool = false
+var fade_speed: float = 0.2 # alpha units per second
+
 @onready var progress_bar: ProgressBar = $SubViewport/ProgressBar
 @onready var target_sprite: Sprite3D = $Sprite3D2
 @onready var model_3d: MeshInstance3D = $visuals/security_bot/Armature/Skeleton3D/Plane_003
@@ -51,7 +54,11 @@ func _ready() -> void:
 	progress_bar.value = health
 
 func _process(delta):
-	if health == 0: 
+	if fading_out:
+		_fade_out(delta)
+	
+	if health <= 0: 
+		if !fading_out: fading_out = true
 		return
 	
 	if not is_on_floor():
@@ -133,6 +140,9 @@ func hide_health_bar() -> void:
 		progress_bar.visible = false
 
 func die() -> void:
+	if scale.x > 1: #for boss
+		Global.has_unlocked_level_2 = true
+	
 	follow_target_3d.Speed = 0
 	_return_to_idle()
 	if !is_inside_tree(): return
@@ -156,8 +166,21 @@ func hurt(hit_points: int) -> void:
 		health = 0
 		progress_bar.value = health
 		die()
-		
-		
+
+func _fade_out(delta):
+	var mat := model_3d.get_surface_override_material(0)
+	if mat == null:
+		mat = model_3d.get_active_material(0).duplicate()
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.flags_transparent = true
+		model_3d.set_surface_override_material(0, mat)
+	
+	var new_alpha = mat.albedo_color.a - fade_speed * delta
+	mat.albedo_color.a = clamp(new_alpha, 0.0, 1.0)
+	
+	if mat.albedo_color.a <= 0.0:
+		queue_free()
+
 func _return_health() -> int:
 	return health
 

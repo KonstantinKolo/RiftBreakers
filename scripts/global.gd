@@ -1,7 +1,13 @@
 extends Node
 
-var has_unlocked_level_2: bool = false;
-var has_unlocked_level_3: bool = false;
+var has_unlocked_level_2: bool = false
+var has_unlocked_level_3: bool = false
+var has_cleared_game: bool = false
+
+var melee_bots_killed: int = 0
+var ranged_bots_killed: int = 0
+var bosses_killed: int = 0 # for the game instance
+var total_time: int = 0
 
 var has_dynamite_unlocked: bool = false
 var has_rifle_unlocked: bool = false

@@ -63,6 +63,7 @@ func _ready() -> void:
 	follow_target_3d.ClearTarget()
 	follow_target_3d.Speed = walkSpeed
 	if scale.x > 1: #boss logic
+		progress_bar.max_value = health
 		var line_target
 		if dir == 1: line_target = right_point
 		else: line_target = left_point
@@ -277,6 +278,9 @@ func hide_health_bar() -> void:
 		progress_bar.visible = false
 
 func die() -> void:
+	if scale.x > 1: #for boss
+		Global.has_unlocked_level_3 = true
+	
 	follow_target_3d.Speed = 0
 	velocity = Vector3.ZERO
 	_return_to_idle()

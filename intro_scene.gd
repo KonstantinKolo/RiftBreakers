@@ -15,4 +15,4 @@ func _on_button_pressed() -> void:
 
 func _on_fade_finished(anim_name: StringName) -> void:
 	if anim_name == "fade_to_black":
-		get_tree().change_scene_to_file("res://scenes/menu.tscn")
+		get_tree().change_scene_to_file("res://Maps/menu.tscn")

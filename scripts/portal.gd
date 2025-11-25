@@ -1,5 +1,9 @@
 extends Node3D
 
+# TODO make it unavailable for access to levels when the boss is alive
+
+@export var current_level: int
+
 @onready var portal: MeshInstance3D = $StarGate5/Portal
 @onready var deactivated: MeshInstance3D = $StarGate5/Deactivated
 @onready var activated: MeshInstance3D = $StarGate5/Activated
@@ -42,7 +46,6 @@ func _ready() -> void:
 	
 	if area_teleport:
 		area_teleport.body_entered.connect(_on_portal_body_entered)
-		area_teleport.body_exited.connect(_on_portal_body_exited)
 
 func _process(delta: float) -> void:
 	time += delta
@@ -55,43 +58,29 @@ func _process(delta: float) -> void:
 		if spawn_timer >= spawn_speed && get_enemy_count() < map_max_enemy_count:
 			_spawn_enemy()
 			spawn_timer = 0.0
-	
-	# If the player is inside and not already teleporting
-	if player_in_portal and !is_teleporting and !is_spawn:
-		print("TELEPORTING")
-		try_teleport()
 
-func try_teleport() -> void:
+# Teleport functionality
+func _on_portal_body_entered(body: Node) -> void:
 	if map_path == "" or map_path == null:
 		push_warning("No map_path assigned for teleportation.")
 		return
-	if is_teleporting:
-		return
-
-	is_teleporting = true
-	
-	_on_teleport_ready()
-func _on_teleport_ready() -> void:
-	if not map_path or map_path == "":
-		return
-func _on_portal_body_entered(body: Node) -> void:
+	if current_level == 1 and !Global.has_unlocked_level_2: return
+	if current_level == 2 and !Global.has_unlocked_level_3: return
+	if current_level == 3 and !Global.has_cleared_game: return
+	if is_teleporting: return
 	if is_spawn: return
+	
 	if body.is_in_group("player"):
-		print("IS PLAYER")
+		is_teleporting = true
 		player_in_portal = true
-func _on_portal_body_exited(body: Node) -> void:
-	if is_spawn: return
-	if body.is_in_group("player"):
-		player_in_portal = false
-
-	var scene_res = load(map_path)
-	if not scene_res:
-		push_error("Failed to load map: " + str(map_path))
-		is_teleporting = false
-		return
-	
-	if is_inside_tree():
-		get_tree().change_scene_to_packed(scene_res)
+		var scene_res = load(map_path)
+		if not scene_res:
+			push_error("Failed to load map: " + str(map_path))
+			is_teleporting = false
+			return
+		
+		if is_inside_tree():
+			get_tree().change_scene_to_packed(scene_res)
 
 func _spawn_enemy() -> void:
 	if enemy_type == null:
@@ -122,6 +111,10 @@ func get_enemy_count() -> int:
 			count += 1
 	return count
 
+func deactivate() -> void:
+	portal.visible = false
+func activate() -> void:
+	portal.visible = true
 
 # Empty so the general functionality of enemies will work here
 func show_target() -> void:
@@ -208,5 +201,3 @@ func _despawn_enemies_later(player: Node3D) -> void:
 		if is_instance_valid(enemy):
 			enemy.queue_free()
 	spawned_enemies.clear()
-	
-	print("ENEMIES DESPAWN")

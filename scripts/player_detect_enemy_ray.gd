@@ -17,13 +17,14 @@ func _physics_process(delta: float) -> void:
 		current_collider = get_collider().get_parent()
 		
 		# obstacle functionality
-		var obj = get_collider().get_parent().get_parent()
-		if obj != current_obstacle and obj.is_in_group("obstacles"):
+		var obj = get_collider().get_parent()
+		if obj != current_obstacle and (obj.is_in_group("obstacles") or obj.get_parent().is_in_group("obstacles")):
 			current_obstacle = obj
-			emit_signal("show_info", obj.info_text, obj.global_transform.origin)
+			emit_signal("show_info", obj.global_transform.origin)
 		
 		# enemy functionality
 		if current_collider.is_in_group("enemies") and !enemy_detected:
+			print("got target")
 			enemy_detected = true
 			current_collider.show_health_bar()
 			if get_collision_point().distance_to(global_position) < 2.0:
@@ -57,7 +58,7 @@ func return_enemy() -> Node:
 		return null
 func wait_for_distance_shortened() -> void:
 	# when character gets too close to the enemy
-	# the target will disappear to avoid clippin
+	# the target will disappear to avoid cliping
 	while enemy_detected:
 		await get_tree().create_timer(0.5).timeout
 		if !is_instance_valid(current_collider): return

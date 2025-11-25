@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+#TODO overall rifle fix
+#TODO when rifle and walk_backwards it doesnt change anim
+
 signal healthChanged
 signal staminaChanged
 signal blinkStaminaBar
@@ -122,8 +125,19 @@ func _input(event: InputEvent) -> void:
 			camera_mount.rotation = Vector3(0, 0, 0)  # Set to default rotation values
 		
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
+	elif event is InputEventAction:
+		# SAFEGUARD: WALK MODE CAMERA
+		if last_camera_mode != 2:
+			last_camera_mode = 2
+			camera_mount.rotation = Vector3(0, 0, 0)  # Set to default rotation values
+		camera_mount.rotate_y(deg_to_rad(-event.relative.x * sens_horizontal))
+		# Clamp the vertical rotation to avoid flipping
+		var new_rotation_x = camera_mount.rotation.x + deg_to_rad(-event.relative.y * sens_vertical)
+		new_rotation_x = clamp(new_rotation_x, deg_to_rad(-90), deg_to_rad(90))
+		camera_mount.rotation.x = new_rotation_x
 	
 	# Combat events
+	if health <= 0: return
 	if event is InputEventMouseButton or _select_weapon_num():
 		# Handle the weapon selection
 		# TODO make the SelectionWheel into a variable
@@ -358,7 +372,7 @@ func _physics_process(delta: float) -> void:
 		var rotation_axis = current_forward.cross(target_rotation).normalized()
 		
 		if rotation_axis != Vector3.ZERO:  # Avoid rotation when directions are parallel
-			var target_basis = Basis(rotation_axis, current_forward.angle_to(target_rotation)) * transform.basis
+			var target_basis = (Basis(rotation_axis, current_forward.angle_to(target_rotation)) * transform.basis).orthonormalized()
 			transform.basis = transform.basis.slerp(target_basis, sens_rotation * delta)
 		
 		is_walking_backwards = current_forward.dot(direction) < 0
@@ -484,11 +498,15 @@ func _punch_attack() -> void:
 	else:
 		var direction = _get_direction_to_Node(targeted_enemy)
 		
-		# Offset target position
-		if direction.length() > 0.8:
-			_launch_forward(direction, targeted_enemy)
-		elif direction.length() < 0.73:
-			_launch_backwards(direction)
+		var to_enemy = targeted_enemy.global_transform.origin - global_transform.origin
+		var distance = to_enemy.length()
+		
+		if distance <= 4.0: # prevents actions if enemy is too far away
+			# Offset target position
+			if direction.length() > 0.8:
+				_launch_forward(direction, targeted_enemy)
+			elif direction.length() < 0.73:
+				_launch_backwards(direction)
 		
 		animation_player.speed_scale = 1.35
 		var combo_type = _randomizer(7)

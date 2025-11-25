@@ -25,6 +25,7 @@ var target_cords : Vector2
 var _is_not_centered = false
 
 func _ready():
+	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	tv_turn_on_transition.turn_on_tv()
 	tv_turn_on_transition.tv_finished.connect(_finish_tv)
 	pop_up_menu.closeGame.connect(_close_game)
