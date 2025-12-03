@@ -1,7 +1,8 @@
 # RiftBreakers
 
-A small open-source **3D action game** made with the **Godot Engine**.  
+An open-source **3D action game** made with the **Godot Engine**.  
 Built for to experiment with combat mechanics, character movement, and enemy AI behavior.  
+This project has been made for my diploma work.
 Feel free to study the code, modify it, or contribute.
 
 ## Features
