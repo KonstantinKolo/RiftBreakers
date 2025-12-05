@@ -1,15 +1,26 @@
 # RiftBreakers
 
 An open-source **3D action game** made with the **Godot Engine**.  
-Built for to experiment with combat mechanics, character movement, and enemy AI behavior.  
+Built for to experiment with combat mechanics, character movement, and enemy AI behavior. 
 This project has been made for my diploma work.
+
+**All the code in this repository has been written solely by me.**  
+
+![Cover](https://raw.githubusercontent.com/KonstantinKolo/RiftBreakers/main/assets/RiftBreakersCover2.png)
+
 Feel free to study the code, modify it, or contribute.
+
+![My Cover]()
 
 ## Features
 - Responsive 3D player movement  
 - Basic melee combat system  
 - Simple enemy AI (patrol + chase)  
-- Hitbox / hurtbox interactions  
+- Hitbox / hurtbox interactions
+- Three different levels to play
+- Server that saves account information and records
+- Leader board
+- Different roles (admin, guest, player etc.)
 - Modular scenes and clean GDScript structure  
 
 ## Controls
