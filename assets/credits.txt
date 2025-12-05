@@ -1,0 +1,11 @@
+loading screen SVG -> loading.io
+Character Base Male -> Author: madtrollstudio , link: https://poly.pizza/m/qbDLeTtb8K
+Crosshair and other SVGs -> https://www.freepik.com/icons
+Pistol model -> Author: Klasy , link: https://sketchfab.com/3d-models/stylized-pistol-low-poly-rigged-37c5583eb5974f57bcbfe447bbec9cd2#download
+Rifle model -> Author: TastyTony , link: https://sketchfab.com/3d-models/low-poly-stg-940-8a4382f34bc746eeb5914a9e09d18ae1
+City Map Building set -> Author: Daniel Zhabotinsky , link: https://sketchfab.com/3d-models/downtown-buildings-set-low-poly-model-7378e7fb9c914c39880d9913a6f4e1d6
+Fences -> Author: TampaJoey , link: https://sketchfab.com/3d-models/chain-link-fence-pack-low-poly-game-ready-777e50cd6e5d4db99d70bf7b20370f7a#download
+Dumpster -> Author: Colin.Greenall , link: https://sketchfab.com/3d-models/low-poly-dumpster-093e5b05faa947729b1be24c013e563b
+Map 2 Ground Texture -> Author: reptilianalien , link: https://reptilianalien.itch.io/tbgp
+Map 3 -> author: akselmot , link: https://sketchfab.com/3d-models/modern-city-block-c80dba249d9547cbb48d00828d23cfa7#download
+Additional building -> Author: Daniel Zhabotinsky , link: https://sketchfab.com/3d-models/brownstone-building-set-low-poly-model-b15e6344acd844eabc823e1cc8332574

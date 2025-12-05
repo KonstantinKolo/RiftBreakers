@@ -53,6 +53,8 @@ var target_visible: bool = false
 @onready var bl_leg = $BackLeftIKTarget
 @onready var br_leg = $BackRightIKTarget
 
+@export var is_intro: bool = false
+
 func _process(delta) -> void:
 	if fading_out:
 		_fade_out(delta)
@@ -108,12 +110,21 @@ func _handle_movement(delta) -> void:
 		else:
 			target_pos = random_target_3d.GetNextPoint()
 		
-		var quad_points = [
-			Vector3(-97, 0, 12),
-			Vector3(-130.5, 0, 44),
-			Vector3(-169.5, 0, 2.5),
-			Vector3(-133.5, 0, -29.5)
-		]
+		var quad_points: Array[Vector3]
+		if is_intro:
+			quad_points = [
+				Vector3(-2.0, -0.2, -3.0),
+				Vector3(-2.0, -0.2, -27.5),
+				Vector3(97.0, -0.2, -27.0),
+				Vector3(97.0, -0.2, -2.5)
+			]
+		else:
+			quad_points = [
+				Vector3(-97, 0, 12),
+				Vector3(-130.5, 0, 44),
+				Vector3(-169.5, 0, 2.5),
+				Vector3(-133.5, 0, -29.5)
+			]
 		
 		if is_point_in_quad(target_pos, quad_points[0], quad_points[1], quad_points[2], quad_points[3]):
 			pass
@@ -188,6 +199,7 @@ func remove_mat_overlay() -> void:
 	pass
 
 func die() -> void:
+	Global.on_boss_killed()
 	Global.has_cleared_game = true
 	teleport_portal.activate()
 	var explosion = explosion_scene.instantiate()
@@ -230,6 +242,8 @@ func _return_health() -> int:
 	return health
 
 func _attack() -> void:
+	if is_intro: return 
+	
 	if !is_attacking:
 		is_attacking = true
 		_attack_flash()

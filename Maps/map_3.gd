@@ -9,6 +9,7 @@ extends Node3D
 var health_bar_fading_out: bool = false
 
 func _ready() -> void:
+	Global.triggeredMap.emit()
 	spider_bot.inHealthBarRange.connect(_show_boss_health_bar)
 	spider_bot.outHealthBarRange.connect(_hide_boss_health_bar)
 	spider_bot.healthChanged.connect(_change_health_value)

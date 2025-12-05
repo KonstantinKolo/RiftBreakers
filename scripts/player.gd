@@ -494,7 +494,6 @@ func _punch_attack() -> void:
 		spend_stamina(10)
 		punch_to_idle = true
 		animation_player.play("a-left-punch") #some default animation
-		print("While punching an enemy wasnt detected!")
 	else:
 		var direction = _get_direction_to_Node(targeted_enemy)
 		
@@ -870,14 +869,16 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 				elif combat_animation_number == 5:
 					animation_player.play("a-c5-1")
 				else:
-					print("a-left-jab-into-elbow in _on_animation_end: combat animation number is incorrect")
+					# a-left-jab-into-elbow in _on_animation_end: combat animation number is incorrect
+					pass
 			elif anim_name == "a-left-kick":
 				if combat_animation_number == 4:
 					animation_player.play("a-c4-3")
 				elif combat_animation_number == 7:
 					animation_player.play("a-c7-2")
 				else:
-					print("a-left-kick in _on_animation_end: combat animation number is incorrect")
+					# a-left-kick in _on_animation_end: combat animation number is incorrect
+					pass
 			elif anim_name == "a-right-punch":
 				if combat_animation_number == 2:
 					animation_player.play("a-c2-1")
@@ -888,14 +889,16 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 				elif combat_animation_number == 7:
 					animation_player.play("a-c7-3")
 				else:
-					print("a-right-punch in _on_animation_end: combat animation number is incorrect")
+					# a-right-punch in _on_animation_end: combat animation number is incorrect
+					pass
 			elif anim_name == "a-right-elbow":
 				if combat_animation_number == 1:
 					animation_player.play("a-c1-2")
 				elif combat_animation_number == 6:
 					animation_player.play("a-c6-2")
 				else:
-						print("a-right-elbow in _on_animation_end: combat animation number is incorrect")
+						# a-right-elbow in _on_animation_end: combat animation number is incorrect
+						pass
 			elif anim_name == "a-left-punch":
 				if combat_animation_number == 4 or combat_animation_number == 1:
 					var rand = _randomizer(2)
@@ -910,7 +913,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 				elif combat_animation_number == 6:
 					animation_player.play("a-c6-3")
 				else:
-					print("a-left-punch in _on_animation_end: combat animation number is incorrect")
+					# a-left-punch in _on_animation_end: combat animation number is incorrect
+					pass
 		else:
 			is_punching = false
 			animation_player.speed_scale = 1
@@ -922,7 +926,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			animation_player.play("a-idle-fight_")
 			speed = fight_speed
 	else:
-		print("finished animation:", anim_name)
+		pass
 func _a_c_animation_checker(text: String) -> bool:
 	if str(text[0] + text[1] + text[2]) == "a-c":
 		return true
@@ -992,12 +996,7 @@ func _reverse_landing() -> void:
 	reverse_anim_bool = true
 func _transition_to_weapon() -> void:
 	#Transition back to idle mode
-	print("|||||||")
-	print(selected_weapon)
-	
 	if selected_weapon == previous_weapon:
-		print("PREVIOUS")
-		print(previous_weapon)
 		is_selecting_mode = false
 		return
 	

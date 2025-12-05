@@ -14,5 +14,5 @@ func _ready() -> void:
 	map_name.text = _map_name
 	
 	await get_tree().create_timer(0.2).timeout
-	size.x = 420
-	size.y = 168
+	max_size.x = 420
+	max_size.y = 168

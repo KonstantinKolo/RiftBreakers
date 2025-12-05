@@ -25,7 +25,7 @@ var target_cords : Vector2
 var _is_not_centered = false
 
 func _ready():
-	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	tv_turn_on_transition.turn_on_tv()
 	tv_turn_on_transition.tv_finished.connect(_finish_tv)
 	pop_up_menu.closeGame.connect(_close_game)
@@ -71,6 +71,7 @@ func _on_button_1_pressed() -> void:
 	var is_confirmed = await conf.prompt(true)
 	
 	if is_confirmed:
+		Global.triggeredMap.emit()
 		_button_pressed_particles(level_1)
 		_transition_to_scene("res://Maps/map_1.tscn")
 func _on_button_2_pressed() -> void:
@@ -92,6 +93,7 @@ func _on_button_2_pressed() -> void:
 	var is_confirmed = await conf.prompt(true)
 	
 	if is_confirmed and Global.has_unlocked_level_2:
+		Global.triggeredMap.emit()
 		_button_pressed_particles(level_2)
 		_transition_to_scene("res://Maps/map_2.tscn")
 	elif is_confirmed:
@@ -116,6 +118,7 @@ func _on_button_3_pressed() -> void:
 	
 	
 	if is_confirmed and Global.has_unlocked_level_3:
+		Global.triggeredMap.emit()
 		_button_pressed_particles(level_3)
 		_transition_to_scene("res://Maps/map_3.tscn")
 	else:

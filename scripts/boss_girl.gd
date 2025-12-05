@@ -279,7 +279,9 @@ func hide_health_bar() -> void:
 
 func die() -> void:
 	if scale.x > 1: #for boss
+		Global.on_boss_killed()
 		Global.has_unlocked_level_3 = true
+	else: Global.on_ranged_killed()
 	
 	follow_target_3d.Speed = 0
 	velocity = Vector3.ZERO
