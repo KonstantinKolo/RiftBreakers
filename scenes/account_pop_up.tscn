@@ -1,0 +1,197 @@
+[gd_scene load_steps=10 format=3 uid="uid://ban4rwtc364sg"]
+
+[ext_resource type="Texture2D" uid="uid://bbcn82hdsn3nq" path="res://assets/backgrounds/pop-up-menu/MenuPullup.png" id="1_5sqxd"]
+[ext_resource type="Script" uid="uid://co8mbh4lwo05j" path="res://scripts/account_pop_up.gd" id="1_8loeu"]
+[ext_resource type="FontFile" uid="uid://dxrh1j5ifkbw7" path="res://assets/fonts/RobloxFont-Regular.ttf" id="2_8loeu"]
+[ext_resource type="Texture2D" uid="uid://db7lusm53mccy" path="res://assets/backgrounds/pop-up-menu/TopToggleButtonLong.png" id="3_0xdgc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bw466"]
+font = ExtResource("2_8loeu")
+font_size = 64
+outline_size = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_pfntj"]
+font_size = 24
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8loeu"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_0xdgc"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_3fxv1"]
+font_size = 40
+font_color = Color(0.68, 0.68, 0.68, 1)
+shadow_color = Color(0, 0, 0, 0.670588)
+
+[node name="account_pop_up" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8loeu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+modulate = Color(1.4, 1.4, 1.4, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -576.0
+offset_right = 576.0
+offset_bottom = 450.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+
+[node name="SettingsBody" type="NinePatchRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_5sqxd")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/SettingsBody"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.1
+anchor_right = 0.98
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Account managment"
+label_settings = SubResource("LabelSettings_bw466")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "username:"
+label_settings = SubResource("LabelSettings_pfntj")
+
+[node name="UsernameField" type="TextEdit" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "password"
+label_settings = SubResource("LabelSettings_pfntj")
+
+[node name="PasswordField" type="LineEdit" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+secret = true
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14117648)
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "displayname:"
+label_settings = SubResource("LabelSettings_pfntj")
+
+[node name="DisplayNameField" type="TextEdit" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(480, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14117648)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LoginButton" type="Button" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(604, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "LOGIN"
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14117648)
+
+[node name="RegisterButton" type="Button" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "REGISTER"
+
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14117648)
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Currently logged in as:"
+label_settings = SubResource("LabelSettings_8loeu")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="LabelLoggedUsername" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_0xdgc")
+
+[node name="Close" type="TextureButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(280, 52.9)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture_normal = ExtResource("3_0xdgc")
+ignore_texture_size = true
+stretch_mode = 4
+flip_h = true
+flip_v = true
+
+[node name="Label" type="Label" parent="VBoxContainer/Close"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.106
+anchor_top = 0.05
+anchor_right = 0.957
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+text = "Close"
+label_settings = SubResource("LabelSettings_3fxv1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/LoginButton" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/RegisterButton" to="." method="_on_register_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Close" to="." method="_on_close_pressed"]

@@ -1,0 +1,126 @@
+[gd_scene load_steps=5 format=3 uid="uid://kxf3r5p2ehvi"]
+
+[ext_resource type="Script" uid="uid://bts04tvvynhuc" path="res://scripts/leaderboard_menu.gd" id="1_wgq7h"]
+[ext_resource type="FontFile" uid="uid://dxrh1j5ifkbw7" path="res://assets/fonts/RobloxFont-Regular.ttf" id="2_8lgqg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wgq7h"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_8lgqg"]
+font_size = 24
+
+[node name="LeaderboardMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wgq7h")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.676664, 0.309723, 0.669891, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 150
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+item_count = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 400
+alignment = 1
+
+[node name="PreviousPageButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "PREVIOUS PAGE"
+
+[node name="NextPageButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 24
+text = "NEXT PAGE"
+
+[node name="ScoreColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 0
+offset_left = 24.0
+offset_top = 485.0
+offset_right = 64.0
+offset_bottom = 525.0
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScoreColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="Label" parent="ScoreColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Your High Score:"
+label_settings = SubResource("LabelSettings_wgq7h")
+
+[node name="Score" type="Label" parent="ScoreColorRect/HBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_8lgqg")
+
+[node name="PlaceColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 0
+offset_left = 831.0
+offset_top = 485.0
+offset_right = 1131.0
+offset_bottom = 525.0
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlaceColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlaceLabel" type="Label" parent="PlaceColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Your Place:"
+label_settings = SubResource("LabelSettings_wgq7h")
+
+[node name="Place" type="Label" parent="PlaceColorRect/HBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_wgq7h")
+
+[node name="ReturnToMenuBtn" type="Button" parent="."]
+modulate = Color(0.919307, 0.339452, 0.540438, 1)
+layout_mode = 0
+offset_left = 404.0
+offset_top = 542.0
+offset_right = 801.0
+offset_bottom = 593.0
+theme_override_fonts/font = ExtResource("2_8lgqg")
+theme_override_font_sizes/font_size = 48
+text = "RETURN TO MENU"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PreviousPageButton" to="." method="_on_previous_page_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/NextPageButton" to="." method="_on_next_page_button_pressed"]
+[connection signal="pressed" from="ReturnToMenuBtn" to="." method="_on_return_to_menu_btn_pressed"]

@@ -44,9 +44,9 @@
 [ext_resource type="PackedScene" uid="uid://diim2ulf40w8t" path="res://assets/models/Ruin/scene.gltf" id="39_1d38g"]
 [ext_resource type="Texture2D" uid="uid://lpp6ypyt5evp" path="res://assets/models/map1/LowPoly-Apocalyptic-Buildings-By-Majadroid/fbx files/wreckage-3-types_0.png" id="40_1d38g"]
 [ext_resource type="PackedScene" uid="uid://bhu1llqoptjaf" path="res://scenes/portal.tscn" id="41_luntg"]
-[ext_resource type="PackedScene" uid="uid://lnmtwfrcdbac" path="res://scenes/boss_girl.tscn" id="42_m4hs1"]
+[ext_resource type="PackedScene" uid="uid://lnmtwfrcdbac" path="res://scenes/ranged_bot.tscn" id="42_m4hs1"]
 [ext_resource type="PackedScene" uid="uid://6okbev7wrecf" path="res://scenes/security_bot.tscn" id="43_m4hs1"]
-[ext_resource type="Script" uid="uid://us5dvm2jo8xv" path="res://scripts/boss_girl.gd" id="46_5shno"]
+[ext_resource type="Script" uid="uid://us5dvm2jo8xv" path="res://scripts/ranged_bot.gd" id="46_5shno"]
 [ext_resource type="Material" uid="uid://qfn33s0p5dpa" path="res://assets/materials/boss_girl_overlay.tres" id="47_31pij"]
 [ext_resource type="Texture2D" uid="uid://c44y7hhanofci" path="res://assets/models/Boss/e2base.png" id="47_eaime"]
 [ext_resource type="Texture2D" uid="uid://del301d7w52f" path="res://assets/models/Icons/rhombus-svgrepo-com.svg" id="48_31pij"]
@@ -166,14 +166,14 @@ void fragment() {
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ud8l7"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8tb0v"]
+noise = SubResource("FastNoiseLite_ud8l7")
 seamless = true
 as_normal_map = true
-noise = SubResource("FastNoiseLite_ud8l7")
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2cij7"]
+noise = SubResource("FastNoiseLite_ud8l7")
 seamless = true
 as_normal_map = true
-noise = SubResource("FastNoiseLite_ud8l7")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_katme"]
 render_priority = 0
@@ -203,9 +203,6 @@ size = Vector3(155, 40, 240)
 [sub_resource type="Resource" id="Resource_uaa1k"]
 script = ExtResource("5_0cw5c")
 amount = 30001
-enabled = true
-override_global_seed = false
-custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
@@ -214,23 +211,13 @@ script = ExtResource("6_kvw8m")
 position = Vector3(0.15, 0, 0)
 rotation = Vector3(3, 360, 3)
 scale = Vector3(0.1, 0.1, 0.1)
-enabled = true
-override_global_seed = false
-custom_seed = 0
-restrict_height = false
 reference_frame = 2
 
 [sub_resource type="Resource" id="Resource_2vhek"]
 script = ExtResource("8_vvq6k")
-iterations = 3
 offset_step = 0.2
 consecutive_step_multiplier = 0.75
-use_computeshader = true
-enabled = true
-override_global_seed = false
-custom_seed = 0
 restrict_height = true
-reference_frame = 0
 
 [sub_resource type="Resource" id="Resource_5fnao"]
 script = ExtResource("7_a6hwd")
@@ -238,25 +225,10 @@ ray_direction = Vector3(0, 0, 0)
 ray_length = 5.0
 ray_offset = 5.0
 remove_points_on_miss = false
-align_with_collision_normal = false
-max_slope = 90.0
-collision_mask = 1
-exclude_mask = 0
-enabled = true
-override_global_seed = false
-custom_seed = 0
-restrict_height = false
-reference_frame = 0
 
 [sub_resource type="Resource" id="Resource_sg2ka"]
 script = ExtResource("10_vvq6k")
 terrain_node = NodePath("../Terrain3D")
-align_with_collision_normal = false
-enabled = true
-override_global_seed = false
-custom_seed = 0
-restrict_height = false
-reference_frame = 0
 
 [sub_resource type="Resource" id="Resource_g5lf4"]
 script = ExtResource("3_wgfui")
@@ -354,9 +326,6 @@ size = Vector3(26, 4, 6)
 [sub_resource type="Resource" id="Resource_q5fhu"]
 script = ExtResource("5_0cw5c")
 amount = 2000
-enabled = true
-override_global_seed = false
-custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
@@ -365,58 +334,27 @@ script = ExtResource("6_kvw8m")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(20, 360, 20)
 scale = Vector3(0.1, 0.099, 0.1)
-enabled = true
-override_global_seed = false
-custom_seed = 0
-restrict_height = false
 reference_frame = 2
 
 [sub_resource type="Resource" id="Resource_tw2dj"]
 script = ExtResource("8_vvq6k")
-iterations = 3
 offset_step = 0.2
 consecutive_step_multiplier = 0.75
-use_computeshader = true
-enabled = true
-override_global_seed = false
-custom_seed = 0
 restrict_height = true
-reference_frame = 0
 
 [sub_resource type="Resource" id="Resource_72vfs"]
 script = ExtResource("7_a6hwd")
-ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
 ray_offset = 5.0
 remove_points_on_miss = false
-align_with_collision_normal = false
-max_slope = 90.0
-collision_mask = 1
-exclude_mask = 0
-enabled = true
-override_global_seed = false
-custom_seed = 0
-restrict_height = false
-reference_frame = 0
 
 [sub_resource type="Resource" id="Resource_28tc6"]
 script = ExtResource("10_vvq6k")
 terrain_node = NodePath("../Terrain3D")
-align_with_collision_normal = false
-enabled = true
-override_global_seed = false
-custom_seed = 0
-restrict_height = false
-reference_frame = 0
 
 [sub_resource type="Resource" id="Resource_sun6u"]
 script = ExtResource("15_gjp84")
-operation = 0
 position = Vector3(0, 0.9, 0)
-enabled = true
-override_global_seed = false
-custom_seed = 0
-restrict_height = false
 reference_frame = 2
 
 [sub_resource type="Resource" id="Resource_vtod4"]
@@ -2229,7 +2167,7 @@ bind/218/bone = -1
 bind/218/pose = Transform3D(1, 1.59783e-15, 5.02008e-14, -1.58819e-21, 0.999494, -0.0318126, -5.02263e-14, 0.0318126, 0.999494, -1.81747e-15, -1.14806, -0.0361857)
 bind/219/name = &"MCH-spine.003"
 bind/219/bone = -1
-bind/219/pose = Transform3D(1, 3.59989e-21, 3.38813e-21, 5.28537e-29, -7.45058e-09, -1, -7.0939e-21, 1, -2.40351e-41, -4.66982e-21, -0.00524161, -1.30215)
+bind/219/pose = Transform3D(1, 3.59989e-21, 3.38813e-21, 5.28537e-29, -7.45058e-09, -1, -7.0939e-21, 1, -2.4035e-41, -4.66982e-21, -0.00524161, -1.30215)
 bind/220/name = &"spine_fk.003"
 bind/220/bone = -1
 bind/220/pose = Transform3D(1, 1.1659e-15, 5.01374e-14, -2.5411e-21, 0.99973, -0.0232478, -5.0151e-14, 0.0232478, 0.99973, -1.25537e-15, -1.30192, -0.0250319)
@@ -46088,7 +46026,7 @@ shape = SubResource("Resource_atxbx")
 metadata/_custom_type_script = "uid://dw6fvqlngj2t4"
 
 [node name="Player" parent="." instance=ExtResource("12_wgfui")]
-transform = Transform3D(-0.0888776, 0, 0.996042, 0, 1, 0, -0.996042, 0, -0.0888776, -87.7151, 0.598404, 411.891)
+transform = Transform3D(-0.0888776, 0, 0.996042, 0, 1, 0, -0.996042, 0, -0.0888776, 0.13066101, 0.36189646, 1.8366318)
 
 [node name="Fences" type="Node3D" parent="."]
 
@@ -50529,7 +50467,7 @@ mesh = SubResource("ArrayMesh_ju1qe")
 skin = SubResource("Skin_qfqn4")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="BossGirl/visuals/bossgirl/Armature/Skeleton3D"]
-transform = Transform3D(-0.998521, 0.00921866, -0.0535842, -0.0249798, -0.953135, 0.301511, -0.0482934, 0.302403, 0.951956, -0.234132, 0.867231, 0.0159451)
+transform = Transform3D(-0.99852055, 0.009218665, -0.05358416, -0.024979759, -0.9531353, 0.3015109, -0.048293382, 0.30240336, 0.9519558, -0.2341322, 0.8672315, 0.015945114)
 bone_name = "DEF-hand.R"
 bone_idx = 122
 

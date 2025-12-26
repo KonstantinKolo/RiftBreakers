@@ -27,7 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://6okbev7wrecf" path="res://scenes/security_bot.tscn" id="27_8fwps"]
 [ext_resource type="Texture2D" uid="uid://ct5vmmi5thfpi" path="res://assets/models/map3/textures/Brownstone_Wall_1_Dif.jpeg" id="27_qc3m3"]
 [ext_resource type="Texture2D" uid="uid://dscqqrr524oo0" path="res://assets/models/Shacks/Concrete Barricade Texture.png" id="28_57rn2"]
-[ext_resource type="PackedScene" uid="uid://lnmtwfrcdbac" path="res://scenes/boss_girl.tscn" id="28_xc1ae"]
+[ext_resource type="PackedScene" uid="uid://lnmtwfrcdbac" path="res://scenes/ranged_bot.tscn" id="28_xc1ae"]
 [ext_resource type="PackedScene" uid="uid://cabgrr2bvykhs" path="res://scenes/spider_bot/spider_bot.tscn" id="29_mrskv"]
 [ext_resource type="Texture2D" uid="uid://d3khejr625nl7" path="res://assets/icons/spider_icon.png" id="30_6yn16"]
 
@@ -4021,7 +4021,7 @@ mesh = SubResource("ArrayMesh_2lw8o")
 skeleton = NodePath("")
 
 [node name="Player" parent="." instance=ExtResource("9_r67ql")]
-transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -150.125, 0.0344267, -7.40761)
+transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -6.3615, -1.247587, 94.182)
 
 [node name="Fences" type="Node3D" parent="."]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ctm1wktles0ek"]
+[gd_scene load_steps=23 format=3 uid="uid://ctm1wktles0ek"]
 
 [ext_resource type="Script" uid="uid://b6ijyramniv4q" path="res://scripts/menu.gd" id="1_tyjp1"]
 [ext_resource type="PackedScene" uid="uid://5ab443vvypir" path="res://scenes/button_click_particle.tscn" id="2_hweiw"]
@@ -13,6 +13,14 @@
 [ext_resource type="PackedScene" uid="uid://c4j7o2fg8k01x" path="res://scenes/crt_shader2.tscn" id="8_sx3qr"]
 [ext_resource type="Texture2D" uid="uid://cv0cdb4q6h2ut" path="res://assets/backgrounds/map3.png" id="9_fb6o5"]
 [ext_resource type="PackedScene" uid="uid://dfjjaydn71nyn" path="res://scenes/tv_turn_on_transition.tscn" id="9_fvu7f"]
+[ext_resource type="PackedScene" uid="uid://donurvwu8dqon" path="res://scenes/accout_message_modal.tscn" id="11_fvu7f"]
+[ext_resource type="PackedScene" uid="uid://ban4rwtc364sg" path="res://scenes/account_pop_up.tscn" id="12_sx3qr"]
+[ext_resource type="Script" uid="uid://dm2j4rb1b0gxt" path="res://scripts/account_box.gd" id="12_wijlr"]
+[ext_resource type="Texture2D" uid="uid://boy0afyqvixnn" path="res://assets/icons/account-svgrepo-com.svg" id="13_sx3qr"]
+[ext_resource type="Script" uid="uid://c1cd85yseacpm" path="res://scripts/leaderboard.gd" id="14_skjuh"]
+[ext_resource type="Texture2D" uid="uid://dldm75nx2eth" path="res://assets/icons/leaderboard-star-svgrepo-com.svg" id="15_edhs1"]
+[ext_resource type="Texture2D" uid="uid://dhw3j52e4isf2" path="res://assets/icons/user-admin-svgrepo-com.png" id="16_edhs1"]
+[ext_resource type="Script" uid="uid://cr3c5e0vtr3m8" path="res://scripts/user_info_board.gd" id="16_tynls"]
 
 [sub_resource type="Environment" id="Environment_n124n"]
 background_mode = 3
@@ -133,12 +141,41 @@ flat = true
 
 [node name="InfoPanel3" parent="Map/Level3" instance=ExtResource("5_hweiw")]
 auto_translate_mode = 1
+oversampling_override = 1.0
 position = Vector2i(290, 160)
-size = Vector2i(420, 168)
 visible = false
 image = ExtResource("9_fb6o5")
 text = "The enemies have launched a huge attack on the capital city. Stop them from taking it over and destroy their portal and Boss."
 _map_name = "CAPITAL"
+
+[node name="LevelTest" type="TextureRect" parent="Map"]
+visible = false
+modulate = Color(1.28, 0.35, 1.25, 1)
+layout_mode = 0
+offset_left = 1108.0
+offset_top = 375.0
+offset_right = 1148.0
+offset_bottom = 415.0
+scale = Vector2(2.43372, 2.43372)
+texture = ExtResource("5_fb6o5")
+expand_mode = 2
+
+[node name="Button4" type="Button" parent="Map/LevelTest"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+scale = Vector2(5.09831, 5.09831)
+flat = true
+
+[node name="InfoPanel4" parent="Map/LevelTest" instance=ExtResource("5_hweiw")]
+auto_translate_mode = 1
+oversampling_override = 1.0
+position = Vector2i(470, 140)
+visible = false
+image = ExtResource("9_fb6o5")
+text = "Testing level. Created for admins and testers to try new features."
+_map_name = "TEST"
 
 [node name="ConfirmationModal" parent="." instance=ExtResource("6_gdniv")]
 visible = false
@@ -149,6 +186,97 @@ mouse_filter = 1
 [node name="PopUpMenu" parent="." instance=ExtResource("7_wijlr")]
 layout_mode = 1
 mouse_filter = 1
+
+[node name="AccountBox" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -140.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = 140.0
+grow_horizontal = 0
+color = Color(0.7901648, 0.42168093, 0.7199506, 1)
+script = ExtResource("12_wijlr")
+
+[node name="AccountTextureRect" type="TextureRect" parent="AccountBox"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_sx3qr")
+expand_mode = 5
+
+[node name="Leaderboard" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 140.0
+offset_bottom = 140.0
+color = Color(0.7901648, 0.42168093, 0.7199506, 1)
+script = ExtResource("14_skjuh")
+
+[node name="LeaderboardTextureRect" type="TextureRect" parent="Leaderboard"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_edhs1")
+expand_mode = 5
+
+[node name="UserInfo" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = 40.0
+offset_right = 50.0
+offset_bottom = 140.0
+grow_horizontal = 2
+color = Color(0.7901648, 0.42168093, 0.7199506, 1)
+script = ExtResource("16_tynls")
+
+[node name="UserTextureRect" type="TextureRect" parent="UserInfo"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_edhs1")
+expand_mode = 5
+
+[node name="account_pop_up" parent="." instance=ExtResource("12_sx3qr")]
+layout_mode = 1
+
+[node name="AccoutMessageModal" parent="." instance=ExtResource("11_fvu7f")]
+visible = false
+layout_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_n124n")
@@ -168,3 +296,9 @@ layout_mode = 1
 [connection signal="mouse_entered" from="Map/Level3/Button3" to="." method="_on_button_3_mouse_entered"]
 [connection signal="mouse_exited" from="Map/Level3/Button3" to="." method="_on_button_3_mouse_exited"]
 [connection signal="pressed" from="Map/Level3/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="mouse_entered" from="Map/LevelTest/Button4" to="." method="_on_button_4_mouse_entered"]
+[connection signal="mouse_exited" from="Map/LevelTest/Button4" to="." method="_on_button_4_mouse_exited"]
+[connection signal="pressed" from="Map/LevelTest/Button4" to="." method="_on_button_4_pressed"]
+[connection signal="gui_input" from="AccountBox" to="AccountBox" method="_on_gui_input"]
+[connection signal="gui_input" from="Leaderboard" to="Leaderboard" method="_on_gui_input"]
+[connection signal="gui_input" from="UserInfo" to="UserInfo" method="_on_gui_input"]

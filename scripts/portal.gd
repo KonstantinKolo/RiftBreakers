@@ -1,7 +1,5 @@
 extends Node3D
 
-# TODO make it unavailable for access to levels when the boss is alive
-
 @export var current_level: int
 
 @onready var portal: MeshInstance3D = $StarGate5/Portal
@@ -56,7 +54,7 @@ func _process(delta: float) -> void:
 	if is_spawn and health > 0 and in_spawn_range:
 		spawn_timer += delta
 		if spawn_timer >= spawn_speed && get_enemy_count() < map_max_enemy_count:
-			_spawn_enemy()
+			spawn_enemy()
 			spawn_timer = 0.0
 
 # Teleport functionality
@@ -82,7 +80,7 @@ func _on_portal_body_entered(body: Node) -> void:
 		if is_inside_tree():
 			get_tree().change_scene_to_packed(scene_res)
 
-func _spawn_enemy() -> void:
+func spawn_enemy() -> void:
 	if enemy_type == null:
 		push_warning("No enemy_type assigned to spawner: " + str(self.name))
 		return
@@ -182,10 +180,10 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		in_spawn_range = true
 		if spawned_enemies.size() == 0:
 			#spawn some initial enemies
-			_spawn_enemy()
+			spawn_enemy()
 			if is_inside_tree():
 				await get_tree().create_timer(1.0).timeout
-				_spawn_enemy()
+				spawn_enemy()
 func _on_area_3d_body_exited(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		in_spawn_range = false

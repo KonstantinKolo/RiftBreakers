@@ -8,10 +8,14 @@ var turn_on_has_finished: bool = false
 @onready var info_panel_1: PopupPanel = $Map/Level1/InfoPanel1
 @onready var info_panel_2: PopupPanel = $Map/Level2/InfoPanel2
 @onready var info_panel_3: PopupPanel = $Map/Level3/InfoPanel3
+@onready var info_panel_4: PopupPanel = $Map/LevelTest/InfoPanel4
+
+@onready var user_info: ColorRect = $UserInfo
 
 @onready var level_1: TextureRect = $Map/Level1
 @onready var level_2: TextureRect = $Map/Level2
 @onready var level_3: TextureRect = $Map/Level3
+@onready var level_test: TextureRect = $Map/LevelTest
 const DOT_CIRCLE = preload("res://assets/backgrounds/dot-circle.png")
 const DOT_CIRCLE_SMALL = preload("res://assets/backgrounds/dot-circle-small.png")
 
@@ -33,6 +37,16 @@ func _ready():
 		level_2.modulate = Color(0.6, 0.31, 0.6)
 	if !Global.has_unlocked_level_3:
 		level_3.modulate = Color(0.6, 0.31, 0.6)
+	
+	if Global.role == "admin":
+		level_test.visible = true
+		user_info.visible = true
+	elif Global.role == "tester":
+		level_test.visible = true
+		user_info.visible = false
+	else:
+		level_test.visible = false
+		user_info.visible = false
 
 func _input(event):
 	# Mouse in viewport coordinates.
@@ -123,6 +137,31 @@ func _on_button_3_pressed() -> void:
 		_transition_to_scene("res://Maps/map_3.tscn")
 	else:
 		conf.cancel()
+func _on_button_4_pressed() -> void:
+	if Global.role == "tester" or Global.role == "admin":
+		conf.customize(
+			"Enter Level Test?",
+			"By clicking this you will enter level test.",
+			"Enter",
+			"Return"
+		)
+	else:
+		conf.customize(
+			"Not allowed!",
+			"You don't have permission to play this level.",
+			"",
+			"Return"
+		)
+	
+	var is_confirmed = await conf.prompt(true)
+	
+	
+	if is_confirmed and (Global.role == "tester" or Global.role == "admin"):
+		Global.triggeredMap.emit()
+		_button_pressed_particles(level_test)
+		_transition_to_scene("res://Maps/TestScene.tscn")
+	else:
+		conf.cancel()
 
 func _on_button_1_mouse_entered() -> void:
 	_unvisible_info()
@@ -160,6 +199,20 @@ func _on_button_3_mouse_exited() -> void:
 		level_3.modulate = Color(1.28, 0.35, 1.25, 1)
 	else:
 		level_3.modulate = Color(0.6, 0.31, 0.6)
+func _on_button_4_mouse_entered() -> void:
+	_unvisible_info()
+	info_panel_4.visible = true
+	level_test.scale = Vector2(level_test.scale.x + 0.1, level_test.scale.y + 0.1)
+	if Global.role == "tester" or Global.role == "admin":
+		level_test.modulate = Color(1.33, 0.35, 1.28, 1)
+	else:
+		level_test.modulate = Color(0.8, 0.37, 0.8)
+func _on_button_4_mouse_exited() -> void:
+	level_test.scale = Vector2(level_test.scale.x - 0.1, level_test.scale.y - 0.1)
+	if Global.role == "tester" or Global.role == "admin":
+		level_test.modulate = Color(1.28, 0.35, 1.25, 1)
+	else:
+		level_test.modulate = Color(0.6, 0.31, 0.6)
 
 func _button_pressed_particles(level : TextureRect) -> void:
 	var _particle = death_particle.instantiate()
@@ -185,6 +238,7 @@ func _unvisible_info() -> void:
 	info_panel_1.visible = false
 	info_panel_2.visible = false
 	info_panel_3.visible = false
+	info_panel_4.visible = false
 
 func _transition_to_scene(pathToNewScene: String):
 	TransitionScene.transition()

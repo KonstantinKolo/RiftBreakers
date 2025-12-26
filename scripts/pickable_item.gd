@@ -15,6 +15,23 @@ func _process(delta):
 			Global.has_dynamite_unlocked = true
 		elif name == "Rifle":
 			Global.has_rifle_unlocked = true
+		elif name == "Button1":
+			var enemy_spawner: Node3D = $"../../../Portals/EnemySpawner"
+			enemy_spawner.enemy_type = preload("res://scenes/security_bot.tscn")
+			enemy_spawner.spawn_enemy()
+			return
+		elif name == "Button2":
+			var enemy_spawner: Node3D = $"../../../Portals/EnemySpawner"
+			enemy_spawner.enemy_type = preload("res://scenes/ranged_bot.tscn")
+			enemy_spawner.spawn_enemy()
+			return
+		elif name == "Button3":
+			var security_bot_boss: CharacterBody3D = $"../../../SecurityBotBoss"
+			security_bot_boss.position = Vector3(15, 0.5, 0)
+			return
+		elif name == "Button4":
+			var ranged_bot_boss: CharacterBody3D = $"../../../RangedBotBoss"
+			ranged_bot_boss.position = Vector3(15, 0.5, 0)
 		queue_free()
 
 

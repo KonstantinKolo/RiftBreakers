@@ -3,6 +3,13 @@ extends Node
 signal scoreChanged
 signal triggeredMap
 
+const SAVE_PATH := "user://login_data.json"
+
+var username: String = ""
+var token: String = ""
+var displayName: String = ""
+var role: String = ""
+
 var has_unlocked_level_2: bool = false
 var has_unlocked_level_3: bool = false
 var has_cleared_game: bool = false
@@ -26,6 +33,7 @@ func _ready() -> void:
 	signalFPS.connect(fps_handle)
 	signalPlayerFPS.connect(fps_handle_player)
 	triggeredMap.connect(_on_map_triggered)
+	load_login_data()
 
 func _process(delta: float) -> void:
 	if count_time:
@@ -96,3 +104,25 @@ func display_fps_player() -> void:
 		mounting_point.add_child(fps_label)
 	else:
 		mounting_point.remove_child(fps_label)
+
+func load_login_data() -> void:
+	if not FileAccess.file_exists(SAVE_PATH):
+		return
+	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if file == null:
+		print("Failed to read save file")
+		return
+	var content := file.get_as_text()
+	file.close()
+	var json := JSON.new()
+	if json.parse(content) != OK:
+		print("Failed to parse saved login data")
+		return
+	var data: Dictionary = json.data
+	if data.has("username") && data.has("token") && data.has("displayName") && data.has("role"):
+		username = data["username"]
+		token = data["token"]
+		displayName = data["displayName"]
+		role = data["role"]
+	else:
+		print("Username, token, displayName or role not found in response:", data)

@@ -43896,7 +43896,7 @@ mesh = SubResource("ArrayMesh_xv8jm")
 skeleton = NodePath("")
 
 [node name="Player" parent="." instance=ExtResource("11_xk73h")]
-transform = Transform3D(-0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -66.9953, 17.7327, -0.31876)
+transform = Transform3D(-0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -63.6243, 0.20771909, -97.71329)
 
 [node name="Skyscrapers" type="Node3D" parent="."]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -2.07758, 0, 0)

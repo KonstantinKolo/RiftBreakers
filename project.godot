@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="MainProject"
-run/main_scene="res://Maps/TestScene.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="uid://c6rq50kbrnaxt"
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
