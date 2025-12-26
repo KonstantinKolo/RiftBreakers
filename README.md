@@ -67,4 +67,3 @@ Please follow a clear structure and write clean, commented GDScript.
 
 This project is licensed under the MIT License – see the LICENSE file for details.
 
-
