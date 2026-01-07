@@ -25,7 +25,15 @@ func _on_exit_pressed() -> void:
 		closeGame.emit()
 
 func _on_volume_value_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(0, value)
+	var db: float
+	if value <= 50.0:
+		# Map 0–50 → -80 dB → 0 dB
+		db = lerp(-40.0, 0.0, value / 50.0)
+	else:
+		# Map 50–100 → 0 dB → +3 dB
+		db = lerp(0.0, 5.0, (value - 50.0) / 50.0)
+	AudioServer.set_bus_volume_db(0, db)
+
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	AudioServer.set_bus_mute(0,toggled_on)
 func _on_fullscreen_toggled(toggled_on: bool) -> void:

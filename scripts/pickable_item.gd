@@ -2,15 +2,18 @@ extends Node3D
 
 @onready var area_3d: Area3D = $Area3D
 
+var sound: AudioStream = preload("uid://bejskg4rofu4d")
+var audio_player: AudioStreamPlayer3D
+
 var rotation_speed: float = 90.0  # degrees per second
 var text_shown: bool = false
 
 func _process(delta):
 	# Rotate the node around the Y-axis (or another axis)
 	rotation_degrees.y += rotation_speed * delta
-	
 	if text_shown and Input.is_action_just_pressed("use"):
 		# Add item to the players inventory
+		play_sound(sound)
 		if name == "Dynamite":
 			Global.has_dynamite_unlocked = true
 		elif name == "Rifle":
@@ -34,6 +37,19 @@ func _process(delta):
 			ranged_bot_boss.position = Vector3(15, 0.5, 0)
 		queue_free()
 
+func play_sound(sound: AudioStream):
+	var p := AudioStreamPlayer3D.new()
+	p.stream = sound
+	p.global_position = global_position
+	p.unit_size = 1.0
+	p.max_distance = 40.0
+
+	get_tree().current_scene.add_child(p)
+
+	p.play()
+	p.finished.connect(func():
+		p.queue_free()
+	)
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):

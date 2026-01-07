@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ctm1wktles0ek"]
+[gd_scene load_steps=24 format=3 uid="uid://ctm1wktles0ek"]
 
 [ext_resource type="Script" uid="uid://b6ijyramniv4q" path="res://scripts/menu.gd" id="1_tyjp1"]
 [ext_resource type="PackedScene" uid="uid://5ab443vvypir" path="res://scenes/button_click_particle.tscn" id="2_hweiw"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://c4j7o2fg8k01x" path="res://scenes/crt_shader2.tscn" id="8_sx3qr"]
 [ext_resource type="Texture2D" uid="uid://cv0cdb4q6h2ut" path="res://assets/backgrounds/map3.png" id="9_fb6o5"]
 [ext_resource type="PackedScene" uid="uid://dfjjaydn71nyn" path="res://scenes/tv_turn_on_transition.tscn" id="9_fvu7f"]
+[ext_resource type="Texture2D" uid="uid://dp5kr6uiofmhy" path="res://assets/backgrounds/mapTest.png" id="10_smfqu"]
 [ext_resource type="PackedScene" uid="uid://donurvwu8dqon" path="res://scenes/accout_message_modal.tscn" id="11_fvu7f"]
 [ext_resource type="PackedScene" uid="uid://ban4rwtc364sg" path="res://scenes/account_pop_up.tscn" id="12_sx3qr"]
 [ext_resource type="Script" uid="uid://dm2j4rb1b0gxt" path="res://scripts/account_box.gd" id="12_wijlr"]
@@ -173,7 +174,7 @@ auto_translate_mode = 1
 oversampling_override = 1.0
 position = Vector2i(470, 140)
 visible = false
-image = ExtResource("9_fb6o5")
+image = ExtResource("10_smfqu")
 text = "Testing level. Created for admins and testers to try new features."
 _map_name = "TEST"
 

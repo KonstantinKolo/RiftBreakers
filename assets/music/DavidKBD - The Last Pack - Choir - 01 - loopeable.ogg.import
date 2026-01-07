@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ivc7mjaw8q2a"
+path="res://.godot/imported/DavidKBD - The Last Pack - Choir - 01 - loopeable.ogg-996ef3c686ea7f40d734d375506e70da.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/DavidKBD - The Last Pack - Choir - 01 - loopeable.ogg"
+dest_files=["res://.godot/imported/DavidKBD - The Last Pack - Choir - 01 - loopeable.ogg-996ef3c686ea7f40d734d375506e70da.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

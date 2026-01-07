@@ -7,6 +7,8 @@ extends Control
 @onready var total_time_2: Label = $TotalTime2
 
 func _ready() -> void:
+	Global.count_time = false
+	MusicManager.play_music("res://assets/music/DavidKBD - The Last Pack - Guitar - 08 - loopeable.ogg")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	kills_melee_2.text = str(Global.melee_bots_killed)
 	kills_ranged_2.text = str(Global.ranged_bots_killed)

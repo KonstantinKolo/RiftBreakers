@@ -1,0 +1,106 @@
+[gd_scene load_steps=3 format=3 uid="uid://bss053hwuejpr"]
+
+[ext_resource type="Script" uid="uid://80f84m1vkb50" path="res://scripts/settings.gd" id="1_5p8wc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_36l1p"]
+font_size = 27
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5p8wc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.23137255, 0.23137255, 0.23137255, 0.58431375)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volume"
+label_settings = SubResource("LabelSettings_36l1p")
+
+[node name="Volume" type="HSlider" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+value = 50.0
+
+[node name="Control" type="Control" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Line2D" type="Line2D" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+position = Vector2(-6.04, 131.152)
+points = PackedVector2Array(0, 0, 1122, 0)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Mute" type="CheckBox" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Mute"
+
+[node name="Fullscreen" type="CheckBox" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Fullscreen"
+
+[node name="FPS" type="CheckBox" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Show FPS"
+
+[node name="Time" type="CheckBox" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Show Time"
+
+[node name="Control2" type="Control" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Give Up Session"
+
+[node name="Control3" type="Control" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save And Return To Menu"
+
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="toggled" from="VBoxContainer/MarginContainer/VBoxContainer/Mute" to="." method="_on_mute_toggled"]
+[connection signal="toggled" from="VBoxContainer/MarginContainer/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="toggled" from="VBoxContainer/MarginContainer/VBoxContainer/FPS" to="." method="_on_fps_toggled"]
+[connection signal="toggled" from="VBoxContainer/MarginContainer/VBoxContainer/Time" to="." method="_on_time_toggled"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

@@ -10,12 +10,14 @@ var health_bar_fading_out: bool = false
 
 func _ready() -> void:
 	Global.triggeredMap.emit()
+	MusicManager.play_music("res://assets/music/DavidKBD - The Last Pack - Choir - 01 - loopeable.ogg")
 	spider_bot.inHealthBarRange.connect(_show_boss_health_bar)
 	spider_bot.outHealthBarRange.connect(_hide_boss_health_bar)
 	spider_bot.healthChanged.connect(_change_health_value)
 	player.load_screen_disappear()
 	progress_bar.value = spider_bot.health
 	teleport_portal.deactivate()
+	Global.map_start_time = Global.total_time
 
 func _show_boss_health_bar() -> void:
 	if health_bar_fading_out: return

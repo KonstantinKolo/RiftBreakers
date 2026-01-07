@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bnysbo5x4sh1s"
+path="res://.godot/imported/DavidKBD - The Last Pack - Dongxiao - 07 - loopeable.ogg-057247ed23645dc22285920e37961357.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/DavidKBD - The Last Pack - Dongxiao - 07 - loopeable.ogg"
+dest_files=["res://.godot/imported/DavidKBD - The Last Pack - Dongxiao - 07 - loopeable.ogg-057247ed23645dc22285920e37961357.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

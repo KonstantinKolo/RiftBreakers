@@ -15,7 +15,7 @@ enum States {
 @onready var random_target_3d: RandomTarget3D = $RandomTarget3D
 
 var stuck_time := 0.0
-var stuck_threshold := 2.0
+var stuck_threshold := 3.0
 var min_movement_threshold := 0.05
 var last_position := Vector3.ZERO
 var is_stuck := false
@@ -52,6 +52,7 @@ func _ready() -> void:
 	progress_bar.visible = false
 	progress_bar.max_value = health
 	progress_bar.value = health
+	
 
 func _process(delta):
 	if fading_out:
@@ -74,6 +75,7 @@ func _process(delta):
 			if animation_player.current_animation != "idle":
 				animation_player.play("idle")
 	else:
+		await get_tree().create_timer(0.1).timeout
 		if animation_player.current_animation == "idle":
 			animation_player.play("idle-to-run")
 		stuck_time = 0.0

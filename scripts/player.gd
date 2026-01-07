@@ -13,11 +13,16 @@ signal blinkStaminaBar
 @onready var cross_hair: TextureRect = $camera_mount/Camera3D/CanvasLayer/CrossHair
 @onready var stamina_bar: TextureProgressBar = $camera_mount/Camera3D/CanvasLayer/StaminaBar
 @onready var rich_text_label: RichTextLabel = $camera_mount/Camera3D/CanvasLayer/RichTextLabel
+@onready var ammo_label: Label = $camera_mount/Camera3D/CanvasLayer/AmmoLabel
 @onready var death_screen: Control = $camera_mount/Camera3D/CanvasLayer/DeathScreen
 @onready var load_screen: Control = $camera_mount/Camera3D/CanvasLayer/LoadScreen
+@onready var settings: Control = $camera_mount/Camera3D/CanvasLayer/Settings
 
 const EMPTY_CIRCLE: Resource = preload("res://assets/models/Icons/empty-circle.png")
 const CROSSHAIR: Resource = preload("res://assets/models/Icons/crosshair.svg")
+
+@onready var switch_sound: AudioStreamPlayer3D = $Audio/SwitchSound
+@onready var reload_sound: AudioStreamPlayer3D = $Audio/ReloadSound
 
 var targeted_enemy: Node = null
 
@@ -34,6 +39,9 @@ const JUMP_VELOCITY: float = 4.5
 @export var rifle_speed: float = 2.5
 @export var throw_speed: float = 2.5
 
+@export var pistol_ammo: int = 8
+@export var rifle_ammo: int = 20
+
 @export var health: int = 100
 @export var stamina: int = 100
 @export var ray_length: float = 100.0
@@ -48,6 +56,9 @@ var punch_mode: bool = false
 var punch_to_idle: bool = false
 var is_punching: bool = false
 var is_shooting: bool = false
+var is_delay: bool = false
+var shot_count: int = 0
+var reloading_count: int = 0
 var has_thrown: bool = false
 
 var is_selecting_mode: bool = false
@@ -83,7 +94,10 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	await get_tree().create_timer(0.1).timeout
 	animation_player.play("a-idle")
-	if Global.show_fps == true:
+	if Global.show_time:
+		Global.show_time = false
+		Global.signalPlayerFPS.emit()
+	if Global.show_fps:
 		Global.show_fps = false
 		Global.signalPlayerFPS.emit()
 
@@ -138,6 +152,30 @@ func _input(event: InputEvent) -> void:
 	
 	# Combat events
 	if health <= 0: return
+	if Input.is_action_pressed("reload") and reloading_count == 0 and \
+	   (selected_weapon == "rifle" || selected_weapon == "pistol"):
+		if selected_weapon == "pistol" and pistol_ammo == 8 || \
+		   selected_weapon == "rifle" and rifle_ammo == 20:
+			_flash_ammo_label()
+			return
+		
+		reloading_count += 1
+		reload_sound.play()
+		if selected_weapon == "pistol":
+			animation_player.play_backwards("b-pull-pistol")
+			if is_inside_tree():
+				await get_tree().create_timer(0.8).timeout
+			pistol_ammo = 8
+			ammo_label.text = "ammo: %s/∞" % pistol_ammo
+			animation_player.play("b-pull-pistol")
+		elif selected_weapon == "rifle":
+			animation_player.play_backwards("b-pull-gun")
+			if is_inside_tree():
+				await get_tree().create_timer(1).timeout
+			rifle_ammo = 20
+			ammo_label.text = "ammo: %s/∞" % rifle_ammo
+			animation_player.play("b-pull-gun")
+		reloading_count -= 1
 	if event is InputEventMouseButton or _select_weapon_num():
 		# Handle the weapon selection
 		# TODO make the SelectionWheel into a variable
@@ -195,20 +233,21 @@ func _input(event: InputEvent) -> void:
 				is_punching = true
 				speed = 0
 				_punch_attack()
-		elif Input.is_action_pressed("attack") and \
-		is_gun_mode and !is_selecting_mode:
+		elif Input.is_action_just_pressed("attack") and \
+		is_gun_mode and !is_selecting_mode and reloading_count == 0 and \
+		shot_count == 0:
 			is_shooting = true
 			
 			var damage: int
 			var rate_of_fire: float
 			
 			if selected_weapon == "pistol":
-				damage = 35
-				rate_of_fire = 0.4
+				damage = 20
+				rate_of_fire = 0.5
 			elif selected_weapon == "rifle":
 				speed = 0
-				damage = 20
-				rate_of_fire = 0.2
+				damage = 25
+				rate_of_fire = 0.3
 				
 				# Check if the player is moving
 				var input_dir := Input.get_vector("left", "right", "forward", "backward")
@@ -229,12 +268,30 @@ func _input(event: InputEvent) -> void:
 					if is_inside_tree():
 						await get_tree().create_timer(0.1).timeout
 			while Input.is_action_pressed("attack"):
+				shot_count += 1
+				if damage == 25:
+					if rifle_ammo > 0:
+						rifle_ammo -= 1
+						ammo_label.text = "ammo: %s/∞" % rifle_ammo
+					else:
+						shot_count -= 1
+						_flash_ammo_label()
+						return
+				elif damage == 20:
+					if pistol_ammo > 0:
+						pistol_ammo -= 1
+						ammo_label.text = "ammo: %s/∞" % pistol_ammo
+					else:
+						shot_count -= 1
+						_flash_ammo_label()
+						return
 				# TODO put the relative path in a var
 				$camera_mount/GunCast3D.fire_shot(damage)
 				_flash_bullet()
-				# TODO CREATE A GLOBAL TIMER INSTEAD OF CREATING NEW ONE
 				if is_inside_tree():
 					await get_tree().create_timer(rate_of_fire).timeout
+				is_delay = !is_delay
+				shot_count -= 1
 		elif Input.is_action_pressed("attack") and \
 		selected_weapon == "dynamite" and !has_thrown:
 			#play throw animation
@@ -273,6 +330,7 @@ func _input(event: InputEvent) -> void:
 		elif Input.is_action_just_released("right_mouse") and \
 		is_gun_mode:
 			$camera_mount/Camera3D.fov = 75
+		
 
 func _physics_process(delta: float) -> void:
 	# functionality for death
@@ -541,6 +599,12 @@ func _flash_bullet() -> void:
 	bullet.rotation.x = bullet.rotation.x + 8
 	
 	bullet.shoot()
+func _flash_ammo_label() -> void:
+	for n in 2:
+		ammo_label.label_settings.font_color = Color(1,0,0)
+		if is_inside_tree(): await get_tree().create_timer(0.3).timeout
+		ammo_label.label_settings.font_color = Color(1,1,1)
+		if is_inside_tree(): await get_tree().create_timer(0.3).timeout
 func _randomizer(numElements: int) -> int:
 	return randi() % numElements + 1
 func _get_direction_to_Node(targetNode : Node) -> Vector3:
@@ -1041,17 +1105,25 @@ func _transition_to_weapon() -> void:
 	# Transition from idle to other modes
 	match selected_weapon:
 		"run":
+			ammo_label.text = ""
 			speed = walk_speed
 		"fist":
+			ammo_label.text = ""
 			_punch_mode_transition()
 		"pistol":
 			is_gun_mode = true
+			switch_sound.play()
+			ammo_label.text = "ammo: %s/∞" % pistol_ammo
 			_pistol_transition()
 		"rifle":
 			is_gun_mode = true
+			switch_sound.play()
+			ammo_label.text = "ammo: %s/∞" % rifle_ammo
 			_rifle_transition()
 		"dynamite":
+			ammo_label.text = ""
 			is_throw_mode = true
+			switch_sound.play()
 			_dynamite_transition()
 	
 	is_selecting_mode = false

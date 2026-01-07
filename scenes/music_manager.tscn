@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfwqj5juemv0m"]
+
+[ext_resource type="Script" uid="uid://cd1ll5gg3fl5p" path="res://scripts/music_manager.gd" id="1_hetdf"]
+[ext_resource type="AudioStream" uid="uid://sx0oe46sonuv" path="res://assets/music/DavidKBD - The Last Pack - Guitar - 08 - loopeable.ogg" id="2_jd6i5"]
+
+[node name="MusicManager" type="Node"]
+script = ExtResource("1_hetdf")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_jd6i5")
+parameters/looping = true

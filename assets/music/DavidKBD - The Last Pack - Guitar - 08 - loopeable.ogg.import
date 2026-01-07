@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://sx0oe46sonuv"
+path="res://.godot/imported/DavidKBD - The Last Pack - Guitar - 08 - loopeable.ogg-f81f4a2e617f9a5f40b2bfd27de48307.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/DavidKBD - The Last Pack - Guitar - 08 - loopeable.ogg"
+dest_files=["res://.godot/imported/DavidKBD - The Last Pack - Guitar - 08 - loopeable.ogg-f81f4a2e617f9a5f40b2bfd27de48307.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

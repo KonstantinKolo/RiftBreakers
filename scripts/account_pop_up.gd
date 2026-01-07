@@ -134,6 +134,7 @@ func save_login_data(username: String, token: String = "", displayName: String =
 		return
 	file.store_string(JSON.stringify(data))
 	file.close()
+	Global.load_login_data()
 	print("Login data saved")
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
@@ -158,6 +159,7 @@ func _set_logged_in_data(body: PackedByteArray) -> void:
 	var data: Dictionary = json.data
 	if data.has("username") && data.has("token") && data.has("displayName") && data.has("role"):
 		save_login_data(data["username"], data["token"], data["displayName"], data["role"])
+		_delete_local_data()
 	else:
 		print("Username, token, displayName or role not found in response:", data)
 func _set_logged_in_username(body: PackedByteArray) -> void:
@@ -174,3 +176,13 @@ func _set_logged_in_username(body: PackedByteArray) -> void:
 	else:
 		print("Username not found in response:", data)
 	print("USERNAME SET")
+
+func _delete_local_data() -> void: #Delete users locally start data and strat a new session
+	if FileAccess.file_exists(SAVE_PATH):
+		var dir = DirAccess.open("user://")
+		if dir:
+			dir.remove("save_data.json")
+			print("Save file deleted.")
+	else:
+		print("No save file to delete.")
+	Global.reset_progress()

@@ -3,7 +3,8 @@ extends Node
 signal scoreChanged
 signal triggeredMap
 
-const SAVE_PATH := "user://login_data.json"
+const ACCOUNT_PATH: String = "user://login_data.json"
+const SAVE_PATH: String = "user://save_data.json"
 
 var username: String = ""
 var token: String = ""
@@ -17,12 +18,19 @@ var has_cleared_game: bool = false
 var melee_bots_killed: int = 0
 var ranged_bots_killed: int = 0
 var bosses_killed: int = 0 # for the game instance
+
 var total_time: int = 0 # in seconds
+var map_start_time: int = 0 # used for save purposes 
 var second_timer: float = 0.0
 var count_time: bool = false
 
 var has_dynamite_unlocked: bool = false
 var has_rifle_unlocked: bool = false
+
+signal signalTime
+signal signalPlayerTime
+var show_time: bool = false
+var time_label: Label = Label.new()
 
 signal signalFPS
 signal signalPlayerFPS
@@ -32,8 +40,11 @@ var fps_label: Label = Label.new()
 func _ready() -> void:
 	signalFPS.connect(fps_handle)
 	signalPlayerFPS.connect(fps_handle_player)
+	signalTime.connect(time_handle)
+	signalPlayerTime.connect(time_handle_player)
 	triggeredMap.connect(_on_map_triggered)
 	load_login_data()
+	load_save_data()
 
 func _process(delta: float) -> void:
 	if count_time:
@@ -45,9 +56,14 @@ func _process(delta: float) -> void:
 			scoreChanged.emit()
 	if show_fps and is_instance_valid(fps_label):
 		fps_label.text = "FPS: %s" % [Engine.get_frames_per_second()]
+	if show_time and is_instance_valid(time_label):
+		time_label.text = "Time: %s" % total_time
 
 func _on_map_triggered() -> void:
+	print(count_time)
 	count_time = !count_time
+	print(count_time)
+	print("|||||")
 
 func on_ranged_killed() -> void:
 	ranged_bots_killed += 1
@@ -70,6 +86,7 @@ func calculate_score() -> int:
 	return total_score
 
 func fps_handle() -> void:
+	print(1)
 	if !show_fps:
 		show_fps = true
 		display_fps()
@@ -83,7 +100,6 @@ func fps_handle_player() -> void:
 	else:
 		show_fps = false
 		display_fps_player()
-
 func display_fps() -> void:
 	var current_scene = get_tree().current_scene
 	if show_fps:
@@ -105,10 +121,47 @@ func display_fps_player() -> void:
 	else:
 		mounting_point.remove_child(fps_label)
 
+func time_handle() -> void:
+	if !show_time:
+		show_time = true
+		display_time()
+	else:
+		show_time = false
+		display_time()
+func time_handle_player() -> void:
+	if !show_time:
+		show_time = true
+		display_time_player()
+	else:
+		show_time = false
+		display_time_player()
+func display_time() -> void:
+	var current_scene = get_tree().current_scene
+	if show_time:
+		current_scene.add_child(time_label)
+	else:
+		current_scene.remove_child(time_label)
+func display_time_player() -> void:
+	var current_scene = get_tree().current_scene
+	var player = null
+	for child in current_scene.get_children():
+		if child.is_in_group("player"): player = child
+	
+	if player == null: assert("global.gd: Player not found in the current scene!") 
+	var mounting_point = player.get_child(2).get_child(0).get_child(0)
+	if !is_instance_valid(time_label):
+		time_label = Label.new()
+	if show_time:
+		time_label.custom_minimum_size = Vector2(0,50)
+		time_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+		mounting_point.add_child(time_label)
+	else:
+		mounting_point.remove_child(time_label)
+
 func load_login_data() -> void:
-	if not FileAccess.file_exists(SAVE_PATH):
+	if not FileAccess.file_exists(ACCOUNT_PATH):
 		return
-	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	var file := FileAccess.open(ACCOUNT_PATH, FileAccess.READ)
 	if file == null:
 		print("Failed to read save file")
 		return
@@ -126,3 +179,46 @@ func load_login_data() -> void:
 		role = data["role"]
 	else:
 		print("Username, token, displayName or role not found in response:", data)
+func load_save_data() -> void:
+	if not FileAccess.file_exists(SAVE_PATH):
+		return
+	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if file == null:
+		print("Failed to read save file")
+		return
+	var content := file.get_as_text()
+	file.close()
+	var json := JSON.new()
+	if json.parse(content) != OK:
+		print("Failed to parse saved login data")
+		return
+	var data: Dictionary = json.data
+	if data.has("current_level") and data.has("melee_bots_killed") and \
+	   data.has("ranged_bots_killed") and data.has("total_time") and \
+	   data.has("has_dynamite_unlocked") and data.has("has_rifle_unlocked"):
+		melee_bots_killed = data["melee_bots_killed"]
+		ranged_bots_killed = data["ranged_bots_killed"]
+		total_time = data["total_time"]
+		has_dynamite_unlocked = data["has_dynamite_unlocked"]
+		has_rifle_unlocked = data["has_rifle_unlocked"]
+		
+		if data["current_level"] == 2:
+			bosses_killed += 1
+			has_unlocked_level_2 = true
+		elif data["current_level"] == 3:
+			bosses_killed += 2
+			has_unlocked_level_3 = true
+
+func reset_progress() -> void:
+	has_unlocked_level_2 = false
+	has_unlocked_level_3 = false
+	has_cleared_game = false
+	melee_bots_killed = 0
+	ranged_bots_killed = 0
+	bosses_killed = 0
+	total_time = 0
+	second_timer = 0.0
+	count_time = false
+	has_dynamite_unlocked = false
+	has_rifle_unlocked = false
+	pass

@@ -115,6 +115,7 @@ label_settings = SubResource("LabelSettings_1bis6")
 custom_minimum_size = Vector2(1000, 30)
 layout_mode = 2
 size_flags_horizontal = 4
+value = 50.0
 
 [node name="Control" type="Control" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
