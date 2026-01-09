@@ -207,6 +207,7 @@ func load_save_data() -> void:
 			has_unlocked_level_2 = true
 		elif data["current_level"] == 3:
 			bosses_killed += 2
+			has_unlocked_level_2 = true
 			has_unlocked_level_3 = true
 
 func reset_progress() -> void:

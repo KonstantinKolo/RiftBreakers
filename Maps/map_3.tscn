@@ -7498,7 +7498,7 @@ sky_mode = 1
 transform = Transform3D(-0.997875, 0, -0.0651592, 0, 1, 0, 0.0651592, 0, -0.997875, 64.1694, -1.10339, 53.0144)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 4.0
+spawn_speed = 12.0
 spawn_distance = 1.5
 enemy_type = ExtResource("27_8fwps")
 
@@ -7506,7 +7506,7 @@ enemy_type = ExtResource("27_8fwps")
 transform = Transform3D(-0.799674, 0, -0.600434, 0, 1, 0, 0.600434, 0, -0.799674, 29.7189, -1.18809, -41.6356)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 3.0
+spawn_speed = 12.0
 spawn_distance = 1.5
 enemy_type = ExtResource("27_8fwps")
 
@@ -7514,7 +7514,7 @@ enemy_type = ExtResource("27_8fwps")
 transform = Transform3D(-0.935869, 0, 0.352348, 0, 1, 0, -0.352348, 0, -0.935869, -83.6753, 0.0963244, -42.7941)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 4.0
+spawn_speed = 12.0
 spawn_distance = 1.5
 enemy_type = ExtResource("27_8fwps")
 
@@ -7522,7 +7522,7 @@ enemy_type = ExtResource("27_8fwps")
 transform = Transform3D(-0.868415, 0, 0.495838, 0, 1, 0, -0.495838, 0, -0.868415, 45.3182, -1.18999, -41.8595)
 is_spawn = true
 map_max_enemy_count = 50
-spawn_speed = 4.0
+spawn_speed = 15.0
 spawn_distance = 1.5
 enemy_type = ExtResource("28_xc1ae")
 
@@ -7530,7 +7530,7 @@ enemy_type = ExtResource("28_xc1ae")
 transform = Transform3D(0.710492, 0, -0.703705, 0, 1, 0, 0.703705, 0, 0.710492, -67.2407, -1.31769, 47.6136)
 is_spawn = true
 map_max_enemy_count = 50
-spawn_speed = 8.0
+spawn_speed = 15.0
 spawn_distance = 1.5
 enemy_type = ExtResource("28_xc1ae")
 
@@ -7538,7 +7538,7 @@ enemy_type = ExtResource("28_xc1ae")
 transform = Transform3D(0.208201, 0, -0.978086, 0, 1, 0, 0.978086, 0, 0.208201, -111.76, 0.108843, -37.1812)
 is_spawn = true
 map_max_enemy_count = 50
-spawn_speed = 8.0
+spawn_speed = 15.0
 spawn_distance = 1.5
 enemy_type = ExtResource("28_xc1ae")
 
@@ -7546,7 +7546,7 @@ enemy_type = ExtResource("28_xc1ae")
 transform = Transform3D(-0.729327, 0, -0.684165, 0, 1, 0, 0.684165, 0, -0.729327, -127.88, -0.142737, -73.9158)
 is_spawn = true
 map_max_enemy_count = 50
-spawn_speed = 8.0
+spawn_speed = 15.0
 spawn_distance = 1.5
 enemy_type = ExtResource("28_xc1ae")
 
@@ -7554,10 +7554,12 @@ enemy_type = ExtResource("28_xc1ae")
 transform = Transform3D(1.46333, 0, 1.36333, 0, 2, 0, -1.36333, 0, 1.46333, -108.613, -1.01651, 33.0095)
 current_level = 3
 map_path = "res://Maps/score_screen.tscn"
+spawn_speed = 8.0
 teleport_delay = 0.5
 
 [node name="SpiderBot" parent="." instance=ExtResource("29_mrskv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128, 0.634, 9.609)
+health = 1000
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -47922,7 +47922,6 @@ sky_mode = 1
 transform = Transform3D(-0.913361, 0, -0.407151, 0, 1, 0, 0.407151, 0, -0.913361, -75.0868, 1.24511, -2.36459)
 is_spawn = true
 map_max_enemy_count = 50
-spawn_speed = 4.0
 spawn_distance = 1.5
 enemy_type = ExtResource("42_m4hs1")
 
@@ -47930,15 +47929,7 @@ enemy_type = ExtResource("42_m4hs1")
 transform = Transform3D(-0.00598615, 0, 0.999982, 0, 1, 0, -0.999982, 0, -0.00598615, -141.89, -0.129668, -112.004)
 is_spawn = true
 map_max_enemy_count = 50
-spawn_speed = 4.0
-spawn_distance = 1.5
-enemy_type = ExtResource("42_m4hs1")
-
-[node name="EnemyPortalShoot3" parent="Portals" instance=ExtResource("41_luntg")]
-transform = Transform3D(-0.00598615, 0, 0.999982, 0, 1, 0, -0.999982, 0, -0.00598615, -141.89, 0.0366179, -104.535)
-is_spawn = true
-map_max_enemy_count = 50
-spawn_speed = 4.0
+spawn_speed = 15.0
 spawn_distance = 1.5
 enemy_type = ExtResource("42_m4hs1")
 
@@ -47946,30 +47937,14 @@ enemy_type = ExtResource("42_m4hs1")
 transform = Transform3D(0.00598607, 0, -0.999982, 0, 1, 0, 0.999982, 0, 0.00598607, -277.803, 0.466201, -175.241)
 is_spawn = true
 map_max_enemy_count = 50
+spawn_speed = 15.0
 spawn_distance = 1.5
 enemy_type = ExtResource("42_m4hs1")
-
-[node name="EnemyPortalShoot5" parent="Portals" instance=ExtResource("41_luntg")]
-transform = Transform3D(-0.901991, 0, -0.431755, 0, 1, 0, 0.431755, 0, -0.901991, -52.0597, 1.07412, 438.933)
-is_spawn = true
-map_max_enemy_count = 50
-spawn_speed = 4.0
-spawn_distance = 1.5
-enemy_type = ExtResource("42_m4hs1")
-
-[node name="EnemyPortalPunch2" parent="Portals" instance=ExtResource("41_luntg")]
-transform = Transform3D(0.849773, 0, -0.527149, 0, 1, 0, 0.527149, 0, 0.849773, -74.4734, 1.88684, 11.0121)
-is_spawn = true
-map_max_enemy_count = 80
-spawn_speed = 4.0
-spawn_distance = 1.5
-enemy_type = ExtResource("43_m4hs1")
 
 [node name="EnemyPortalPunch3" parent="Portals" instance=ExtResource("41_luntg")]
 transform = Transform3D(-0.031638, 0, -0.999499, 0, 1, 0, 0.999499, 0, -0.031638, -132.619, 0.802694, 18.9011)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 4.0
 spawn_distance = 1.5
 enemy_type = ExtResource("43_m4hs1")
 
@@ -47977,14 +47952,7 @@ enemy_type = ExtResource("43_m4hs1")
 transform = Transform3D(-0.957254, 0, 0.289249, 0, 1, 0, -0.289249, 0, -0.957254, -156.588, 0.0824398, -125.605)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 4.0
-spawn_distance = 1.5
-enemy_type = ExtResource("43_m4hs1")
-
-[node name="EnemyPortalPunch5" parent="Portals" instance=ExtResource("41_luntg")]
-transform = Transform3D(0.729124, 0, 0.684381, 0, 1, 0, -0.684381, 0, 0.729124, -260, 1.08479, -162.232)
-is_spawn = true
-map_max_enemy_count = 80
+spawn_speed = 15.0
 spawn_distance = 1.5
 enemy_type = ExtResource("43_m4hs1")
 
@@ -47992,23 +47960,20 @@ enemy_type = ExtResource("43_m4hs1")
 transform = Transform3D(0.899733, 0, 0.43644, 0, 1, 0, -0.43644, 0, 0.899733, -224.432, 0.46239, 138.867)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 4.0
 spawn_distance = 1.5
 enemy_type = ExtResource("43_m4hs1")
 
 [node name="EnemyPortalPunch7" parent="Portals" instance=ExtResource("41_luntg")]
-transform = Transform3D(-0.461377, 0, 0.887205, 0, 1, 0, -0.887205, 0, -0.461377, -162.676, 0.780088, 282.449)
+transform = Transform3D(-0.461377, 0, 0.887205, 0, 1, 0, -0.887205, 0, -0.461377, -162.676, 0.91561323, 282.449)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 4.0
-spawn_distance = 1.5
+spawn_distance = 3.0
 enemy_type = ExtResource("43_m4hs1")
 
 [node name="EnemyPortalPunch8" parent="Portals" instance=ExtResource("41_luntg")]
 transform = Transform3D(-0.461377, 0, 0.887205, 0, 1, 0, -0.887205, 0, -0.461377, -49.9209, 0.11826, 421.791)
 is_spawn = true
 map_max_enemy_count = 80
-spawn_speed = 4.0
 spawn_distance = 1.5
 enemy_type = ExtResource("43_m4hs1")
 
@@ -48018,7 +47983,7 @@ collision_layer = 3
 script = ExtResource("46_5shno")
 custom_material_overlay = ExtResource("47_31pij")
 runSpeed = 1.8
-health = 2000
+health = 750
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BossGirl"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)

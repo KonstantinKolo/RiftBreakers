@@ -19,14 +19,14 @@ var target_visible: bool = false
 @export var is_spawn: bool = false
 var in_spawn_range: bool = false
 @export var map_max_enemy_count: int = 10
-@export var spawn_speed: float = 7.0
+@export var spawn_speed: float = 15.0
 @export var spawn_distance: float = 0.5
 @export var despawn_distance : float = 100.0
 @export var teleport_delay: float= 2.0  
 @export var enemy_type: PackedScene
 var spawned_enemies: Array[CharacterBody3D] = []
 
-const MAX_HEALTH: int = 300
+const MAX_HEALTH: int = 150
 var health: int = MAX_HEALTH
 var time: float = 0.0
 var spawn_timer: float = 0.0
@@ -176,7 +176,7 @@ func destroy() -> void:
 
 #detects when the player goes in and out of range
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	if body.is_in_group("player"):
+	if body.is_in_group("player") and portal.visible:
 		in_spawn_range = true
 		if spawned_enemies.size() == 0:
 			#spawn some initial enemies

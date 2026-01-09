@@ -4,8 +4,8 @@ extends Control
 @onready var score: Label = $ScoreColorRect/HBoxContainer/Score
 @onready var place: Label = $PlaceColorRect/HBoxContainer/Place
 
-var current_page := 1
-var limit := 50
+var current_page: int = 1
+var limit: int = 50
 
 func _ready() -> void:
 	load_leaderboard(current_page)

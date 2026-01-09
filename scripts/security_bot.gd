@@ -36,7 +36,7 @@ var offset: Vector3 = Vector3(0, 1, 0)  # offset for the target that appears
 
 var player_target: CharacterBody3D = null
 var target_visible = false
-@export var health = 100 
+@export var health = 70 
 var time = 0.0
 
 @export var reach_target_distance := 1.3
@@ -160,6 +160,7 @@ func hurt(hit_points: int) -> void:
 		progress_bar.value = health
 		#play hurt anim
 		follow_target_3d.Speed = 0.9
+		stuck_time = 0
 		_return_to_idle()
 		while animation_player.current_animation != "idle":
 			if !is_inside_tree(): return
@@ -169,6 +170,7 @@ func hurt(hit_points: int) -> void:
 		if progress_bar.value == 0: return
 		
 		health = 0
+		velocity = Vector3(0,0,0)
 		progress_bar.value = health
 		die()
 

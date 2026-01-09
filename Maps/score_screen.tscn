@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bslpskjy61i7g"]
+[gd_scene load_steps=5 format=3 uid="uid://bslpskjy61i7g"]
 
 [ext_resource type="Script" uid="uid://ucfkjeqcqjc2" path="res://scripts/score_screen.gd" id="1_j2y2s"]
 [ext_resource type="FontFile" uid="uid://dxrh1j5ifkbw7" path="res://assets/fonts/RobloxFont-Regular.ttf" id="1_q4r51"]
@@ -6,6 +6,9 @@
 [sub_resource type="LabelSettings" id="LabelSettings_j2y2s"]
 font = ExtResource("1_q4r51")
 font_size = 56
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2y2s"]
+bg_color = Color(0, 0, 0, 0.5294118)
 
 [node name="ScoreScreen" type="Control"]
 layout_mode = 3
@@ -133,13 +136,13 @@ default_color = Color(0, 0, 0, 0.784314)
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 824.0
-offset_top = 150.0
-offset_right = 1049.0
-offset_bottom = 225.0
-text = "GLOBAL RANKLIST AND HOW
-THE PLAYER COMPARES
-WHICH PLACE HE IS"
+offset_left = 761.0
+offset_top = 1.0
+offset_right = 1151.0
+offset_bottom = 46.0
+theme_override_font_sizes/font_size = 32
+text = "GLOBAL RANK"
+horizontal_alignment = 1
 
 [node name="ReturnToMenuBtn" type="Button" parent="."]
 modulate = Color(0.919307, 0.339452, 0.540438, 1)
@@ -162,6 +165,23 @@ offset_bottom = 582.0
 theme_override_fonts/font = ExtResource("1_q4r51")
 theme_override_font_sizes/font_size = 48
 text = "CLOSE GAME"
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_left = 760.0
+offset_top = 49.0
+offset_right = 1150.0
+offset_bottom = 405.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 761.0
+offset_top = 414.0
+offset_right = 1151.0
+offset_bottom = 451.0
+theme_override_colors/default_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
+theme_override_font_sizes/normal_font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_j2y2s")
 
 [connection signal="pressed" from="ReturnToMenuBtn" to="." method="_on_return_to_menu_btn_pressed"]
 [connection signal="pressed" from="CloseGameBtn" to="." method="_on_close_game_btn_pressed"]
