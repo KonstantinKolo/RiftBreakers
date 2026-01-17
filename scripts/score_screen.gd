@@ -18,9 +18,6 @@ func _exit_tree() -> void:
 		var dir = DirAccess.open("user://")
 		if dir:
 			dir.remove("save_data.json")
-			print("Save file deleted.")
-	else:
-		print("No save file to delete.")
 	Global.reset_progress()
 
 func _ready() -> void:
@@ -68,12 +65,10 @@ func _on_leaderboard_response(
 	body: PackedByteArray
 ) -> void:
 	if response_code != 200:
-		print("Failed to load leaderboard")
 		return
 	
 	var json := JSON.new()
 	if json.parse(body.get_string_from_utf8()) != OK:
-		print("Invalid leaderboard JSON")
 		return
 	
 	var response: Dictionary = json.data
@@ -107,8 +102,6 @@ func _on_load_player_response(
 	body: PackedByteArray
 ) -> void:
 	if response_code != 200:
-		print(response_code)
-		print("Failed to load player info")
 		return
 	
 	var response_text := body.get_string_from_utf8()
@@ -116,7 +109,6 @@ func _on_load_player_response(
 	var json := JSON.new()
 	var parse_result := json.parse(response_text)
 	if parse_result != OK:
-		print("Failed to parse JSON")
 		return
 	var data: Dictionary = json.data
 	
@@ -131,7 +123,7 @@ func _on_load_player_response(
 	rich_text_label.text = text
 
 func _on_return_to_menu_btn_pressed() -> void:
-	get_tree().change_scene_to_file("res://Maps/menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/Maps/menu.tscn")
 
 func _on_close_game_btn_pressed() -> void:
 	get_tree().quit()

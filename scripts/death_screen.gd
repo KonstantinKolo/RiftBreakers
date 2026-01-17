@@ -20,4 +20,4 @@ func _on_confirm_button_pressed() -> void:
 	await get_tree().create_timer(1.5).timeout
 	TransitionScene.transition()
 	await TransitionScene.on_transition_finished
-	get_tree().change_scene_to_file("res://Maps/score_screen.tscn")
+	get_tree().change_scene_to_file("res://scenes/Maps/score_screen.tscn")

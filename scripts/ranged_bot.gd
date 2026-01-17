@@ -1,7 +1,5 @@
 extends CharacterBody3D
 
-#TODO CHANGE THE NAME OF THE BOSS GIRL
-
 enum States {
 	Look,
 	Walking,
@@ -121,7 +119,6 @@ func _process(delta):
 			follow_target_3d.Speed = runSpeed
 			follow_target_3d.SetTarget(target)
 		else:
-			# TODO go random target
 			pass
 	elif state == States.Look and !_is_within_range(8.5):
 		is_state_look = false

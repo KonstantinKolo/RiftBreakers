@@ -17,6 +17,8 @@ signal blinkStaminaBar
 @onready var death_screen: Control = $camera_mount/Camera3D/CanvasLayer/DeathScreen
 @onready var load_screen: Control = $camera_mount/Camera3D/CanvasLayer/LoadScreen
 @onready var settings: Control = $camera_mount/Camera3D/CanvasLayer/Settings
+@onready var selection_wheel: Control = $camera_mount/Camera3D/CanvasLayer/SelectionWheel
+@onready var gun_cast_3d: RayCast3D = $camera_mount/GunCast3D
 
 const EMPTY_CIRCLE: Resource = preload("res://assets/models/Icons/empty-circle.png")
 const CROSSHAIR: Resource = preload("res://assets/models/Icons/crosshair.svg")
@@ -43,7 +45,7 @@ const JUMP_VELOCITY: float = 4.5
 @export var rifle_ammo: int = 20
 
 @export var health: int = 100
-@export var stamina: int = 100
+@export var stamina: float = 100.0
 @export var ray_length: float = 100.0
 
 var reverse_anim_bool: bool = false
@@ -66,6 +68,7 @@ var is_gun_mode: bool = false
 var is_throw_mode: bool = false
 var walk_sideways: bool = false
 
+var is_hurt: bool = false
 var is_dead: bool = false
 var can_regenerate_stamina: bool = true
 @export var critical_stamina: bool = false
@@ -178,37 +181,36 @@ func _input(event: InputEvent) -> void:
 		reloading_count -= 1
 	if event is InputEventMouseButton or _select_weapon_num():
 		# Handle the weapon selection
-		# TODO make the SelectionWheel into a variable
 		if Input.is_action_just_pressed("mode_selection") and \
-		!is_selecting_mode and !$camera_mount/Camera3D/CanvasLayer/SelectionWheel.visible:
+		!is_selecting_mode and !selection_wheel.visible:
 			is_selecting_mode = true
-			$camera_mount/Camera3D/CanvasLayer/SelectionWheel.show()
+			selection_wheel.show()
 		elif _check_mode_changable() or \
-			 !$camera_mount/Camera3D/CanvasLayer/SelectionWheel.visible:
+			 !selection_wheel.visible:
 			if Input.is_action_just_pressed("mode_selection"):
-				selected_weapon = $camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
+				selected_weapon = selection_wheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("One"):
 				selected_weapon = "fist"
-				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
+				selection_wheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("Two"):
 				selected_weapon = "pistol"
-				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
+				selection_wheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("Three"):
 				if !Global.has_rifle_unlocked: selected_weapon = ""
 				else: selected_weapon = "rifle"
-				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
+				selection_wheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("Four"):
 				if !Global.has_dynamite_unlocked: selected_weapon = ""
 				else: selected_weapon = "dynamite"
-				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
+				selection_wheel.Close()
 				_transition_to_weapon()
 			elif Input.is_action_just_pressed("Five"):
 				selected_weapon = "run"
-				$camera_mount/Camera3D/CanvasLayer/SelectionWheel.Close()
+				selection_wheel.Close()
 				_transition_to_weapon()
 		
 		# Handle attack functionality
@@ -285,8 +287,7 @@ func _input(event: InputEvent) -> void:
 						shot_count -= 1
 						_flash_ammo_label()
 						return
-				# TODO put the relative path in a var
-				$camera_mount/GunCast3D.fire_shot(damage)
+				gun_cast_3d.fire_shot(damage)
 				_flash_bullet()
 				if is_inside_tree():
 					await get_tree().create_timer(rate_of_fire).timeout
@@ -343,7 +344,7 @@ func _physics_process(delta: float) -> void:
 	
 	if can_regenerate_stamina: regenerate_stamina(delta)
 	elif !can_regenerate_stamina && animation_player.current_animation == "a-run":
-		spend_stamina(delta * 2)
+		spend_stamina(delta)
 	
 	# Handle falling without jumping
 	if not is_on_floor() and \
@@ -382,7 +383,7 @@ func _physics_process(delta: float) -> void:
 			await get_tree().process_frame
 		
 		can_regenerate_stamina = false
-		spend_stamina(2)
+		spend_stamina(3)
 		
 		is_jumping = true;
 		animation_player.play("a-jump")
@@ -407,7 +408,6 @@ func _physics_process(delta: float) -> void:
 		start_counting_air_time = false
 		jump_concluded = false
 		if air_time > 1.2:
-			#TODO take damage
 			animation_player.play("a-landing")
 			speed = 0
 		else:
@@ -549,7 +549,7 @@ func _punch_attack() -> void:
 	if targeted_enemy == null:
 		speed = fight_speed
 		animation_player.speed_scale = 1
-		spend_stamina(10)
+		spend_stamina(5)
 		punch_to_idle = true
 		animation_player.play("a-left-punch") #some default animation
 	else:
@@ -655,7 +655,7 @@ func hide_item_text() -> void:
 	rich_text_label.visible = false
 
 # Stamina system functions
-func spend_stamina(amount: int) -> void:
+func spend_stamina(amount: float) -> void:
 	if stamina < amount:
 		stamina = 0
 	else:
@@ -675,6 +675,10 @@ func heal(amount: int) -> void:
 	healthChanged.emit()
 func hurt(hit_points: int) -> void:
 	if is_dead: return
+	
+	if is_hurt: return
+	is_hurt = true
+	
 	if hit_points < health:
 		health -= hit_points
 	else:
@@ -682,6 +686,10 @@ func hurt(hit_points: int) -> void:
 	if health == 0:
 		die()
 	healthChanged.emit()
+	
+	# safeguard for spam attacks
+	if is_inside_tree(): await get_tree().create_timer(0.2).timeout
+	is_hurt = false
 func die() -> void:
 	is_dead = true
 	speed = 0
@@ -825,19 +833,19 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			animation_player.play("a-left-punch-to-idle-fight")
 			is_punching = false
 			reverse_anim_bool = false
-			spend_stamina(10)
+			spend_stamina(5)
 		elif anim_name == "a-c1_c4-0":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			combat_animation_number = 1
 			animation_player.play("a-left-punch")
 		elif anim_name == "a-c2-0":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			combat_animation_number = 2
 			animation_player.play("a-right-punch")
 		elif anim_name == "a-c3-0":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			combat_animation_number = 3
 			animation_player.play("a-right-high-kick")
@@ -848,66 +856,66 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 				var direction = _get_direction_to_Node(enemy)
 				_launch_backwards(direction)
 		elif anim_name == "a-c5-0":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			combat_animation_number = 5
 			animation_player.play("a-left-jab-into-elbow")
 		elif anim_name == "a-c6-0":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			combat_animation_number = 6
 			animation_player.play("a-left-mma-kick")
 		elif anim_name == "a-c7-0":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			combat_animation_number = 7
 			animation_player.play("a-right-deep-uppercut")
 		elif anim_name == "a-c1-1":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-right-elbow")
 		elif anim_name == "a-c2-1":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-left-jab-into-elbow")
 		elif anim_name == "a-c3-1":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-left-punch")
 		elif anim_name == "a-c4-1":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-right-punch")
 		elif anim_name == "a-c5-1":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-right-knee")
 		elif anim_name == "a-c6-1":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-right-elbow")
 		elif anim_name == "a-c7-1":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-left-kick")
 		elif anim_name == "a-c1-2":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-left-jab")
 		elif anim_name == "a-c3-2":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-right-punch")
 		elif anim_name == "a-c4-2":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-left-kick")
 		elif anim_name == "a-c6-2":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-left-punch")
 		elif anim_name == "a-c7-2":
-			spend_stamina(10)
+			spend_stamina(5)
 			_damage_enemy(20)
 			animation_player.play("a-right-punch")
 		elif Input.is_action_pressed("attack") and stamina >= 10 and \
@@ -1083,11 +1091,19 @@ func _transition_to_weapon() -> void:
 			speed = 0
 			is_throw_mode = false
 			_dynamite_to_idle()
+		_:
+			# reset the crosshair to normal
+			cross_hair.texture = EMPTY_CIRCLE
+			cross_hair.size = Vector2(40,40)
+			cross_hair.position.x += 10
+			cross_hair.position.y += 10
 	speed = 0
 	is_throw_mode = false
 	is_gun_mode = false
 	punch_mode = false
+	is_punching = false
 	is_selecting_mode = false
+	can_regenerate_stamina = true
 	
 	# wait until we get into idle animation for "fist"
 	# mode, because it takes a bit longer than others
@@ -1319,6 +1335,7 @@ func _check_backwards_walkable() -> bool:
 	   animation_player.current_animation != "b-pistol-idle-walk" and \
 	   animation_player.current_animation != "b-rifle-walk-backwards" and \
 	   animation_player.current_animation != "b-pistol-walk-backwards" and \
+	   animation_player.current_animation != "b-pull-pistol" and \
 	   !punch_mode and speed > 0:
 		return true
 	else:

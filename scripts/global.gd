@@ -60,10 +60,7 @@ func _process(delta: float) -> void:
 		time_label.text = "Time: %s" % total_time
 
 func _on_map_triggered() -> void:
-	print(count_time)
 	count_time = !count_time
-	print(count_time)
-	print("|||||")
 
 func on_ranged_killed() -> void:
 	ranged_bots_killed += 1
@@ -83,10 +80,10 @@ func calculate_score() -> int:
 					+ Global.ranged_bots_killed * 15 \
 					+ Global.bosses_killed * 50 \
 					- int(Global.total_time / 60) * 20
+	if total_score < 0: return 0
 	return total_score
 
 func fps_handle() -> void:
-	print(1)
 	if !show_fps:
 		show_fps = true
 		display_fps()
@@ -163,13 +160,11 @@ func load_login_data() -> void:
 		return
 	var file := FileAccess.open(ACCOUNT_PATH, FileAccess.READ)
 	if file == null:
-		print("Failed to read save file")
 		return
 	var content := file.get_as_text()
 	file.close()
 	var json := JSON.new()
 	if json.parse(content) != OK:
-		print("Failed to parse saved login data")
 		return
 	var data: Dictionary = json.data
 	if data.has("username") && data.has("token") && data.has("displayName") && data.has("role"):
@@ -178,19 +173,17 @@ func load_login_data() -> void:
 		displayName = data["displayName"]
 		role = data["role"]
 	else:
-		print("Username, token, displayName or role not found in response:", data)
+		pass
 func load_save_data() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		return
 	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
 	if file == null:
-		print("Failed to read save file")
 		return
 	var content := file.get_as_text()
 	file.close()
 	var json := JSON.new()
 	if json.parse(content) != OK:
-		print("Failed to parse saved login data")
 		return
 	var data: Dictionary = json.data
 	if data.has("current_level") and data.has("melee_bots_killed") and \

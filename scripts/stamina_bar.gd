@@ -9,7 +9,7 @@ func _ready():
 	update()
 
 func blink():
-	while player.stamina < 20:
+	while player.stamina < 10:
 		await get_tree().create_timer(0.5).timeout
 		modulate = Color(1,0,0)
 		await get_tree().create_timer(0.5).timeout

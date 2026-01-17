@@ -139,4 +139,4 @@ func _on_assign_role_button_pressed() -> void:
 func _on_return_to_menu_btn_pressed() -> void:
 	TransitionScene.transition()
 	await TransitionScene.on_transition_finished
-	get_tree().change_scene_to_file("res://Maps/menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/Maps/menu.tscn")

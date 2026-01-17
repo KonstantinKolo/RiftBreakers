@@ -15,7 +15,7 @@ enum States {
 @onready var random_target_3d: RandomTarget3D = $RandomTarget3D
 
 var stuck_time := 0.0
-var stuck_threshold := 3.0
+var stuck_threshold := 1.0
 var min_movement_threshold := 0.05
 var last_position := Vector3.ZERO
 var is_stuck := false
@@ -44,15 +44,36 @@ var state : States = States.Walking
 var target : Node3D
 
 func _ready() -> void:
+	await get_tree().process_frame
+		
 	follow_target_3d.target_desired_distance = reach_target_distance
-	var next_point = random_target_3d.GetNextPoint()
-	ChangeState(States.Walking)
+	#ChangeState(States.Walking)
+	animation_player.play("walk");
+	follow_target_3d.ClearTarget()
+	follow_target_3d.Speed = runSpeed
+	follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 	
 	target_sprite.visible = false
 	progress_bar.visible = false
 	progress_bar.max_value = health
 	progress_bar.value = health
 	
+
+func _physics_process(delta: float) -> void:
+	# logic for when the bot gets stuck
+	var distance_moved = global_position.distance_to(last_position)
+	if distance_moved < min_movement_threshold:
+		stuck_time += delta
+		if stuck_time > stuck_threshold and !is_stuck:
+			is_stuck = true
+			if animation_player.current_animation != "idle":
+				animation_player.play("idle")
+	else:
+		if animation_player.current_animation == "idle" || animation_player.current_animation == "": 
+			animation_player.play("run")
+		stuck_time = 0.0
+		is_stuck = false
+	last_position = global_position
 
 func _process(delta):
 	if fading_out:
@@ -65,22 +86,6 @@ func _process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	
-	# logic for when the bot gets stuck
-	var distance_moved = global_position.distance_to(last_position)
-	if distance_moved < min_movement_threshold:
-		stuck_time += delta
-		if stuck_time > stuck_threshold and !is_stuck:
-			is_stuck = true
-			if animation_player.current_animation != "idle":
-				animation_player.play("idle")
-	else:
-		await get_tree().create_timer(0.1).timeout
-		if animation_player.current_animation == "idle":
-			animation_player.play("idle-to-run")
-		stuck_time = 0.0
-		is_stuck = false
-	last_position = global_position
 	if velocity.length() < 0.3 and !_is_next_to_target() and state != States.Look and player_target == null:
 		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 	
@@ -211,7 +216,7 @@ func ChangeState(newState : States) -> void:
 		States.Walking:
 			animation_player.play("walk");
 			follow_target_3d.ClearTarget()
-			follow_target_3d.Speed = walkSpeed
+			follow_target_3d.Speed = runSpeed
 			follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 			
 			target = null

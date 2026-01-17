@@ -61,7 +61,7 @@ func _on_button_pressed() -> void: # Delete progress
 	Global.reset_progress()
 	TransitionScene.transition()
 	await TransitionScene.on_transition_finished
-	get_tree().change_scene_to_file("res://Maps/menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/Maps/menu.tscn")
 
 func _on_button_2_pressed() -> void: # Save progress
 	var current_level: int 
@@ -90,4 +90,4 @@ func _on_button_2_pressed() -> void: # Save progress
 	Global.reset_progress()
 	TransitionScene.transition()
 	await TransitionScene.on_transition_finished
-	get_tree().change_scene_to_file("res://Maps/menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/Maps/menu.tscn")
