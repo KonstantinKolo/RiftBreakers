@@ -1,8 +1,5 @@
 extends CharacterBody3D
 
-#TODO overall rifle fix
-#TODO when rifle and walk_backwards it doesnt change anim
-
 signal healthChanged
 signal staminaChanged
 signal blinkStaminaBar
@@ -804,8 +801,13 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		if anim_name == "b-rifle-idle-walk":
 			if walk_sideways:
 				animation_player.play("b-rifle-left")
-			elif is_walking_backwards:
-				animation_player.play("b-rifle-walk-backwards")
+			elif is_walking_backwards and \
+			animation_player.current_animation != "b-rifle-idle-shoot":
+				if is_shooting:
+					reverse_anim_bool = false
+					animation_player.play("b-rifle-idle-to-shoot")
+				else:
+					animation_player.play("b-rifle-walk-backwards")
 			elif !reverse_anim_bool:
 				animation_player.play("b-rifle-walk")
 			else:
@@ -827,6 +829,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			else:
 				animation_player.play("b-rifle-idle")
 				reverse_anim_bool = false
+				speed = rifle_speed
 			
 	elif punch_mode:
 		if anim_name == "a-left-punch" and punch_to_idle:
