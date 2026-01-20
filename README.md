@@ -47,7 +47,9 @@ This project is perfect for students, hobbyists, and Godot enthusiasts who want 
 
 ---
 
-## 📷 Screenshots
+## 📷 Cover
+
+![Alt text](assets/RiftBreakersCover2.png)
 
 ---
 
@@ -63,7 +65,13 @@ Please follow a clear structure and write clean, commented GDScript.
 
 ---
 
+## 🎨 Credits
+
+This project uses third-party assets.  
+See [CREDITS.md](CREDITS.md) for full attributions.
+
+---
+
 ## ⚖️ License
 
-This project is licensed under the MIT License – see the LICENSE file for details.
-
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
