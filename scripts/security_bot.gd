@@ -60,6 +60,9 @@ func _ready() -> void:
 	
 
 func _physics_process(delta: float) -> void:
+	if health <= 0: return
+	if follow_target_3d.Speed == 0.9: return #when bot is hurt
+	
 	# logic for when the bot gets stuck
 	var distance_moved = global_position.distance_to(last_position)
 	if distance_moved < min_movement_threshold:

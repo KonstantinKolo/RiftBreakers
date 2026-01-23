@@ -66012,7 +66012,7 @@ metadata/_custom_type_script = "uid://bsbc5roteirqa"
 [node name="Portal" parent="." instance=ExtResource("43_3opj6")]
 transform = Transform3D(-8.74228e-08, 0, 2, 0, 2, 0, -2, 0, -8.74228e-08, -50.8667, 17.934, -5.94829)
 current_level = 1
-map_path = "res://Maps/menu.tscn"
+map_path = "res://scenes/Maps/menu.tscn"
 teleport_delay = 0.5
 
 [node name="Rifle" type="Node3D" parent="."]
