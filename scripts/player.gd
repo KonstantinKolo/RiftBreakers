@@ -253,8 +253,7 @@ func _input(event: InputEvent) -> void:
 				# Check if the player is moving
 				var input_dir := Input.get_vector("left", "right", "forward", "backward")
 				var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-				# if its not the right animation for shooting
-				# we dont allow the player to shoot
+				# if its not the right animation for shooting we dont allow the player to shoot
 				if animation_player.current_animation != "b-rifle-idle-shoot" and \
 				animation_player.current_animation != "b-rifle-idle-walk" and \
 				animation_player.current_animation != "b-rifle-idle-to-shoot":
@@ -270,7 +269,7 @@ func _input(event: InputEvent) -> void:
 					if is_inside_tree():
 						await get_tree().create_timer(0.4).timeout
 			while Input.is_action_pressed("attack"):
-				if animation_player.current_animation == "":
+				if animation_player.current_animation == "" and selected_weapon == "rifle":
 					animation_player.play("b-rifle-idle-to-shoot") #safeguard
 				if animation_player.current_animation == "b-pull-gun": return
 				if reloading_count != 0: return
@@ -282,8 +281,9 @@ func _input(event: InputEvent) -> void:
 					else:
 						shot_count -= 1
 						_flash_ammo_label()
-						animation_player.play("b-rifle-idle-to-shoot")
-						reverse_anim_bool = true
+						if selected_weapon == "rifle":
+							animation_player.play("b-rifle-idle-to-shoot")
+							reverse_anim_bool = true
 						return
 				elif damage == 20:
 					if pistol_ammo > 0:
@@ -971,17 +971,11 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 					animation_player.play("a-c2-2")
 				elif combat_animation_number == 5:
 					animation_player.play("a-c5-1")
-				else:
-					# a-left-jab-into-elbow in _on_animation_end: combat animation number is incorrect
-					pass
 			elif anim_name == "a-left-kick":
 				if combat_animation_number == 4:
 					animation_player.play("a-c4-3")
 				elif combat_animation_number == 7:
 					animation_player.play("a-c7-2")
-				else:
-					# a-left-kick in _on_animation_end: combat animation number is incorrect
-					pass
 			elif anim_name == "a-right-punch":
 				if combat_animation_number == 2:
 					animation_player.play("a-c2-1")
@@ -991,17 +985,11 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 					animation_player.play("a-c4-2")
 				elif combat_animation_number == 7:
 					animation_player.play("a-c7-3")
-				else:
-					# a-right-punch in _on_animation_end: combat animation number is incorrect
-					pass
 			elif anim_name == "a-right-elbow":
 				if combat_animation_number == 1:
 					animation_player.play("a-c1-2")
 				elif combat_animation_number == 6:
 					animation_player.play("a-c6-2")
-				else:
-						# a-right-elbow in _on_animation_end: combat animation number is incorrect
-						pass
 			elif anim_name == "a-left-punch":
 				if combat_animation_number == 4 or combat_animation_number == 1:
 					var rand = _randomizer(2)
@@ -1015,9 +1003,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 					animation_player.play("a-c3-2")
 				elif combat_animation_number == 6:
 					animation_player.play("a-c6-3")
-				else:
-					# a-left-punch in _on_animation_end: combat animation number is incorrect
-					pass
 		else:
 			is_punching = false
 			animation_player.speed_scale = 1
@@ -1135,19 +1120,6 @@ func _transition_to_weapon() -> void:
 	is_selecting_mode = false
 	can_regenerate_stamina = true
 	
-	# wait until we get into idle animation for "fist"
-	# mode, because it takes a bit longer than others
-	#var timer := 0.0
-	#if previous_weapon == "fist":
-		#while animation_player.current_animation != "a-idle":
-			#var delta := get_process_delta_time()
-			#timer += delta
-			#if timer >= 0:
-				#animation_player.play("a-idle")
-			#
-			#if !is_inside_tree(): return
-			#await get_tree().process_frame
-	
 	# Transition from idle to other modes
 	match selected_weapon:
 		"run":
@@ -1231,8 +1203,6 @@ func _punch_mode_to_idle() -> void:
 	cross_hair.position.x += 10
 	cross_hair.position.y += 10
 	
-	#animation_player.play("a-idle-fight_")
-	
 	reverse_anim_bool = true
 	animation_player.play_backwards("a-idle-to-fight")
 	
@@ -1260,12 +1230,10 @@ func _pistol_to_idle() -> void:
 	speed = walk_speed
 	is_selecting_mode = false
 func _rifle_to_idle() -> void:
-	speed = 0
 	animation_player.play_backwards("b-pull-gun")
 	if is_inside_tree():
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.75).timeout
 	rifle.visible = false
-	speed = walk_speed
 	is_selecting_mode = false
 
 # Boolean functions

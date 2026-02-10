@@ -53,7 +53,6 @@ func _on_login_button_pressed() -> void:
 	var password: String = password_field.text.strip_edges()
 
 	if username.is_empty() or password.is_empty():
-		print("Username and password must be filled")
 		return
 	
 	var body := {
@@ -65,7 +64,7 @@ func _on_login_button_pressed() -> void:
 	var http := HTTPRequest.new()
 	add_child(http)
 	http.request_completed.connect(_on_request_completed)
-	var url := "http://localhost:3000/api/auth/login"
+	var url := "%sauth/login" % [Global.base_url]
 	var headers := [
 		"Content-Type: application/json"
 	]
@@ -77,14 +76,14 @@ func _on_login_button_pressed() -> void:
 		json_body
 	)
 	if err != OK:
-		print("HTTPRequest error:", err)
+		return
 func _on_register_button_pressed() -> void:
 	var username: String = username_field.text.strip_edges()
 	var password: String = password_field.text.strip_edges()
 	var display_name: String = display_name_field.text.strip_edges()
 
 	if username.is_empty() or password.is_empty() or display_name.is_empty():
-		print("Username, password and display name must be filled")
+		# Username, password and display name must be filled
 		return
 	var body := {
 		"username": username,
@@ -96,7 +95,7 @@ func _on_register_button_pressed() -> void:
 	var http := HTTPRequest.new()
 	add_child(http)
 	http.request_completed.connect(_on_request_completed)
-	var url := "http://localhost:3000/api/auth/register"
+	var url := "%sauth/register" % [Global.base_url]
 	var headers := [
 		"Content-Type: application/json"
 	]
@@ -108,7 +107,7 @@ func _on_register_button_pressed() -> void:
 		json_body
 	)
 	if err != OK:
-		print("HTTPRequest error:", err)
+		return
 
 func save_login_data(username: String, token: String = "", displayName: String = "", role: String = "user") -> void:
 	var data := {
@@ -130,12 +129,10 @@ func save_login_data(username: String, token: String = "", displayName: String =
 	
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null:
-		print("Failed to open save file")
 		return
 	file.store_string(JSON.stringify(data))
 	file.close()
 	Global.load_login_data()
-	print("Login data saved")
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	var response_text := body.get_string_from_utf8()
@@ -144,45 +141,35 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 		_set_logged_in_data(body)
 		accout_message_modal.set_text("Request successful", "You have successfully logged in!")
 		accout_message_modal.show()
-		print("Request successful:",  response_text)
 	else:
 		accout_message_modal.set_text("Request failed", response_text)
 		accout_message_modal.show()
-		print("Request failed:", response_code, response_text)
 func _set_logged_in_data(body: PackedByteArray) -> void:
 	var response_text := body.get_string_from_utf8()
 	var json := JSON.new()
 	var parse_result := json.parse(response_text)
 	if parse_result != OK:
-		print("Failed to parse JSON")
+		#Failed to parse JSON
 		return
 	var data: Dictionary = json.data
 	if data.has("username") && data.has("token") && data.has("displayName") && data.has("role"):
 		save_login_data(data["username"], data["token"], data["displayName"], data["role"])
 		_delete_local_data()
-	else:
-		print("Username, token, displayName or role not found in response:", data)
 func _set_logged_in_username(body: PackedByteArray) -> void:
 	var response_text := body.get_string_from_utf8()
 	# Parse JSON
 	var json := JSON.new()
 	var parse_result := json.parse(response_text)
 	if parse_result != OK:
-		print("Failed to parse JSON")
 		return
 	var data: Dictionary = json.data
 	if data.has("username"):
 		label_logged_username.text = data["username"]
-	else:
-		print("Username not found in response:", data)
-	print("USERNAME SET")
+	#USERNAME SET
 
 func _delete_local_data() -> void: #Delete users locally start data and strat a new session
 	if FileAccess.file_exists(SAVE_PATH):
 		var dir = DirAccess.open("user://")
 		if dir:
 			dir.remove("save_data.json")
-			print("Save file deleted.")
-	else:
-		print("No save file to delete.")
 	Global.reset_progress()

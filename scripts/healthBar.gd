@@ -5,7 +5,6 @@ extends TextureProgressBar
 @onready var damage: TextureRect = $Damage
 @onready var timer: Timer = $Timer
 
-
 func _ready():
 	player.healthChanged.connect(update)
 	update()

@@ -27,8 +27,6 @@ func _physics_process(delta: float) -> void:
 			#got target
 			enemy_detected = true
 			current_collider.show_health_bar()
-			if get_collision_point().distance_to(global_position) < 2.0:
-				pass #get rid of target
 			current_collider.show_target()
 			current_collider.change_mat_overlay(ENEMY_OUTLINE, ENEMY_STATIC_MATERIAL)
 			wait_for_distance_shortened()

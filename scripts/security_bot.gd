@@ -47,7 +47,6 @@ func _ready() -> void:
 	await get_tree().process_frame
 		
 	follow_target_3d.target_desired_distance = reach_target_distance
-	#ChangeState(States.Walking)
 	animation_player.play("walk");
 	follow_target_3d.ClearTarget()
 	follow_target_3d.Speed = runSpeed
@@ -62,6 +61,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if health <= 0: return
 	if follow_target_3d.Speed == 0.9: return #when bot is hurt
+	if scale.x > 1.1: return #for boss
 	
 	# logic for when the bot gets stuck
 	var distance_moved = global_position.distance_to(last_position)
@@ -92,7 +92,6 @@ func _process(delta):
 	if velocity.length() < 0.3 and !_is_next_to_target() and state != States.Look and player_target == null:
 		follow_target_3d.SetFixedTarget(random_target_3d.GetNextPoint())
 	
-	
 	if state == States.Look:
 		if animation_player.current_animation == "idle":
 			var random_animation = combat_anims[randi() % combat_anims.size()] #Pick a random combat anim
@@ -103,7 +102,6 @@ func _process(delta):
 	time += delta
 	if model_3d.material_overlay and model_3d.material_overlay.next_pass and model_3d.material_overlay.next_pass is ShaderMaterial:
 		model_3d.material_overlay.next_pass.set("shader_parameter/time", time)
-	# TODO make it if the player is close the target dissappears
 	if players_camera and target_visible:
 		# Calculate the direction vector to the camera
 		var camera_position = players_camera.global_transform.origin
@@ -298,8 +296,7 @@ func _on_simple_vision_3d_get_sight(body: Node3D) -> void:
 	ChangeState(States.Pursuit)
 func _on_simple_vision_3d_lost_sight() -> void:
 	pass
-	
-	#ChangeState(States.Walking)
+
 func _is_next_to_target(max_distance := 2.0) -> bool:
 	if target:
 		var distance = global_position.distance_to(target.global_position)

@@ -16,7 +16,7 @@ func load_board(page: int) -> void:
 	add_child(http)
 	http.request_completed.connect(_on_board_response)
 
-	var url := "http://localhost:3000/api/admin/users?page=%d&limit=%d" % [page, limit]
+	var url := "%sapi/admin/users?page=%d&limit=%d" % [Global.base_url, page, limit]
 	var headers := [
 		"Authorization: Bearer %s" % Global.token,
 		"Content-Type: application/json"
@@ -32,12 +32,12 @@ func _on_board_response(
 	body: PackedByteArray
 ) -> void:
 	if response_code != 200:
-		print("Failed to load leaderboard")
+		#Failed to load leaderboard
 		return
 	
 	var json := JSON.new()
 	if json.parse(body.get_string_from_utf8()) != OK:
-		print("Invalid leaderboard JSON")
+		#Invalid leaderboard JSON
 		return
 	
 	var response: Dictionary = json.data
@@ -54,19 +54,18 @@ func _on_board_response(
 		item_list.set_item_metadata(item_list.get_item_count() - 1, entry)
 func _on_user_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code != 200:
-		print("Failed to load user:", response_code, body.get_string_from_utf8())
 		return
 	
 	var json := JSON.new()
 	if json.parse(body.get_string_from_utf8()) != OK:
-		print("Invalid JSON")
+		#Invalid JSON
 		return
 	
 	var response: Dictionary = json.get_data()
 	var user: Dictionary = response.get("user", {})
 	
 	if user.size() == 0:
-		print("User not found")
+		#User not found
 		return
 	# Clear ItemList and show the single user
 	item_list.clear()
@@ -79,15 +78,12 @@ func _on_user_response(result: int, response_code: int, headers: PackedStringArr
 func _on_set_role_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	var body_text := body.get_string_from_utf8()
 	if response_code != 200:
-		print("Failed to set role:", response_code, body_text)
 		return
 	var json := JSON.new()
 	if json.parse(body_text) != OK:
-		print("Invalid JSON response")
 		return
 	var response: Dictionary = json.get_data()
 	load_board(current_page) #update the board
-	print("Role updated successfully:", response)
 
 
 func _on_item_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
@@ -101,7 +97,7 @@ func _on_search_by_user_button_pressed() -> void:
 	var username: String = username_line.text.strip_edges()
 	if username == "": load_board(current_page)
 	
-	var url := "http://localhost:3000/api/admin/user/%s" % username
+	var url := "%sadmin/user/%s" % [Global.base_url, username]
 	var headers := [
 		"Authorization: Bearer %s" % Global.token,
 		"Content-Type: application/json"
@@ -124,7 +120,7 @@ func _on_assign_role_button_pressed() -> void:
 	var http := HTTPRequest.new()
 	add_child(http)
 	http.request_completed.connect(_on_set_role_response)
-	var url := "http://localhost:3000/api/admin/set-role"
+	var url := "%sadmin/set-role" % [Global.base_url]
 	var headers := [
 		"Authorization: Bearer %s" % Global.token,
 		"Content-Type: application/json"

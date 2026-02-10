@@ -71,8 +71,6 @@ func _process(delta) -> void:
 	
 	var old_scale = scale
 	transform.basis = lerp(transform.basis.orthonormalized(), _basis_from_normal(avg_normal), move_speed * delta).orthonormalized()
-	#transform.basis = lerp(transform.basis, _basis_from_normal(avg_normal), move_speed * delta).orthonormalized()
-	#transform.basis = lerp(transform.basis, target_basis, move_speed * delta).orthonormalized()
 	scale = old_scale
 	
 	var avg = (fl_leg.position + fr_leg.position + bl_leg.position + br_leg.position) / 4

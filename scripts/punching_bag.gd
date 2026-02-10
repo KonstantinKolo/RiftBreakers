@@ -16,7 +16,6 @@ func _process(delta):
 	time += delta
 	if csg_mesh_3d.material_overlay and csg_mesh_3d.material_overlay.next_pass and csg_mesh_3d.material_overlay.next_pass is ShaderMaterial:
 		csg_mesh_3d.material_overlay.next_pass.set("shader_parameter/time", time)
-	# TODO make it if the player is close the target dissappears
 	if players_camera and target_visible:
 		# Calculate the direction vector to the camera
 		var camera_position = players_camera.global_transform.origin
@@ -29,7 +28,6 @@ func _process(delta):
 		# Make the sprite face the camera
 		target_sprite.look_at(camera_position, Vector3.UP)
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	target_sprite.visible = false
 	progress_bar.visible = false

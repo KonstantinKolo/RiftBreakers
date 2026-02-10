@@ -33,7 +33,6 @@ func set_damage(amount: int):
 	damage = amount
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	#TODO add bullet imprint
 	if body == self or body.get_parent() == self:
 		return
 	if body.is_in_group("player") or body.get_parent().is_in_group("player"):

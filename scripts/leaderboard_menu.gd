@@ -19,7 +19,7 @@ func load_user_info() -> void:
 	add_child(http)
 	http.request_completed.connect(_on_load_player_response)
 	
-	var url := "http://localhost:3000/api/info"
+	var url := "%sinfo" % [Global.base_url]
 	var headers := [
 		"Authorization: Bearer %s" % Global.token,
         "Content-Type: application/json"
@@ -57,7 +57,7 @@ func load_leaderboard(page: int) -> void:
 	add_child(http)
 	http.request_completed.connect(_on_leaderboard_response)
 
-	var url := "http://localhost:3000/api/leaderboard?page=%d&limit=%d" % [page, limit]
+	var url := "%sleaderboard?page=%d&limit=%d" % [Global.base_url, page, limit]
 	http.request(url)
 func _on_leaderboard_response(
 	result: int,

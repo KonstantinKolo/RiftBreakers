@@ -53,6 +53,13 @@ This project is perfect for students, hobbyists, and Godot enthusiasts who want 
 
 ---
 
+## 💻⚙️ BackEnd
+
+Here is a link for the backend repo of the game.
+https://github.com/KonstantinKolo/RiftBreakers-Server
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! You can:

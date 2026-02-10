@@ -5,6 +5,7 @@ signal triggeredMap
 
 const ACCOUNT_PATH: String = "user://login_data.json"
 const SAVE_PATH: String = "user://save_data.json"
+var base_url: String
 
 var username: String = ""
 var token: String = ""
@@ -38,6 +39,9 @@ var show_fps: bool = false
 var fps_label: Label = Label.new()
 
 func _ready() -> void:
+	var file = FileAccess.open("res://assets/config/connection_string.txt", FileAccess.READ)
+	base_url = file.get_as_text().strip_edges()
+	file.close()
 	signalFPS.connect(fps_handle)
 	signalPlayerFPS.connect(fps_handle_player)
 	signalTime.connect(time_handle)

@@ -2,11 +2,16 @@ extends Control
 
 const SAVE_PATH: String = "user://save_data.json"
 
+@onready var fps: CheckBox = $VBoxContainer/MarginContainer/VBoxContainer/FPS
+@onready var time: CheckBox = $VBoxContainer/MarginContainer/VBoxContainer/Time
+
 var can_pause:bool = false
 
 func _ready() -> void:
 	# Safe guard
 	await get_tree().create_timer(2.0).timeout
+	if Global.show_fps: fps.set_pressed_no_signal(true)
+	if Global.show_time: time.set_pressed_no_signal(true)
 	can_pause = true
 func _input(event: InputEvent) -> void:
 	if !can_pause:
@@ -54,9 +59,6 @@ func _on_button_pressed() -> void: # Delete progress
 		var dir = DirAccess.open("user://")
 		if dir:
 			dir.remove("save_data.json")
-			print("Save file deleted.")
-	else:
-		print("No save file to delete.")
 	get_tree().paused = false
 	Global.reset_progress()
 	TransitionScene.transition()
@@ -82,7 +84,6 @@ func _on_button_2_pressed() -> void: # Save progress
 	if file:
 		file.store_string(JSON.stringify(save_data))
 		file.close()
-		print("Progress saved successfully.")
 	else:
 		push_error("Failed to save game!")
 	
