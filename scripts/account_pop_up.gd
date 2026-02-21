@@ -63,6 +63,7 @@ func _on_login_button_pressed() -> void:
 	
 	var http := HTTPRequest.new()
 	add_child(http)
+	http.set_tls_options(TLSOptions.client_unsafe())
 	http.request_completed.connect(_on_request_completed)
 	var url := "%sauth/login" % [Global.base_url]
 	var headers := [
@@ -94,6 +95,7 @@ func _on_register_button_pressed() -> void:
 	
 	var http := HTTPRequest.new()
 	add_child(http)
+	http.set_tls_options(TLSOptions.client_unsafe())
 	http.request_completed.connect(_on_request_completed)
 	var url := "%sauth/register" % [Global.base_url]
 	var headers := [
@@ -135,6 +137,14 @@ func save_login_data(username: String, token: String = "", displayName: String =
 	Global.load_login_data()
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if accout_message_modal == null:
+		push_error("accout_message_modal is null!")
+		return
+	if result != HTTPRequest.RESULT_SUCCESS:
+		accout_message_modal.set_text("Connection failed", "Could not reach the server. Check your internet connection.")
+		accout_message_modal.show()
+		return
+	
 	var response_text := body.get_string_from_utf8()
 	if response_code == 200:
 		_set_logged_in_username(body)
@@ -142,7 +152,13 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 		accout_message_modal.set_text("Request successful", "You have successfully logged in!")
 		accout_message_modal.show()
 	else:
-		accout_message_modal.set_text("Request failed", response_text)
+		var error_message := response_text
+		var json := JSON.new()
+		if json.parse(response_text) == OK:
+			var data = json.data
+			if data is Dictionary and data.has("error"):
+				error_message = data["error"]
+		accout_message_modal.set_text("Request failed", error_message)
 		accout_message_modal.show()
 func _set_logged_in_data(body: PackedByteArray) -> void:
 	var response_text := body.get_string_from_utf8()
