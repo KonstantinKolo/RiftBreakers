@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bh6nbt7epumbm"]
+[gd_scene load_steps=8 format=3 uid="uid://bh6nbt7epumbm"]
 
 [ext_resource type="Texture2D" uid="uid://db7lusm53mccy" path="res://assets/backgrounds/pop-up-menu/TopToggleButtonLong.png" id="1_hv8xa"]
 [ext_resource type="Script" uid="uid://chv4h3u0fxig7" path="res://scripts/pop_up_menu.gd" id="1_l7jxw"]
 [ext_resource type="Texture2D" uid="uid://bbcn82hdsn3nq" path="res://assets/backgrounds/pop-up-menu/MenuPullup.png" id="2_gbnmr"]
+[ext_resource type="Texture2D" uid="uid://twj3oyexbtoo" path="res://assets/icons/gb.svg" id="4_v1bt1"]
+[ext_resource type="Texture2D" uid="uid://dtp6id3vaxo06" path="res://assets/icons/bg.svg" id="5_s7ja2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ajl8r"]
 font_size = 40
@@ -127,24 +129,62 @@ points = PackedVector2Array(0, 0, 1122, 0)
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="Mute" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 600
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Mute" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Mute"
 
-[node name="Fullscreen" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+[node name="Fullscreen" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Fullscreen"
 
-[node name="FPS" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer"]
+[node name="FPS" type="CheckBox" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Show FPS"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Choose
+Language"
+horizontal_alignment = 2
+
+[node name="EnglishLang" type="TextureButton" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_v1bt1")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="BulgarianLang" type="TextureButton" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("5_s7ja2")
+ignore_texture_size = true
+stretch_mode = 4
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="value_changed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
-[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Mute" to="." method="_on_check_box_toggled"]
-[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_toggled"]
-[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/FPS" to="." method="_on_fps_toggled"]
+[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Mute" to="." method="_on_check_box_toggled"]
+[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="toggled" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/FPS" to="." method="_on_fps_toggled"]
+[connection signal="pressed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EnglishLang" to="." method="_on_english_lang_pressed"]
+[connection signal="pressed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BulgarianLang" to="." method="_on_bulgarian_lang_pressed"]

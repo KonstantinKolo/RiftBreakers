@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://ban4rwtc364sg"]
+[gd_scene load_steps=11 format=3 uid="uid://ban4rwtc364sg"]
 
 [ext_resource type="Texture2D" uid="uid://bbcn82hdsn3nq" path="res://assets/backgrounds/pop-up-menu/MenuPullup.png" id="1_5sqxd"]
 [ext_resource type="Script" uid="uid://co8mbh4lwo05j" path="res://scripts/account_pop_up.gd" id="1_8loeu"]
 [ext_resource type="FontFile" uid="uid://dxrh1j5ifkbw7" path="res://assets/fonts/RobloxFont-Regular.ttf" id="2_8loeu"]
 [ext_resource type="Texture2D" uid="uid://db7lusm53mccy" path="res://assets/backgrounds/pop-up-menu/TopToggleButtonLong.png" id="3_0xdgc"]
+[ext_resource type="PackedScene" uid="uid://b6o6r5ssu6npw" path="res://scenes/load_screen.tscn" id="5_0xdgc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bw466"]
 font = ExtResource("2_8loeu")
@@ -90,7 +91,7 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
-text = "password"
+text = "password:"
 label_settings = SubResource("LabelSettings_pfntj")
 
 [node name="PasswordField" type="LineEdit" parent="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
@@ -191,6 +192,9 @@ text = "Close"
 label_settings = SubResource("LabelSettings_3fxv1")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LoadScreen" parent="." instance=ExtResource("5_0xdgc")]
+layout_mode = 1
 
 [connection signal="pressed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/LoginButton" to="." method="_on_login_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/RegisterButton" to="." method="_on_register_button_pressed"]

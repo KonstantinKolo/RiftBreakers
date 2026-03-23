@@ -46027,6 +46027,23 @@ metadata/_custom_type_script = "uid://dw6fvqlngj2t4"
 
 [node name="Player" parent="." instance=ExtResource("12_wgfui")]
 transform = Transform3D(-0.0888776, 0, 0.996042, 0, 1, 0, -0.996042, 0, -0.0888776, 0.13066101, 0.36189646, 1.8366318)
+walk_speed = 3.0
+backwards_speed = 1.5
+run_speed = 7.0
+turn_speed = 0.5
+fight_speed = 1.5
+pistol_speed = 3.0
+rifle_speed = 3.5
+throw_speed = 2.5
+pistol_ammo = 8
+rifle_ammo = 20
+health = 100
+stamina = 100.0
+ray_length = 100.0
+critical_stamina = false
+sens_horizontal = 0.5
+sens_vertical = 0.5
+sens_rotation = 2.0
 
 [node name="Fences" type="Node3D" parent="."]
 

@@ -14,6 +14,7 @@ func _ready() -> void:
 	portal_label.visible = false
 
 func _on_show_info(world_pos: Vector3) -> void:
+	_lang_setup()
 	var screen_pos = camera.unproject_position(world_pos)
 	if is_instance_valid(info_label):
 		info_label.visible = true
@@ -27,3 +28,11 @@ func _on_hide_info() -> void:
 		info_label.visible = false
 	elif is_instance_valid(portal_label):
 		portal_label.visible = false
+
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		info_label.text = "The path is blocked! Get explosives from the graveyard and blow up the obstacle. "
+		portal_label.text = "The portal is locked! Kill the Boss to unlock it."
+	elif Global.selected_language == "bg":
+		info_label.text = "Пътят е блокиран! Вземете експлозиви от гробището и разрушете препятствието."
+		portal_label.text = "Порталът е заключен! Убийте Боса, за да го отключите."

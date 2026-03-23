@@ -8,6 +8,7 @@ var current_page: int = 1
 var limit: int = 50
 
 func _ready() -> void:
+	_lang_setup()
 	load_leaderboard(current_page)
 	load_user_info()
 
@@ -96,3 +97,17 @@ func _on_return_to_menu_btn_pressed() -> void:
 	TransitionScene.transition()
 	await TransitionScene.on_transition_finished
 	get_tree().change_scene_to_file("res://scenes/Maps/menu.tscn")
+
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		$MarginContainer/VBoxContainer/HBoxContainer/PreviousPageButton.text = "PREVIOUS PAGE"
+		$MarginContainer/VBoxContainer/HBoxContainer/NextPageButton.text = "NEXT PAGE"
+		$ScoreColorRect/HBoxContainer/ScoreLabel.text = "Your High Score:"
+		$PlaceColorRect/HBoxContainer/PlaceLabel.text = "Your Place:"
+		$ReturnToMenuBtn.text = "RETURN TO MENU"
+	elif Global.selected_language == "bg":
+		$MarginContainer/VBoxContainer/HBoxContainer/PreviousPageButton.text = "ПРЕДИШНА СТРАНИЦА"
+		$MarginContainer/VBoxContainer/HBoxContainer/NextPageButton.text = "СЛЕДВАЩА СТРАНИЦА"
+		$ScoreColorRect/HBoxContainer/ScoreLabel.text = "Най-висок резултат:"
+		$PlaceColorRect/HBoxContainer/PlaceLabel.text = "Вашето място:"
+		$ReturnToMenuBtn.text = "ОБРАТНО КЪМ МЕНЮТО"

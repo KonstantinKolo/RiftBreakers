@@ -1,6 +1,7 @@
 extends Control
 
 signal closeGame
+signal changeLang
 
 @export var menu_size = 0.45
 @export var lerp_speed = 0.2
@@ -9,6 +10,9 @@ var _popped_up = false
 var _up_anchor = Vector2(0.95 -menu_size, 1)
 var _down_anchor = Vector2(1, 1 + menu_size)
 var _target_anchor = _down_anchor
+
+func _ready() -> void:
+	_lang_setup()
 
 func _process(delta: float) -> void:
 	anchor_top = lerp(anchor_top, _target_anchor.x, lerp_speed)
@@ -46,3 +50,32 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 		DisplayServer.window_set_size(Vector2i(1152, 648))
 func _on_fps_toggled(toggled_on: bool) -> void:
 	Global.signalFPS.emit()
+
+
+func _on_english_lang_pressed() -> void:
+	Global.selected_language = "en"
+	_lang_setup()
+	changeLang.emit()
+func _on_bulgarian_lang_pressed() -> void:
+	Global.selected_language = "bg"
+	_lang_setup()
+	changeLang.emit()
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		$VBoxContainer/HBoxContainer/Settings/Label.text = "SETTINGS"
+		$VBoxContainer/HBoxContainer/Exit/Label.text = "EXIT"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Label2.text = "Volume"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Mute.text = "Mute"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Fullscreen.text = "Fullscreen"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/FPS.text = "Show FPS"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Label.text = "Choose
+Language"
+	elif Global.selected_language == "bg":
+		$VBoxContainer/HBoxContainer/Settings/Label.text = "НАСТРОЙКИ"
+		$VBoxContainer/HBoxContainer/Exit/Label.text = "ИЗХОД"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Label2.text = "Звук"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Mute.text = "Без звук"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Fullscreen.text = "Цял екран"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/FPS.text = "Покажи FPS"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Label.text = "Избери
+		Език"

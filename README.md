@@ -42,8 +42,9 @@ This project is perfect for students, hobbyists, and Godot enthusiasts who want 
 1. Clone the repository:  
    ```bash
    git clone https://github.com/KonstantinKolo/RiftBreakers.git
-2. Open the project in Godot Engine 4.4.
-3. Explore the scenes, tweak mechanics, and contribute!
+2. Open the project in Godot Engine 4.5 .
+3. If you are hosting the backend server locally, update the URL in `assets/config/connection_string.txt` to point to your local server + /api/ at the end (e.g. `http://localhost:3000/api/`).
+4. Explore the scenes, tweak mechanics, and contribute!
 
 ---
 

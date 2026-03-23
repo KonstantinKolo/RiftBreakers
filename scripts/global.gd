@@ -38,6 +38,8 @@ signal signalPlayerFPS
 var show_fps: bool = false
 var fps_label: Label = Label.new()
 
+var selected_language: String = "en"
+
 func _ready() -> void:
 	var file = FileAccess.open("res://assets/config/connection_string.txt", FileAccess.READ)
 	base_url = file.get_as_text().strip_edges()

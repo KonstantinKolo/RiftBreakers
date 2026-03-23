@@ -36,6 +36,7 @@ func _ready():
 	tv_turn_on_transition.turn_on_tv()
 	tv_turn_on_transition.tv_finished.connect(_finish_tv)
 	pop_up_menu.closeGame.connect(_close_game)
+	pop_up_menu.changeLang.connect(_lang_setup)
 	if !Global.has_unlocked_level_2:
 		level_2.modulate = Color(0.6, 0.31, 0.6)
 	if !Global.has_unlocked_level_3:
@@ -50,6 +51,8 @@ func _ready():
 	else:
 		level_test.visible = false
 		user_info.visible = false
+	
+	_lang_setup()
 
 func _input(event):
 	# Mouse in viewport coordinates.
@@ -78,12 +81,20 @@ func _set_target_cords(event) -> void:
 
 
 func _on_button_1_pressed() -> void:
-	conf.customize(
-		"Enter Level 1?",
-		"By clicking this you will enter level one.",
-		"Enter",
-		"Return"
-	)
+	if Global.selected_language == "en":
+		conf.customize(
+			"Enter Level 1?",
+			"By clicking this you will enter level one.",
+			"Enter",
+			"Return"
+		)
+	elif Global.selected_language == "bg":
+		conf.customize(
+			"Влизане в Ниво 1?",
+			"С натискане на бутона ще влезете в първо ниво.",
+			"Влез",
+			"Назад"
+		)
 	
 	var is_confirmed = await conf.prompt(true)
 	
@@ -91,20 +102,36 @@ func _on_button_1_pressed() -> void:
 		_button_pressed_particles(level_1)
 		_transition_to_scene("res://scenes/Maps/map_1.tscn")
 func _on_button_2_pressed() -> void:
-	if Global.has_unlocked_level_2:
-		conf.customize(
-			"Enter Level 2?",
-			"By clicking this you will enter level two.",
-			"Enter",
-			"Return"
-		)
-	else:
-		conf.customize(
-			"Locked level!",
-			"You haven't unlocked level two yet.",
-			"",
-			"Return"
-		)
+	if Global.selected_language == "en":
+		if Global.has_unlocked_level_2:
+			conf.customize(
+				"Enter Level 2?",
+				"By clicking this you will enter level two.",
+				"Enter",
+				"Return"
+			)
+		else:
+			conf.customize(
+				"Locked level!",
+				"You haven't unlocked level two yet.",
+				"",
+				"Return"
+			)
+	elif Global.selected_language == "bg":
+		if Global.has_unlocked_level_2:
+			conf.customize(
+				"Влизане в Ниво 2?",
+				"С натискане на бутона ще влезете във второ ниво.",
+				"Влез",
+				"Назад"
+			)
+		else:
+			conf.customize(
+				"Заключено ниво!",
+				"Все още не сте отключили второ ниво.",
+				"",
+				"Назад"
+			)
 	
 	var is_confirmed = await conf.prompt(true)
 	
@@ -114,20 +141,36 @@ func _on_button_2_pressed() -> void:
 	elif is_confirmed:
 		conf.cancel()
 func _on_button_3_pressed() -> void:
-	if Global.has_unlocked_level_3:
-		conf.customize(
-			"Enter Level 3?",
-			"By clicking this you will enter level three.",
-			"Enter",
-			"Return"
-		)
-	else:
-		conf.customize(
-			"Locked level!",
-			"You haven't unlocked level three yet.",
-			"",
-			"Return"
-		)
+	if Global.selected_language == "en":
+		if Global.has_unlocked_level_3:
+			conf.customize(
+				"Enter Level 3?",
+				"By clicking this you will enter level three.",
+				"Enter",
+				"Return"
+			)
+		else:
+			conf.customize(
+				"Locked level!",
+				"You haven't unlocked level three yet.",
+				"",
+				"Return"
+			)
+	elif Global.selected_language == "bg":
+		if Global.has_unlocked_level_3:
+			conf.customize(
+				"Влизане в Ниво 3?",
+				"С натискане на бутона ще влезете в трето ниво.",
+				"Влез",
+				"Назад"
+			)
+		else:
+			conf.customize(
+				"Заключено ниво!",
+				"Все още не сте отключили трето ниво.",
+				"",
+				"Назад"
+			)
 	
 	var is_confirmed = await conf.prompt(true)
 	
@@ -138,20 +181,36 @@ func _on_button_3_pressed() -> void:
 	else:
 		conf.cancel()
 func _on_button_4_pressed() -> void:
-	if Global.role == "tester" or Global.role == "admin":
-		conf.customize(
-			"Enter Level Test?",
-			"By clicking this you will enter level test.",
-			"Enter",
-			"Return"
-		)
-	else:
-		conf.customize(
-			"Not allowed!",
-			"You don't have permission to play this level.",
-			"",
-			"Return"
-		)
+	if Global.selected_language == "en":
+		if Global.role == "tester" or Global.role == "admin":
+			conf.customize(
+				"Enter Level Test?",
+				"By clicking this you will enter level test.",
+				"Enter",
+				"Return"
+			)
+		else:
+			conf.customize(
+				"Not allowed!",
+				"You don't have permission to play this level.",
+				"",
+				"Return"
+			)
+	elif Global.selected_language == "bg":
+		if Global.role == "tester" or Global.role == "admin":
+			conf.customize(
+				"Влизане в Тестово Ниво?",
+				"С натискане на бутона ще влезете в тестовото ниво.",
+				"Влез",
+				"Назад"
+			)
+		else:
+			conf.customize(
+				"Нямате достъп!",
+				"Нямате разрешение да играете това ниво.",
+				"",
+				"Назад"
+			)
 	
 	var is_confirmed = await conf.prompt(true)
 	
@@ -222,12 +281,20 @@ func _button_pressed_particles(level : TextureRect) -> void:
 	get_tree().current_scene.add_child(_particle)
 
 func _close_game() -> void:
-	conf.customize(
-		"Are you certain?",
-		"This will close the game.",
-		"Quit Game",
-		"Return To Game"
-	)
+	if Global.selected_language == "en":
+		conf.customize(
+			"Are you certain?",
+			"This will close the game.",
+			"Quit Game",
+			"Return To Game"
+		)
+	elif Global.selected_language == "bg":
+		conf.customize(
+			"Сигурни ли сте?",
+			"Това ще затвори играта.",
+			"Излез от играта",
+			"Обратно към играта"
+		)
 	
 	var is_confirmed = await conf.prompt(true)
 	
@@ -245,3 +312,17 @@ func _transition_to_scene(pathToNewScene: String):
 	get_tree().change_scene_to_file(pathToNewScene)
 func _finish_tv() -> void:
 	turn_on_has_finished = true
+
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		info_panel_1._lang_setup("Strange portals have appeared all over the city, plunging it into chaos. Get rid of the portals, spawning the enemies, and their Boss.", "CITY")
+		info_panel_2._lang_setup("A secret enemy hideout has been found in the wilderness. To neutralize the threat, defeat the enemies and their boss.", "FARM LANDS")
+		info_panel_3._lang_setup("The enemies have launched a huge attack on the capital city. Stop them from taking it over and destroy their portal and Boss.", "CAPITAL")
+		info_panel_4._lang_setup("Testing level. Created for admins and testers to try new features.", "Test")
+		$account_pop_up._lang_setup()
+	elif Global.selected_language == "bg":
+		info_panel_1._lang_setup("Странни портали се появиха из целия град, потапяйки го в хаос. Отървете се от порталите, пораждащи враговете, и техния Бос.", "ГРАД")
+		info_panel_2._lang_setup("Тайно вражеско убежище е открито сред дивата природа. За да неутрализирате заплахата, победете враговете и техния бос.", "ПОЛЯ")
+		info_panel_3._lang_setup("Враговете са започнали огромна атака срещу столицата. Спрете ги да я завладеят и унищожете техния портал и Бос.", "СТОЛИЦА")
+		info_panel_4._lang_setup("Тестово ниво. Създадено за администратори и тестери за изпробване на нови функции.", "Тест")
+		$account_pop_up._lang_setup()

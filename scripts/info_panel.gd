@@ -16,3 +16,7 @@ func _ready() -> void:
 	await get_tree().create_timer(0.2).timeout
 	max_size.x = 420
 	max_size.y = 168
+
+func _lang_setup(info_text: String, name_text: String) -> void:
+	initial_label.text = info_text
+	map_name.text = name_text

@@ -1,5 +1,7 @@
 extends Control
 
+signal langChange
+
 const SAVE_PATH: String = "user://save_data.json"
 
 @onready var fps: CheckBox = $VBoxContainer/MarginContainer/VBoxContainer/FPS
@@ -10,6 +12,7 @@ var can_pause:bool = false
 func _ready() -> void:
 	# Safe guard
 	await get_tree().create_timer(2.0).timeout
+	_lang_setup()
 	if Global.show_fps: fps.set_pressed_no_signal(true)
 	if Global.show_time: time.set_pressed_no_signal(true)
 	can_pause = true
@@ -92,3 +95,29 @@ func _on_button_2_pressed() -> void: # Save progress
 	TransitionScene.transition()
 	await TransitionScene.on_transition_finished
 	get_tree().change_scene_to_file("res://scenes/Maps/menu.tscn")
+
+func _on_english_lang_pressed() -> void:
+	Global.selected_language = "en"
+	langChange.emit()
+	_lang_setup()
+func _on_bulgarian_lang_pressed() -> void:
+	Global.selected_language = "bg"
+	langChange.emit()
+	_lang_setup()
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		$VBoxContainer/MarginContainer/VBoxContainer/Label2.text = "Volume"
+		$VBoxContainer/MarginContainer/VBoxContainer/Mute.text = "Mute"
+		$VBoxContainer/MarginContainer/VBoxContainer/Fullscreen.text = "Fullscreen"
+		$VBoxContainer/MarginContainer/VBoxContainer/FPS.text = "Show FPS"
+		$VBoxContainer/MarginContainer/VBoxContainer/Time.text = "Show Time"
+		$VBoxContainer/MarginContainer/VBoxContainer/Button.text = "Give Up Session"
+		$VBoxContainer/MarginContainer/VBoxContainer/Button2.text = "Save And Return To Menu"
+	elif Global.selected_language == "bg":
+		$VBoxContainer/MarginContainer/VBoxContainer/Label2.text = "Звук"
+		$VBoxContainer/MarginContainer/VBoxContainer/Mute.text = "Без звук"
+		$VBoxContainer/MarginContainer/VBoxContainer/Fullscreen.text = "Цял екран"
+		$VBoxContainer/MarginContainer/VBoxContainer/FPS.text = "Покажи FPS"
+		$VBoxContainer/MarginContainer/VBoxContainer/Time.text = "Покажи време"
+		$VBoxContainer/MarginContainer/VBoxContainer/Button.text = "Откажи се от сесията"
+		$VBoxContainer/MarginContainer/VBoxContainer/Button2.text = "Запази и се върни в менюто"

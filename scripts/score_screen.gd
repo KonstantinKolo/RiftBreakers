@@ -29,6 +29,7 @@ func _ready() -> void:
 	kills_boss_2.text = str(Global.bosses_killed)
 	total_time_2.text = str(Global.total_time) # in seconds
 	score_2.text = str(Global.calculate_score())
+	_lang_setup()
 	load_leaderboard(current_page)
 	load_player_score()
 	submit_score()
@@ -126,3 +127,40 @@ func _on_return_to_menu_btn_pressed() -> void:
 
 func _on_close_game_btn_pressed() -> void:
 	get_tree().quit()
+
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		for label in [$Score, $KillsMelee, $KillsRanged, $KillsBoss, $TotalTime]:
+			if label.label_settings:
+				var settings = label.label_settings.duplicate()
+				settings.font_size = 56
+				label.label_settings = settings
+		$ReturnToMenuBtn.add_theme_font_size_override("font_size", 56)
+		$CloseGameBtn.add_theme_font_size_override("font_size", 56)
+		
+		$Score.text = "Total score:"
+		$KillsMelee.text = "Melee bots killed:"
+		$KillsRanged.text = "Ranged bots killed:"
+		$KillsBoss.text = "Bosses killed:"
+		$TotalTime.text = "Total time:"
+		$Label.text = "GLOBAL RANK"
+		$ReturnToMenuBtn.text = "RETURN TO MENU"
+		$CloseGameBtn.text = "CLOSE GAME"
+	elif Global.selected_language == "bg":
+		for label in [$Score, $KillsMelee, $KillsRanged, $KillsBoss, $TotalTime]:
+			if label.label_settings:
+				var settings = label.label_settings.duplicate()
+				settings.font_size = 32
+				label.label_settings = settings
+		
+		$ReturnToMenuBtn.add_theme_font_size_override("font_size", 32)
+		$CloseGameBtn.add_theme_font_size_override("font_size", 32)
+		
+		$Score.text = "Общ резултат:"
+		$KillsMelee.text = "Убити ботове в близък бой:"
+		$KillsRanged.text = "Убити ботове от разстояние:"
+		$KillsBoss.text = "Убити босове:"
+		$TotalTime.text = "Общо време:"
+		$Label.text = "ГЛОБАЛНА КЛАСАЦИЯ"
+		$ReturnToMenuBtn.text = "ОБРАТНО КЪМ МЕНЮТО"
+		$CloseGameBtn.text = "ЗАТВОРИ ИГРАТА"

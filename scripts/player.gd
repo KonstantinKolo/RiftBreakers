@@ -90,10 +90,12 @@ var death_timer: float = 0.0
 
 
 func _ready() -> void:
+	_lang_setup()
 	load_screen.appear()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	await get_tree().create_timer(0.1).timeout
 	animation_player.play("a-idle")
+	settings.langChange.connect(_lang_setup)
 	if Global.show_time:
 		Global.show_time = false
 		Global.signalPlayerFPS.emit()
@@ -166,14 +168,20 @@ func _input(event: InputEvent) -> void:
 			if is_inside_tree():
 				await get_tree().create_timer(0.8).timeout
 			pistol_ammo = 8
-			ammo_label.text = "ammo: %s/∞" % pistol_ammo
+			if Global.selected_language == "en":
+				ammo_label.text = "ammo: %s/∞" % pistol_ammo
+			elif Global.selected_language == "bg":
+				ammo_label.text = "патрони: %s/∞" % pistol_ammo
 			animation_player.play("b-pull-pistol")
 		elif selected_weapon == "rifle":
 			animation_player.play_backwards("b-pull-gun")
 			if is_inside_tree():
 				await get_tree().create_timer(1).timeout
 			rifle_ammo = 20
-			ammo_label.text = "ammo: %s/∞" % rifle_ammo
+			if Global.selected_language == "en":
+				ammo_label.text = "ammo: %s/∞" % rifle_ammo
+			elif Global.selected_language == "bg":
+				ammo_label.text = "патрони: %s/∞" % rifle_ammo
 			animation_player.play("b-pull-gun")
 			if is_inside_tree():
 				await get_tree().create_timer(0.7).timeout
@@ -277,7 +285,10 @@ func _input(event: InputEvent) -> void:
 				if damage == 25:
 					if rifle_ammo > 0:
 						rifle_ammo -= 1
-						ammo_label.text = "ammo: %s/∞" % rifle_ammo
+						if Global.selected_language == "en":
+							ammo_label.text = "ammo: %s/∞" % rifle_ammo
+						elif Global.selected_language == "bg":
+							ammo_label.text = "патрони: %s/∞" % rifle_ammo
 					else:
 						shot_count -= 1
 						_flash_ammo_label()
@@ -288,7 +299,10 @@ func _input(event: InputEvent) -> void:
 				elif damage == 20:
 					if pistol_ammo > 0:
 						pistol_ammo -= 1
-						ammo_label.text = "ammo: %s/∞" % pistol_ammo
+						if Global.selected_language == "en":
+							ammo_label.text = "ammo: %s/∞" % pistol_ammo
+						elif Global.selected_language == "bg":
+							ammo_label.text = "патрони: %s/∞" % pistol_ammo
 					else:
 						shot_count -= 1
 						_flash_ammo_label()
@@ -1131,12 +1145,18 @@ func _transition_to_weapon() -> void:
 		"pistol":
 			is_gun_mode = true
 			switch_sound.play()
-			ammo_label.text = "ammo: %s/∞" % pistol_ammo
+			if Global.selected_language == "en":
+				ammo_label.text = "ammo: %s/∞" % pistol_ammo
+			elif Global.selected_language == "bg":
+				ammo_label.text = "патрони: %s/∞" % pistol_ammo
 			_pistol_transition()
 		"rifle":
 			is_gun_mode = true
 			switch_sound.play()
-			ammo_label.text = "ammo: %s/∞" % rifle_ammo
+			if Global.selected_language == "en":
+				ammo_label.text = "ammo: %s/∞" % rifle_ammo
+			elif Global.selected_language == "bg":
+				ammo_label.text = "патрони: %s/∞" % rifle_ammo
 			_rifle_transition()
 		"dynamite":
 			ammo_label.text = ""
@@ -1364,3 +1384,9 @@ func _check_runable() -> bool:
 		return true
 	else:
 		return false
+
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		$camera_mount/Camera3D/CanvasLayer/RichTextLabel.text = "PRESS E TO COLLECT"
+	elif Global.selected_language == "bg":
+		$camera_mount/Camera3D/CanvasLayer/RichTextLabel.text = "НАТИСНИ E ЗА СЪБИРАНЕ"

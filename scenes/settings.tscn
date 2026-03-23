@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bss053hwuejpr"]
+[gd_scene load_steps=5 format=3 uid="uid://bss053hwuejpr"]
 
 [ext_resource type="Script" uid="uid://80f84m1vkb50" path="res://scripts/settings.gd" id="1_5p8wc"]
+[ext_resource type="Texture2D" uid="uid://twj3oyexbtoo" path="res://assets/icons/gb.svg" id="2_6wm04"]
+[ext_resource type="Texture2D" uid="uid://dtp6id3vaxo06" path="res://assets/icons/bg.svg" id="3_f4mfi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_36l1p"]
 font_size = 27
@@ -85,6 +87,39 @@ text = "Show Time"
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Choose
+Language"
+horizontal_alignment = 2
+
+[node name="EnglishLang" type="TextureButton" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("2_6wm04")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="BulgarianLang" type="TextureButton" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("3_f4mfi")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Control4" type="Control" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
 [node name="Button" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Give Up Session"
@@ -102,5 +137,7 @@ text = "Save And Return To Menu"
 [connection signal="toggled" from="VBoxContainer/MarginContainer/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_toggled"]
 [connection signal="toggled" from="VBoxContainer/MarginContainer/VBoxContainer/FPS" to="." method="_on_fps_toggled"]
 [connection signal="toggled" from="VBoxContainer/MarginContainer/VBoxContainer/Time" to="." method="_on_time_toggled"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/EnglishLang" to="." method="_on_english_lang_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/BulgarianLang" to="." method="_on_bulgarian_lang_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

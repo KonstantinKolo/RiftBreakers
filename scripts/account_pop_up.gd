@@ -1,7 +1,7 @@
 extends Control
 
-@export var menu_size = 0.7
-@export var lerp_speed = 0.2
+var menu_size: float
+var lerp_speed: float
 
 const SAVE_PATH := "user://login_data.json"
 
@@ -12,27 +12,34 @@ const SAVE_PATH := "user://login_data.json"
 @onready var label_logged_username: Label = $VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer3/LabelLoggedUsername
 @onready var user_info: ColorRect = $"../UserInfo"
 @onready var level_test: TextureRect = $"../Map/LevelTest"
+@onready var load_screen: Control = $LoadScreen
 
 @onready var accout_message_modal: Control = $"../AccoutMessageModal"
 
 var _popped_up = false
 
 # Only Y anchors matter for vertical movement
-var _up_anchor_y = -menu_size   # Hidden above the screen
-var _down_anchor_y: float = 0          # Fully visible at top
-var _target_anchor_y = -menu_size
+var _up_anchor_y: float
+var _down_anchor_y: float = 0.0
+var _target_anchor_y: float
 
 func _ready() -> void:
+	menu_size = 0.7
+	lerp_speed = 0.2
+	_up_anchor_y = -0.7
+	_target_anchor_y = -0.7
+	
 	account_box.is_clicked.connect(_open_pop_up)
 	if Global.username != "":
 		label_logged_username.text = Global.username
 	
-	# Start hidden above the screen
 	anchor_top = _up_anchor_y
-	anchor_bottom = _up_anchor_y + menu_size
+	anchor_bottom = _up_anchor_y + 0.7
+	
+	load_screen.visible = false
+	_lang_setup()
 
-
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Smooth vertical animation
 	anchor_top = lerp(anchor_top, _target_anchor_y, lerp_speed)
 	anchor_bottom = anchor_top + menu_size
@@ -61,9 +68,11 @@ func _on_login_button_pressed() -> void:
 	}
 	var json_body: String = JSON.stringify(body)
 	
+	load_screen.visible = true
+	load_screen.appear()
 	var http := HTTPRequest.new()
 	add_child(http)
-	http.set_tls_options(TLSOptions.client_unsafe())
+	http.timeout = 60  # give Render time to wake up
 	http.request_completed.connect(_on_request_completed)
 	var url := "%sauth/login" % [Global.base_url]
 	var headers := [
@@ -93,9 +102,11 @@ func _on_register_button_pressed() -> void:
 	}
 	var json_body: String = JSON.stringify(body)
 	
+	load_screen.visible = true
+	load_screen.appear()
 	var http := HTTPRequest.new()
 	add_child(http)
-	http.set_tls_options(TLSOptions.client_unsafe())
+	http.timeout = 60  # give Render time to wake up
 	http.request_completed.connect(_on_request_completed)
 	var url := "%sauth/register" % [Global.base_url]
 	var headers := [
@@ -137,6 +148,9 @@ func save_login_data(username: String, token: String = "", displayName: String =
 	Global.load_login_data()
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	load_screen.disappear()
+	load_screen.visible = false
+	
 	if accout_message_modal == null:
 		push_error("accout_message_modal is null!")
 		return
@@ -189,3 +203,25 @@ func _delete_local_data() -> void: #Delete users locally start data and strat a 
 		if dir:
 			dir.remove("save_data.json")
 	Global.reset_progress()
+
+func _lang_setup() -> void:
+	if Global.selected_language == "en":
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Label.text = "Account managment"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label2.text = "username:"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Label2.text = "password:"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Label2.text = "displayname:"
+		
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/LoginButton.text = "LOGIN"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/RegisterButton.text = "REGISTER"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer3/Label.text = "Currently logged in as:"
+		$VBoxContainer/Close/Label.text = "Close"
+	elif Global.selected_language == "bg":
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/Label.text = "Управление на акаунт"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label2.text = "потребител:"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Label2.text = "парола:"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Label2.text = "display име:"
+
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/LoginButton.text = "ВХОД"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer2/RegisterButton.text = "РЕГИСТРАЦИЯ"
+		$VBoxContainer/SettingsBody/MarginContainer/VBoxContainer/HBoxContainer3/Label.text = "Влезли сте като:"
+		$VBoxContainer/Close/Label.text = "Затвори"
